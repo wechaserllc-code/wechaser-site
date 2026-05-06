@@ -1,0 +1,363 @@
+<!doctype html>
+<html lang="zh-CN">
+<head>
+<meta charset="utf-8" />
+<meta name="viewport" content="width=device-width,initial-scale=1" />
+<title>关于 · WeChaser</title>
+<meta name="description" content="WeChaser 是一家"单人 + AI 协同"模式的企业 AI 中间件公司。我们公开商业模型，公开技术决策，做的事比公司规模小但是沉得住。" />
+<link rel="icon" type="image/svg+xml" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 64 64'%3E%3Crect width='64' height='64' fill='%23060608'/%3E%3Crect x='14' y='14' width='36' height='36' fill='%23C8FA3C'/%3E%3Crect x='14' y='14' width='36' height='1' fill='%23060608'/%3E%3C/svg%3E" />
+<link rel="preconnect" href="https://fonts.googleapis.com" />
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+<link href="https://fonts.googleapis.com/css2?family=Inter+Tight:wght@400;500;600;700;800&family=Inter:wght@400;500;600&family=Noto+Sans+SC:wght@400;500;700;900&family=JetBrains+Mono:wght@400;500;600&display=swap" rel="stylesheet" />
+<link rel="stylesheet" href="styles.css" />
+<style>
+.manifesto p{font-size:1.5rem;line-height:1.55;font-weight:500;color:var(--ink);max-width:920px;letter-spacing:-0.005em}
+.manifesto p + p{margin-top:24px;color:var(--ink-2);font-weight:400;font-size:1.25rem}
+.manifesto em{font-style:normal;color:var(--lime);background:rgba(200,250,60,0.08);padding:0 6px;border-radius:4px;font-weight:600}
+
+.model-grid{display:grid;grid-template-columns:1fr 1fr;gap:24px}
+.model-item{background:var(--bg-1);border:1px solid var(--line);padding:32px;display:flex;flex-direction:column;gap:14px}
+.model-item .head{font-family:var(--mono);font-size:11px;letter-spacing:0.16em;color:var(--lime);text-transform:uppercase;font-weight:600}
+.model-item h3{font-family:var(--sans);font-weight:700;font-size:1.5rem;letter-spacing:-0.018em;line-height:1.25}
+.model-item h3 .zh{font-family:var(--sans-zh);font-weight:900}
+.model-item p{color:var(--ink-2);font-size:0.975rem;line-height:1.7}
+
+.flow-vis{
+  background:var(--bg-1);border:1px solid var(--line);
+  padding:48px 32px;
+  position:relative;overflow:hidden;
+  font-family:var(--mono);
+}
+.flow-vis::before{content:"";position:absolute;inset:0;background-image:linear-gradient(to right,rgba(255,255,255,0.03) 1px,transparent 1px),linear-gradient(to bottom,rgba(255,255,255,0.03) 1px,transparent 1px);background-size:32px 32px;pointer-events:none}
+.flow-vis > *{position:relative;z-index:1}
+.flow-vis .top{display:flex;justify-content:center;margin-bottom:14px}
+.flow-vis .row{display:flex;gap:14px;justify-content:center;flex-wrap:wrap}
+.flow-vis .blob{
+  border:1px solid var(--line);background:var(--bg);
+  padding:14px 20px;font-size:12px;color:var(--ink-2);min-width:160px;text-align:center;
+  display:flex;flex-direction:column;gap:4px;
+}
+.flow-vis .blob small{font-size:10px;color:var(--ink-4);letter-spacing:0.12em;text-transform:uppercase}
+.flow-vis .blob.lime{border-color:var(--lime);background:rgba(200,250,60,0.06);color:var(--ink)}
+.flow-vis .blob.lime small{color:var(--lime)}
+.flow-vis .arrow{display:block;width:1px;height:30px;background:var(--lime);margin:0 auto;position:relative}
+.flow-vis .arrow::after{content:"";position:absolute;bottom:0;left:-3px;width:7px;height:7px;border-right:1px solid var(--lime);border-bottom:1px solid var(--lime);transform:rotate(45deg)}
+.flow-vis .label{font-size:11px;color:var(--lime);letter-spacing:0.16em;text-transform:uppercase;text-align:center;margin:8px 0}
+
+.values-list{display:grid;grid-template-columns:repeat(2,1fr);gap:0;border:1px solid var(--line)}
+.value{padding:32px;border-right:1px solid var(--line);border-bottom:1px solid var(--line);background:var(--bg);display:flex;flex-direction:column;gap:10px}
+.value:nth-child(2n){border-right:none}
+.value:nth-last-child(-n+2){border-bottom:none}
+.value .v-num{font-family:var(--mono);font-size:11px;letter-spacing:0.18em;color:var(--lime);font-weight:600;text-transform:uppercase}
+.value h4{font-family:var(--sans);font-weight:700;font-size:1.25rem;letter-spacing:-0.015em;line-height:1.3}
+.value h4 .zh{font-family:var(--sans-zh);font-weight:900}
+.value p{color:var(--ink-2);font-size:0.95rem;line-height:1.7}
+
+.contact-block{display:grid;grid-template-columns:1fr 1fr;gap:64px;align-items:start}
+.contact-list{display:flex;flex-direction:column;gap:20px}
+.contact-line{display:grid;grid-template-columns:120px 1fr;gap:16px;padding:14px 0;border-bottom:1px solid var(--line);align-items:baseline}
+.contact-line:last-child{border-bottom:none}
+.contact-line .l{font-family:var(--mono);font-size:11px;letter-spacing:0.14em;color:var(--ink-3);text-transform:uppercase;font-weight:500}
+.contact-line .v{font-family:var(--sans);font-size:1rem;color:var(--ink)}
+.contact-line .v a{color:var(--lime);border-bottom:1px solid var(--line-lime)}
+.contact-line .v a:hover{border-bottom-color:var(--lime)}
+
+@media (max-width:880px){
+  .model-grid{grid-template-columns:1fr}
+  .values-list{grid-template-columns:1fr}
+  .value{border-right:none;border-bottom:1px solid var(--line)}
+  .value:nth-last-child(2){border-bottom:1px solid var(--line)}
+  .contact-block{grid-template-columns:1fr;gap:32px}
+}
+</style>
+</head>
+<body>
+
+<!-- NAV -->
+<nav class="nav" id="nav">
+  <div class="wrap">
+    <a href="/" class="brand"><span class="brand-mark"></span><span>WeChaser</span></a>
+    <div class="nav-links">
+      <a href="/products/shiguangmailuo.html" data-zh>产品</a><a href="/products/shiguangmailuo.html" data-en>Product</a>
+      <a href="/cases/chaoxian.html" data-zh>案例</a><a href="/cases/chaoxian.html" data-en>Cases</a>
+      <a href="/tech.html" data-zh>技术</a><a href="/tech.html" data-en>Tech</a>
+      <a href="/about.html" class="active" data-zh>关于</a><a href="/about.html" class="active" data-en>About</a>
+    </div>
+    <div class="nav-tools">
+      <button class="lang-toggle" id="langToggle"><span class="zh on">中</span><span class="en">EN</span></button>
+      <a href="/#cta" class="btn"><span data-zh>预约演示</span><span data-en>Book a call</span><span class="arr">→</span></a>
+    </div>
+  </div>
+</nav>
+
+<!-- PAGE HEADER -->
+<header class="page-header">
+  <div class="wrap">
+    <div class="crumb"><a href="/">WECHASER</a><span class="sep">/</span><span data-zh>关于</span><span data-en>ABOUT</span></div>
+    <h1>
+      <span data-zh class="zh">一个人 + AI 协同的<br/>企业 AI 公司。</span>
+      <span data-en>A one-person × AI<br/>enterprise AI company.</span>
+    </h1>
+    <p class="sub">
+      <span data-zh>WeChaser 不是个 50 人 startup。是一种正在被验证的工作模式——靠 Claude / Hermes / 时光脉络这些 AI 工具，把一个人的产能放大到能服务工业级客户的水平。</span>
+      <span data-en>WeChaser is not a 50-person startup. It's a working model under active validation — using Claude, Hermes, and Shiguangmailuo as force-multipliers, scaling one person's output to industrial-grade client work.</span>
+    </p>
+  </div>
+</header>
+
+<!-- MANIFESTO -->
+<section class="section">
+  <div class="wrap">
+    <div class="sect-head">
+      <div>
+        <div class="eyebrow"><span class="dot"></span>01 / <span data-zh>立场</span><span data-en>Manifesto</span></div>
+        <h2 class="h-h2" style="margin-top:18px">
+          <span data-zh class="zh">不和 AI 工具竞争。<br/>做让它们变得更好用的那一层。</span>
+          <span data-en>We don't compete with AI tools.<br/>We make them more useful.</span>
+        </h2>
+      </div>
+    </div>
+
+    <div class="manifesto reveal">
+      <p data-zh>2026 年最大的浪费之一：每家企业都在自己造一个 ChatGPT 套壳，但没人解决"AI 不懂这家企业"的问题。</p>
+      <p data-zh>市场上 AI 工具够多了。Claude、ChatGPT、飞书 AI、钉钉 AI——它们的大脑都不缺，缺的是<em>对这家企业的真实理解</em>。一个工程师 23 年沉淀的判断逻辑，比 GPT-5 训练数据里 100 万个泛工业案例都重要。</p>
+      <p data-zh>我们不卖又一个聊天框。我们做<strong style="color:var(--ink)">企业 AI 生态的中间件</strong>——所有 AI 工具的"懂企业"那一层。这事很专一。也很冷门。但这是 2026 年最缺的东西。</p>
+
+      <p data-en>The largest waste of 2026: every company is building its own ChatGPT wrapper, but nobody is solving "AI doesn't actually understand this company".</p>
+      <p data-en>The market has enough AI tools. Claude, ChatGPT, Lark AI, DingTalk AI — none lack a brain. What they lack is <em>real understanding of this specific company</em>. One engineer's 23 years of judgment matter more than a million industrial examples in GPT-5's training data.</p>
+      <p data-en>We're not selling another chatbox. We're building <strong style="color:var(--ink)">middleware for the enterprise AI ecosystem</strong> — the "understands this company" layer that every AI tool calls. It's a narrow problem. It's an unsexy problem. But it's the most important missing piece in 2026.</p>
+    </div>
+  </div>
+</section>
+
+<!-- BUSINESS MODEL -->
+<section class="section" style="background:var(--bg-1);border-top:1px solid var(--line);border-bottom:1px solid var(--line)">
+  <div class="wrap">
+    <div class="sect-head">
+      <div>
+        <div class="eyebrow"><span class="dot"></span>02 / <span data-zh>商业模式（公开）</span><span data-en>Business model (public)</span></div>
+        <h2 class="h-h2" style="margin-top:18px">
+          <span data-zh class="zh">特洛伊木马。<br/>咨询是入口，知识库是产品。</span>
+          <span data-en>Trojan horse.<br/>Consulting is the door, knowledge base is the product.</span>
+        </h2>
+      </div>
+      <div class="note">
+        <span data-zh>我们公开整个商业模型——客户没什么可被"销售技巧"忽悠的。</span>
+        <span data-en>We publish the whole model — there's nothing to "sales-trick" a client into.</span>
+      </div>
+    </div>
+
+    <div style="display:grid;grid-template-columns:1fr 1fr;gap:64px;align-items:start;margin-bottom:48px">
+      <div class="model-grid" style="grid-template-columns:1fr">
+        <div class="model-item">
+          <div class="head">A · 入门</div>
+          <h3><span data-zh class="zh">高价咨询服务</span><span data-en>High-margin consulting</span></h3>
+          <p data-zh>用 AI 复刻麦肯锡级方法论给中小企业。陪跑顾问，交付：业务流程梳理、AI 转型路线图、问题诊断报告。这是收费的部分。</p>
+          <p data-en>McKinsey-grade methodology, AI-leveraged, delivered to mid-market. Hands-on advisory: workflow audit, AI transformation roadmap, problem diagnosis. This is the paid layer.</p>
+        </div>
+        <div class="model-item">
+          <div class="head">B · 沉淀</div>
+          <h3><span data-zh class="zh">送一套知识库</span><span data-en>Free knowledge base</span></h3>
+          <p data-zh>咨询过程产生的所有原料（录音 / 笔记 / 客户文档 / AI 报告）→ 沉淀进时光脉络 → 客户用一段时间后离不开。</p>
+          <p data-en>Everything produced during consulting (recordings / notes / client docs / AI reports) → distilled into Shiguangmailuo → after a few months of usage the client can't go back.</p>
+        </div>
+        <div class="model-item">
+          <div class="head">C · 增值</div>
+          <h3><span data-zh class="zh">客户找我们做更多</span><span data-en>Client comes back</span></h3>
+          <p data-zh>找到具体切入点（比如"销售场景接进来")→ 增值收费开发功能模块。这是规模化的部分——但只有 A + B 跑通了才会发生。</p>
+          <p data-en>Find a specific wedge ("now wire in sales") → priced feature development. This is the scale layer — but only fires after A + B have proved out.</p>
+        </div>
+      </div>
+
+      <div class="flow-vis">
+        <div class="top"><div class="blob lime"><span data-zh>潜在客户</span><span data-en>Lead</span><small>NEW</small></div></div>
+        <div class="arrow"></div>
+        <div class="label">A · <span data-zh>付费咨询</span><span data-en>Paid consulting</span></div>
+        <div class="row"><div class="blob"><span data-zh>业务诊断</span><span data-en>Diagnosis</span><small>2W</small></div><div class="blob"><span data-zh>AI 路线图</span><span data-en>Roadmap</span><small>4W</small></div></div>
+        <div class="arrow"></div>
+        <div class="label">B · <span data-zh>赠送知识库</span><span data-en>Free KB</span></div>
+        <div class="row"><div class="blob lime"><span data-zh>时光脉络</span><span data-en>Shiguangmailuo</span><small>DEPLOY</small></div></div>
+        <div class="arrow"></div>
+        <div class="label">C · <span data-zh>客户主动找回</span><span data-en>Client returns</span></div>
+        <div class="row"><div class="blob"><span data-zh>功能开发</span><span data-en>Build</span><small>SCALE</small></div></div>
+      </div>
+    </div>
+
+    <div style="margin-top:32px">
+      <p style="color:var(--ink-2);font-size:1.0625rem;line-height:1.75;max-width:880px">
+        <span data-zh><strong style="color:var(--ink)">为什么公开？</strong>这种结构的好处不在于神秘，而在于"我们和客户的利益不冲突"——咨询是真的用 AI 做麦肯锡级别的工作，知识库是真送，后期增值是客户主动找回来的。中间没有忽悠空间。</span>
+        <span data-en><strong style="color:var(--ink)">Why publish?</strong> The model's strength isn't secrecy — it's the absence of conflict. Consulting really does deliver McKinsey-grade work; the KB really is a gift; the upsell only happens when the client comes back. There's no room for sleight of hand.</span>
+      </p>
+    </div>
+  </div>
+</section>
+
+<!-- VALUES -->
+<section class="section">
+  <div class="wrap">
+    <div class="sect-head">
+      <div>
+        <div class="eyebrow"><span class="dot"></span>03 / <span data-zh>工作准则</span><span data-en>Working values</span></div>
+        <h2 class="h-h2" style="margin-top:18px">
+          <span data-zh class="zh">六条不让步的事。</span>
+          <span data-en>Six non-negotiables.</span>
+        </h2>
+      </div>
+    </div>
+
+    <div class="values-list">
+      <div class="value">
+        <div class="v-num">01 / FOCUS</div>
+        <h4><span data-zh class="zh">先用起来，再迭代</span><span data-en>Run first, iterate after</span></h4>
+        <p data-zh>不被花哨 UI 拖住。客户能简单安装、操作、用起来——其余等真用上再说。</p>
+        <p data-en>Don't be paralysed by polished UI. Install, operate, run. Everything else waits for real usage.</p>
+      </div>
+      <div class="value">
+        <div class="v-num">02 / TRUTH</div>
+        <h4><span data-zh class="zh">100% 溯源</span><span data-en>100% citation</span></h4>
+        <p data-zh>未来要做工业生产决策——零容忍幻觉。不知道就明确说"不知道"。</p>
+        <p data-en>We're heading toward industrial production decisions. Zero tolerance for hallucination. If we don't know, we say so.</p>
+      </div>
+      <div class="value">
+        <div class="v-num">03 / DEPTH</div>
+        <h4><span data-zh class="zh">3-5 家深度，不广撒网</span><span data-en>3-5 deep, never broad</span></h4>
+        <p data-zh>同时只服务 3-5 家客户。深度比规模重要——一家做透胜过十家半生不熟。</p>
+        <p data-en>At most 3-5 clients in flight. Depth over breadth — one client done thoroughly beats ten half-finished.</p>
+      </div>
+      <div class="value">
+        <div class="v-num">04 / OPEN</div>
+        <h4><span data-zh class="zh">公开技术 + 商业模型</span><span data-en>Tech + business model in public</span></h4>
+        <p data-zh>架构、技术栈、商业模式、客户案例——全部公开。不靠信息差赚钱。</p>
+        <p data-en>Architecture, stack, business model, client cases — all public. We don't profit from information asymmetry.</p>
+      </div>
+      <div class="value">
+        <div class="v-num">05 / LOCAL</div>
+        <h4><span data-zh class="zh">数据不出客户机房</span><span data-en>Data stays inside</span></h4>
+        <p data-zh>核心模型本地 GPU 部署，可断网运行。敏感数据永不上云——这条没有商量。</p>
+        <p data-en>Core models run on local GPUs. Air-gappable. Sensitive data never goes to cloud — non-negotiable.</p>
+      </div>
+      <div class="value">
+        <div class="v-num">06 / AI-NATIVE</div>
+        <h4><span data-zh class="zh">单人 + AI 协同</span><span data-en>One-person × AI</span></h4>
+        <p data-zh>Shawn 一人 + AI 协同（Claude / Hermes / 时光脉络）。AI 是同事，不是工具。</p>
+        <p data-en>Shawn + AI co-workers (Claude / Hermes / Shiguangmailuo). AI as colleague, not tooling.</p>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- TEAM -->
+<section class="section" style="background:var(--bg-1);border-top:1px solid var(--line);border-bottom:1px solid var(--line)">
+  <div class="wrap">
+    <div class="sect-head">
+      <div>
+        <div class="eyebrow"><span class="dot"></span>04 / <span data-zh>团队</span><span data-en>Team</span></div>
+        <h2 class="h-h2" style="margin-top:18px">
+          <span data-zh class="zh">一个人。<br/>三个 AI 同事。</span>
+          <span data-en>One person.<br/>Three AI co-workers.</span>
+        </h2>
+      </div>
+    </div>
+
+    <div style="display:grid;grid-template-columns:1fr 1fr;gap:48px;align-items:start">
+      <div>
+        <div class="card" style="border:1px solid var(--line);background:var(--bg)">
+          <div style="font-family:var(--mono);font-size:11px;letter-spacing:0.16em;color:var(--lime);text-transform:uppercase;font-weight:600;margin-bottom:12px">FOUNDER · OPERATOR</div>
+          <h3 class="h-h3"><span data-zh class="zh">Shawn</span><span data-en>Shawn</span></h3>
+          <p style="margin-top:14px;color:var(--ink-2);line-height:1.75">
+            <span data-zh>独立开发者 / 创业者。曾从事咨询和产品工作，2025 起 all-in AI 协同的单人公司模式。深度参与超弦科技项目实施，亲自跑客户、写代码、做反思。</span>
+            <span data-en>Independent developer / founder. Background in consulting and product. As of 2025, fully committed to a single-operator + AI-coworker model. Personally runs the Chaostring engagement — meets the client, writes the code, does the reflection.</span>
+          </p>
+        </div>
+      </div>
+
+      <div style="display:flex;flex-direction:column;gap:14px">
+        <div style="font-family:var(--mono);font-size:11px;letter-spacing:0.16em;color:var(--ink-3);text-transform:uppercase;font-weight:500">// AI CO-WORKERS</div>
+        <div style="display:grid;grid-template-columns:1fr;gap:14px">
+          <div style="border:1px solid var(--line);background:var(--bg);padding:18px 22px">
+            <div style="font-family:var(--mono);font-size:11px;letter-spacing:0.14em;color:var(--cyan);font-weight:600;text-transform:uppercase">CLAUDE / X AGENT</div>
+            <p style="margin-top:6px;color:var(--ink-2);font-size:0.95rem;line-height:1.65"><span data-zh>编码、代码审查、技术写作。我们叫他 X Agent——Anthropic 的 Claude Opus 1M context。</span><span data-en>Coding, review, tech writing. We call this one X Agent — Anthropic's Claude Opus 1M context.</span></p>
+          </div>
+          <div style="border:1px solid var(--line);background:var(--bg);padding:18px 22px">
+            <div style="font-family:var(--mono);font-size:11px;letter-spacing:0.14em;color:var(--cyan);font-weight:600;text-transform:uppercase">HERMES AGENT</div>
+            <p style="margin-top:6px;color:var(--ink-2);font-size:0.95rem;line-height:1.65"><span data-zh>主动学习 / 自我迭代 / 飞书 Gateway / Cron 调度。是时光脉络的"神经系统"。</span><span data-en>Self-learning / self-iterating / Lark Gateway / cron-scheduled. The "nervous system" of Shiguangmailuo.</span></p>
+          </div>
+          <div style="border:1px solid var(--line);background:var(--bg);padding:18px 22px">
+            <div style="font-family:var(--mono);font-size:11px;letter-spacing:0.14em;color:var(--cyan);font-weight:600;text-transform:uppercase">SHIGUANGMAILUO</div>
+            <p style="margin-top:6px;color:var(--ink-2);font-size:0.95rem;line-height:1.65"><span data-zh>知识中枢。所有客户文档、咨询沉淀、反思日志的归处。它本身就是一个同事，会主动提示"信息不足"。</span><span data-en>Knowledge hub. Where every client doc, consulting deliverable, reflection log lands. It's itself a co-worker — actively says "I don't have this".</span></p>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- CONTACT -->
+<section class="section">
+  <div class="wrap">
+    <div class="sect-head">
+      <div>
+        <div class="eyebrow"><span class="dot"></span>05 / <span data-zh>联系</span><span data-en>Contact</span></div>
+        <h2 class="h-h2" style="margin-top:18px">
+          <span data-zh class="zh">直接对话，<br/>没有销售漏斗。</span>
+          <span data-en>Direct line.<br/>No sales funnel.</span>
+        </h2>
+      </div>
+    </div>
+
+    <div class="contact-block">
+      <div class="contact-list">
+        <div class="contact-line"><div class="l">EMAIL</div><div class="v"><a href="mailto:hello@wechaser.ai">hello@wechaser.ai</a></div></div>
+        <div class="contact-line"><div class="l"><span data-zh>预约</span><span data-en>Book</span></div><div class="v"><a href="/#cta">wechaser.ai/#cta</a></div></div>
+        <div class="contact-line"><div class="l"><span data-zh>城市</span><span data-en>Cities</span></div><div class="v"><span data-zh>长沙 · 上海 · 海外</span><span data-en>Changsha · Shanghai · International</span></div></div>
+        <div class="contact-line"><div class="l"><span data-zh>响应</span><span data-en>SLA</span></div><div class="v"><span data-zh>1 个工作日</span><span data-en>1 business day</span></div></div>
+        <div class="contact-line"><div class="l"><span data-zh>不发</span><span data-en>Won't</span></div><div class="v"><span data-zh>市场推送 / cold call / 不必要的提案</span><span data-en>marketing emails / cold calls / boilerplate decks</span></div></div>
+      </div>
+
+      <div class="card" style="background:var(--bg-1)">
+        <div class="card-corner"></div>
+        <div style="font-family:var(--mono);font-size:11px;letter-spacing:0.16em;color:var(--lime);text-transform:uppercase;font-weight:600">// FIRST CALL</div>
+        <h3 class="h-h3" style="margin-top:14px"><span data-zh class="zh">第一通通话怎么开？</span><span data-en>What does the first call look like?</span></h3>
+        <p style="margin-top:14px;color:var(--ink-2);line-height:1.75">
+          <span data-zh>30 分钟。我们带着行业案例 + 可行性评估表上门。前 10 分钟你说，我们听。后 20 分钟我们告诉你这个问题在我们看来值不值得动——值得就给最小试点报价，不值得就直说。</span>
+          <span data-en>30 minutes. We bring industry cases + a feasibility checklist. First 10 minutes you talk, we listen. Last 20 we tell you whether the problem is worth solving in our view — if yes we quote a minimal pilot, if no we say so.</span>
+        </p>
+        <div style="margin-top:24px"><a href="/#cta" class="btn"><span data-zh>预约 30 分钟</span><span data-en>Book 30 minutes</span><span class="arr">→</span></a></div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- FOOTER -->
+<footer>
+  <div class="wrap">
+    <div class="footer-grid">
+      <div class="footer-brand">
+        <div style="display:flex;align-items:center;gap:12px"><span class="brand-mark" style="width:32px;height:32px"></span><div style="font-family:var(--sans);font-weight:700;font-size:18px;letter-spacing:-0.02em">WeChaser</div></div>
+        <p><span data-zh>企业 AI 中间件<br/>长沙 · 上海 · 海外</span><span data-en>Enterprise AI middleware<br/>Changsha · Shanghai · International</span></p>
+      </div>
+      <div class="footer-cols">
+        <div class="footer-col">
+          <div class="col-head" data-zh>产品</div><div class="col-head" data-en>Product</div>
+          <a href="/products/shiguangmailuo.html"><span data-zh>时光脉络</span><span data-en>Shiguangmailuo</span></a>
+        </div>
+        <div class="footer-col">
+          <div class="col-head" data-zh>资源</div><div class="col-head" data-en>Resources</div>
+          <a href="/cases/chaoxian.html"><span data-zh>超弦科技案例</span><span data-en>Chaostring Tech</span></a>
+          <a href="/tech.html"><span data-zh>技术架构</span><span data-en>Architecture</span></a>
+          <a href="/about.html"><span data-zh>关于我们</span><span data-en>About</span></a>
+        </div>
+        <div class="footer-col">
+          <div class="col-head" data-zh>联系</div><div class="col-head" data-en>Contact</div>
+          <a href="mailto:hello@wechaser.ai">hello@wechaser.ai</a>
+          <a href="/#cta"><span data-zh>预约演示</span><span data-en>Book a call</span></a>
+        </div>
+      </div>
+    </div>
+    <div class="footer-bottom"><div>© 2026 WeChaser LLC</div><div>EST. 2025 · BUILT WITH 工艺</div></div>
+  </div>
+</footer>
+
+<script src="/js/site.js"></script>
+</body>
+</html>

@@ -1,0 +1,503 @@
+<!doctype html>
+<html lang="zh-CN">
+<head>
+<meta charset="utf-8" />
+<meta name="viewport" content="width=device-width,initial-scale=1" />
+<title>时光脉络 · 企业 AI 中间件 · WeChaser</title>
+<meta name="description" content="时光脉络是 WeChaser 的旗舰产品——企业 AI 生态的中间件。知识库 = 原料供应商，不做生成。其他 AI Agent 通过 MCP / CLI / REST 调用，回答带溯源链接，文件原件留本地。" />
+<link rel="icon" type="image/svg+xml" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 64 64'%3E%3Crect width='64' height='64' fill='%23060608'/%3E%3Crect x='14' y='14' width='36' height='36' fill='%23C8FA3C'/%3E%3Crect x='14' y='14' width='36' height='1' fill='%23060608'/%3E%3C/svg%3E" />
+<link rel="preconnect" href="https://fonts.googleapis.com" />
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+<link href="https://fonts.googleapis.com/css2?family=Inter+Tight:wght@400;500;600;700;800&family=Inter:wght@400;500;600&family=Noto+Sans+SC:wght@400;500;700;900&family=JetBrains+Mono:wght@400;500;600&display=swap" rel="stylesheet" />
+<link rel="stylesheet" href="../styles.css" />
+<style>
+.product-tag{display:inline-flex;align-items:center;gap:8px;padding:5px 14px;background:var(--lime);color:var(--bg);font-family:var(--mono);font-size:11px;font-weight:600;letter-spacing:0.14em;text-transform:uppercase;border-radius:999px;margin-bottom:24px}
+
+/* metric strip */
+.metric-strip{display:grid;grid-template-columns:repeat(4,1fr);gap:1px;background:var(--line);border:1px solid var(--line);margin-top:64px}
+.metric-strip .metric{border:none}
+
+/* architecture diagram */
+.arch{
+  background:var(--bg-1);border:1px solid var(--line);
+  padding:48px 32px;display:flex;flex-direction:column;align-items:center;gap:0;
+  font-family:var(--mono);
+  position:relative;overflow:hidden;
+}
+.arch::before{content:"";position:absolute;inset:0;background-image:linear-gradient(to right,rgba(255,255,255,0.03) 1px,transparent 1px),linear-gradient(to bottom,rgba(255,255,255,0.03) 1px,transparent 1px);background-size:32px 32px;pointer-events:none}
+.arch > *{position:relative;z-index:1}
+.arch-row{display:flex;gap:14px;flex-wrap:wrap;justify-content:center;width:100%;}
+.arch-node{
+  border:1px solid var(--line);
+  background:var(--bg);
+  padding:14px 22px;
+  font-size:12px;font-weight:500;color:var(--ink-2);letter-spacing:0.04em;
+  display:flex;flex-direction:column;align-items:center;gap:4px;
+  min-width:150px;text-align:center;
+  transition:border-color .25s,color .25s;
+}
+.arch-node small{font-size:10px;color:var(--ink-4);letter-spacing:0.1em;text-transform:uppercase}
+.arch-node:hover{border-color:var(--lime);color:var(--ink)}
+.arch-node.center{border-color:var(--lime);background:rgba(200,250,60,0.06);color:var(--ink);box-shadow:0 0 28px -10px var(--lime-glow)}
+.arch-node.center small{color:var(--lime)}
+.arch-flow{
+  font-family:var(--mono);font-size:11px;color:var(--ink-3);letter-spacing:0.14em;text-transform:uppercase;
+  margin:14px 0;display:flex;align-items:center;gap:8px;
+}
+.arch-flow::before,.arch-flow::after{content:"";display:inline-block;width:36px;height:1px;background:var(--lime)}
+.arch-storage{display:flex;gap:14px;margin-top:14px}
+
+/* triad */
+.triad{display:grid;grid-template-columns:1fr 1fr 1fr;gap:1px;background:var(--line);border:1px solid var(--line)}
+.triad-card{background:var(--bg);padding:48px 36px;display:flex;flex-direction:column;gap:18px;min-height:420px;position:relative}
+.triad-card .num{font-family:var(--mono);font-size:11px;letter-spacing:0.18em;color:var(--lime);font-weight:600;text-transform:uppercase}
+.triad-card h3{font-family:var(--sans);font-weight:700;font-size:1.875rem;letter-spacing:-0.02em;line-height:1.15}
+.triad-card h3 .zh{font-family:var(--sans-zh);font-weight:900}
+.triad-card p{color:var(--ink-2);line-height:1.75;font-size:0.975rem}
+.triad-card .file{margin-top:auto;padding-top:14px;border-top:1px solid var(--line);display:flex;align-items:center;gap:8px;font-family:var(--mono);font-size:11px;color:var(--ink-3);letter-spacing:0.05em}
+.triad-card .file .ok{color:var(--lime);font-weight:600;letter-spacing:0.1em;text-transform:uppercase}
+
+/* grounded RAG block */
+.grounded{display:grid;grid-template-columns:1fr 1fr;gap:64px;align-items:start}
+.grounded-list{display:flex;flex-direction:column;gap:18px}
+.grounded-item{
+  display:grid;grid-template-columns:32px 1fr;gap:18px;align-items:start;
+  padding:20px 0;border-bottom:1px solid var(--line);
+}
+.grounded-item:last-child{border-bottom:none}
+.grounded-item .icon{font-family:var(--mono);font-weight:700;font-size:18px;color:var(--lime);padding-top:2px}
+.grounded-item.no .icon{color:var(--rose)}
+.grounded-item h4{font-family:var(--sans);font-weight:600;font-size:1.125rem;line-height:1.3;letter-spacing:-0.01em}
+.grounded-item h4 .zh{font-family:var(--sans-zh);font-weight:700}
+.grounded-item p{margin-top:6px;color:var(--ink-2);font-size:0.95rem;line-height:1.65}
+
+/* integration tabs */
+.intg-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:0;border:1px solid var(--line)}
+.intg-card{
+  background:var(--bg);padding:32px 28px;border-right:1px solid var(--line);
+  display:flex;flex-direction:column;gap:16px;
+  transition:background .25s;
+}
+.intg-card:last-child{border-right:none}
+.intg-card:hover{background:var(--bg-1)}
+.intg-card .proto{font-family:var(--mono);font-size:11px;letter-spacing:0.16em;color:var(--lime);text-transform:uppercase;font-weight:600}
+.intg-card h4{font-family:var(--sans);font-weight:700;font-size:1.375rem;letter-spacing:-0.015em;line-height:1.2}
+.intg-card h4 .zh{font-family:var(--sans-zh);font-weight:900}
+.intg-card p{color:var(--ink-2);font-size:0.95rem;line-height:1.7}
+
+/* schema */
+.schema-list{display:grid;grid-template-columns:1fr 1fr;gap:1px;background:var(--line);border:1px solid var(--line)}
+.schema-item{background:var(--bg);padding:24px 28px;display:flex;flex-direction:column;gap:8px}
+.schema-item .stype{font-family:var(--mono);font-size:11px;letter-spacing:0.14em;color:var(--lime);text-transform:uppercase;font-weight:600}
+.schema-item .sname{font-family:var(--sans);font-weight:700;font-size:1.0625rem;letter-spacing:-0.01em;color:var(--ink)}
+.schema-item .sdesc{color:var(--ink-2);font-size:0.875rem;line-height:1.7}
+
+/* responsive */
+@media (max-width:1024px){
+  .triad{grid-template-columns:1fr}
+  .grounded{grid-template-columns:1fr;gap:48px}
+  .metric-strip{grid-template-columns:1fr 1fr}
+  .intg-grid{grid-template-columns:1fr}
+  .intg-card{border-right:none;border-bottom:1px solid var(--line)}
+  .schema-list{grid-template-columns:1fr}
+}
+</style>
+</head>
+<body>
+
+<!-- NAV -->
+<nav class="nav" id="nav">
+  <div class="wrap">
+    <a href="/" class="brand"><span class="brand-mark"></span><span>WeChaser</span></a>
+    <div class="nav-links">
+      <a href="/products/shiguangmailuo.html" class="active" data-zh>产品</a><a href="/products/shiguangmailuo.html" class="active" data-en>Product</a>
+      <a href="/cases/chaoxian.html" data-zh>案例</a><a href="/cases/chaoxian.html" data-en>Cases</a>
+      <a href="/tech.html" data-zh>技术</a><a href="/tech.html" data-en>Tech</a>
+      <a href="/about.html" data-zh>关于</a><a href="/about.html" data-en>About</a>
+    </div>
+    <div class="nav-tools">
+      <button class="lang-toggle" id="langToggle" aria-label="Switch language"><span class="zh on">中</span><span class="en">EN</span></button>
+      <a href="/#cta" class="btn"><span data-zh>预约演示</span><span data-en>Book a call</span><span class="arr">→</span></a>
+    </div>
+  </div>
+</nav>
+
+<!-- PAGE HEADER -->
+<header class="page-header">
+  <div class="wrap">
+    <div class="crumb">
+      <a href="/">WECHASER</a><span class="sep">/</span>
+      <a href="/products/shiguangmailuo.html"><span data-zh>产品</span><span data-en>PRODUCT</span></a><span class="sep">/</span>
+      <span data-zh>时光脉络</span><span data-en>SHIGUANGMAILUO</span>
+    </div>
+    <div class="product-tag">FLAGSHIP / FOUNDATIONAL</div>
+    <h1>
+      <span data-zh class="zh">时光脉络</span>
+      <span data-en>Shiguangmailuo</span>
+    </h1>
+    <p class="sub">
+      <span data-zh>企业 AI 生态的中间件——让其他 AI 工具变"懂企业"。不直接面对终端用户，不和 ChatGPT 竞争。是有灵魂的图书馆 + 能主动学习的管理 Agent。</span>
+      <span data-en>Middleware for the enterprise AI ecosystem — making other AI tools actually understand a specific company. We don't face end users; we don't compete with ChatGPT. We're a library with a soul, plus a self-learning manager agent.</span>
+    </p>
+
+    <div class="metric-strip" style="margin-top:48px">
+      <div class="metric"><div class="m-num"><span data-count="534">0</span></div><div class="m-lab"><span data-zh>NEO4J 节点</span><span data-en>NEO4J NODES</span></div></div>
+      <div class="metric"><div class="m-num"><span data-count="890">0</span></div><div class="m-lab"><span data-zh>QDRANT 向量</span><span data-en>QDRANT VECTORS</span></div></div>
+      <div class="metric"><div class="m-num"><span data-count="313">0</span><small>/319</small></div><div class="m-lab"><span data-zh>测试通过 · 98.1%</span><span data-en>TESTS · 98.1%</span></div></div>
+      <div class="metric"><div class="m-num">100<small>%</small></div><div class="m-lab"><span data-zh>溯源率 · 零幻觉</span><span data-en>CITATION · ZERO HALLUC</span></div></div>
+    </div>
+  </div>
+</header>
+
+<!-- POSITION -->
+<section class="section">
+  <div class="wrap">
+    <div class="sect-head">
+      <div>
+        <div class="eyebrow"><span class="dot"></span>01 / <span data-zh>定位</span><span data-en>Position</span></div>
+        <h2 class="h-h2" style="margin-top:18px">
+          <span data-zh class="zh">知识库 = 原料供应商。<br/>不做生成。</span>
+          <span data-en>Knowledge base as raw-material supplier.<br/>We don't generate.</span>
+        </h2>
+      </div>
+    </div>
+
+    <div style="display:grid;grid-template-columns:1fr 1fr;gap:64px;align-items:start">
+      <div>
+        <p style="font-size:1.25rem;color:var(--ink);font-weight:500;line-height:1.65;letter-spacing:-0.005em">
+          <span data-zh>用户<strong style="color:var(--lime)">不直接和知识库对话</strong>。其他 Agent—— OpenClaw / 飞书 AI / 钉钉 AI / Claude / 自研 Bot ——通过 MCP / CLI / REST 调用，拿到检索片段、结构化原料、文件超链接。</span>
+          <span data-en>Users <strong style="color:var(--lime)">don't talk to the knowledge base directly</strong>. Other agents — OpenClaw / Lark AI / DingTalk AI / Claude / your in-house bot — call us via MCP / CLI / REST and get retrieval snippets, structured material, and file links.</span>
+        </p>
+        <p style="margin-top:24px;color:var(--ink-2);line-height:1.75;font-size:1.0625rem">
+          <span data-zh>生成（写营销话术 / 写产品规划书 / 设计海报）留给调用方 Agent。文件原件留在你本地服务器，永不外传。</span>
+          <span data-en>Generation — marketing copy, planning docs, posters — stays with the calling agent. File originals stay on your local server, never leaving the perimeter.</span>
+        </p>
+        <p style="margin-top:24px;color:var(--ink-2);line-height:1.75;font-size:1.0625rem">
+          <span data-zh>这是个反 SaaS 选择。不卖通用聊天框，不抢用户注意力。我们的客户是企业，不是消费者。</span>
+          <span data-en>This is an anti-SaaS choice. We don't sell a generic chatbox or compete for user attention. Our customer is the enterprise, not the consumer.</span>
+        </p>
+      </div>
+
+      <div class="arch">
+        <div class="arch-row">
+          <div class="arch-node">OpenClaw<small>CALLING AGENT</small></div>
+          <div class="arch-node"><span data-zh>飞书 AI</span><span data-en>Lark AI</span><small>CALLING AGENT</small></div>
+          <div class="arch-node">Claude<small>CALLING AGENT</small></div>
+        </div>
+        <div class="arch-flow">MCP / CLI / REST</div>
+        <div class="arch-row">
+          <div class="arch-node center"><span data-zh>时光脉络</span><span data-en>Shiguangmailuo</span><small>MIDDLEWARE</small></div>
+        </div>
+        <div class="arch-flow"><span data-zh>检索 + 原料 + 链接</span><span data-en>retrieve + ground + link</span></div>
+        <div class="arch-storage">
+          <div class="arch-node">Neo4j<small>GRAPH</small></div>
+          <div class="arch-node">Qdrant<small>VECTORS</small></div>
+          <div class="arch-node"><span data-zh>本地文件</span><span data-en>Local files</span><small>ORIGINS</small></div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- THREE CAPABILITIES (deep) -->
+<section class="section" id="capabilities" style="background:var(--bg-1);border-top:1px solid var(--line);border-bottom:1px solid var(--line)">
+  <div class="wrap">
+    <div class="sect-head">
+      <div>
+        <div class="eyebrow"><span class="dot"></span>02 / <span data-zh>三大能力</span><span data-en>Three capabilities</span></div>
+        <h2 class="h-h2" style="margin-top:18px">
+          <span data-zh class="zh">分析拆解 · 准确查询 · 准确理解</span>
+          <span data-en>Decompose · Retrieve · Ground</span>
+        </h2>
+      </div>
+      <div class="note">
+        <span data-zh>MVP 主线只这三件事。先把这三件做扎实，再谈未来场景。</span>
+        <span data-en>MVP is exactly these three. We make them industrial before chasing scope.</span>
+      </div>
+    </div>
+
+    <div class="triad">
+      <article class="triad-card reveal">
+        <div class="num">01 / DECOMPOSE</div>
+        <h3><span data-zh class="zh">分析拆解</span><span data-en>Decompose</span></h3>
+        <p data-zh>把复合问题拆成可查询的子问题。</p>
+        <p data-zh>"X 产品支持哪些接口、用了什么芯片、有没有兼容问题？"——这一句话至少包含三个独立检索意图：<strong style="color:var(--ink)">协议匹配 / 元器件清单 / 冲突关系</strong>。每个子问题走最适合它的检索路径，最后聚合。</p>
+        <p data-en>Compound questions become atomic sub-queries.</p>
+        <p data-en>"What interfaces does X support, which chip, any compat issues?" hides at least three retrieval intents: <strong style="color:var(--ink)">protocol match / component listing / conflict graph</strong>. Each routes to its own path, then aggregates.</p>
+        <div class="file">query_expander.py · solution_reflect <span class="ok" style="margin-left:auto">SHIPPED</span></div>
+      </article>
+
+      <article class="triad-card reveal">
+        <div class="num">02 / RETRIEVE</div>
+        <h3><span data-zh class="zh">准确查询</span><span data-en>Retrieve</span></h3>
+        <p data-zh>三路混合检索：<strong style="color:var(--ink)">向量库 + 知识图谱 + 全文索引</strong>。</p>
+        <p data-zh>RRF 融合排序，MMR 多样性过滤，BGE Reranker 精排。意图识别后路由——快速 / 标准 / 深度三档，不浪费算力，不漏召回。</p>
+        <p data-en>Hybrid retrieval: <strong style="color:var(--ink)">vector store + knowledge graph + full-text</strong>.</p>
+        <p data-en>RRF fusion, MMR diversity, BGE Reranker for final ordering. Intent-routed: quick / standard / deep — no wasted compute, no missed recall.</p>
+        <div class="file">hybrid_retriever.py · Qdrant · Neo4j <span class="ok" style="margin-left:auto">SHIPPED</span></div>
+      </article>
+
+      <article class="triad-card reveal">
+        <div class="num">03 / GROUND</div>
+        <h3><span data-zh class="zh">准确理解</span><span data-en>Ground</span></h3>
+        <p data-zh>检索片段去重、矛盾标识、置信度打分，组装成结构化原料。</p>
+        <p data-zh>调用方 Agent 拿到的不是一团文字，而是 <code class="kbd">{facts: [...], citations: [...], confidence: 0.87, gaps: [...]}</code>。每条原料都有溯源链接，不知道就明确说"信息不足"。</p>
+        <p data-en>Dedup, conflict-flag, confidence-score — assemble into structured material.</p>
+        <p data-en>Calling agent receives <code class="kbd">{facts: [...], citations: [...], confidence: 0.87, gaps: [...]}</code> — not a wall of text. Every fact carries a source. When unsure, we say so explicitly.</p>
+        <div class="file">solution_synthesis · grounded RAG <span class="ok" style="margin-left:auto">IN POLISH</span></div>
+      </article>
+    </div>
+  </div>
+</section>
+
+<!-- GROUNDED RAG -->
+<section class="section">
+  <div class="wrap">
+    <div class="sect-head">
+      <div>
+        <div class="eyebrow"><span class="dot"></span>03 / <span data-zh>核心约束</span><span data-en>Core constraint</span></div>
+        <h2 class="h-h2" style="margin-top:18px">
+          <span data-zh class="zh">工业级 grounded RAG。<br/>对幻觉<span class="lime-box">零容忍</span>。</span>
+          <span data-en>Industrial-grade grounded RAG.<br/><span class="lime-box">Zero tolerance</span> for hallucination.</span>
+        </h2>
+      </div>
+      <div class="note">
+        <span data-zh>未来要介入工业生产决策——这是决策辅助系统级别的责任，不是聊天玩具。</span>
+        <span data-en>Will support industrial production decisions. That's decision-support liability, not a chat toy.</span>
+      </div>
+    </div>
+
+    <div class="grounded">
+      <div>
+        <div class="eyebrow" style="color:var(--lime)"><span class="dot"></span><span data-zh>必须做到</span><span data-en>Must do</span></div>
+        <div class="grounded-list" style="margin-top:24px">
+          <div class="grounded-item"><div class="icon">✓</div>
+            <div>
+              <h4><span data-zh class="zh">100% 溯源</span><span data-en>100% citation</span></h4>
+              <p data-zh>每句话都有出处。无出处的话不许说。</p>
+              <p data-en>Every sentence has a source. No source = no statement.</p>
+            </div>
+          </div>
+          <div class="grounded-item"><div class="icon">✓</div>
+            <div>
+              <h4><span data-zh class="zh">强制透明</span><span data-en>Forced transparency</span></h4>
+              <p data-zh>不知道就明确说"信息不足，需要补充 X 类文档"。</p>
+              <p data-en>If we don't know, we say "insufficient information — add docs of type X".</p>
+            </div>
+          </div>
+          <div class="grounded-item"><div class="icon">✓</div>
+            <div>
+              <h4><span data-zh class="zh">置信度标注</span><span data-en>Confidence labels</span></h4>
+              <p data-zh>找近似时主动告诉调用方："这是相关但不完全匹配的内容，置信度 0.62"。</p>
+              <p data-en>For near-misses we surface the score: "related, not exact, confidence 0.62".</p>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <div>
+        <div class="eyebrow" style="color:var(--rose)"><span class="dot" style="background:var(--rose);box-shadow:0 0 12px rgba(255,95,95,0.4)"></span><span data-zh>必须禁止</span><span data-en>Must not</span></div>
+        <div class="grounded-list" style="margin-top:24px">
+          <div class="grounded-item no"><div class="icon">✗</div>
+            <div>
+              <h4><span data-zh class="zh">捏造数字</span><span data-en>Fabricate numbers</span></h4>
+              <p data-zh>大模型训练数据中类似产品的参数 ≠ 此产品的参数。一律不许生造。</p>
+              <p data-en>Numbers from the model's training corpus for "similar" products are not this product's numbers. No invention.</p>
+            </div>
+          </div>
+          <div class="grounded-item no"><div class="icon">✗</div>
+            <div>
+              <h4><span data-zh class="zh">混淆产品</span><span data-en>Confuse products</span></h4>
+              <p data-zh>把 A 产品规格说成 B 产品。在电子硬件场景下这是事故级错误。</p>
+              <p data-en>Reporting product A's spec as product B's. In hardware that's an incident-level error.</p>
+            </div>
+          </div>
+          <div class="grounded-item no"><div class="icon">✗</div>
+            <div>
+              <h4><span data-zh class="zh">误读原文</span><span data-en>Misread the source</span></h4>
+              <p data-zh>引用对的文件但理解错了原文。这种错误最危险——表面有出处。</p>
+              <p data-en>Cite the right doc, get the meaning wrong. The most dangerous form — the citation looks valid.</p>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- INTEGRATION -->
+<section class="section" id="integration" style="background:var(--bg-1);border-top:1px solid var(--line);border-bottom:1px solid var(--line)">
+  <div class="wrap">
+    <div class="sect-head">
+      <div>
+        <div class="eyebrow"><span class="dot"></span>04 / <span data-zh>调用方式</span><span data-en>Integration</span></div>
+        <h2 class="h-h2" style="margin-top:18px">
+          <span data-zh class="zh">三种调用协议。<br/>跟着真实场景走。</span>
+          <span data-en>Three protocols.<br/>Picked by real scenarios.</span>
+        </h2>
+      </div>
+    </div>
+
+    <div class="intg-grid">
+      <div class="intg-card">
+        <div class="proto">A · MCP STDIO</div>
+        <h4><span data-zh class="zh">MCP 协议</span><span data-en>MCP Protocol</span></h4>
+        <p data-zh><strong style="color:var(--ink)">优先方式</strong>。Claude Code、Hermes Agent、其他 MCP-aware 工具直接挂接。已通过 313/319 stdio 集成测试。</p>
+        <p data-en><strong style="color:var(--ink)">Primary path</strong>. Claude Code, Hermes Agent, other MCP-aware tools plug in directly. 313/319 stdio integration tests passing.</p>
+        <pre class="code" style="margin-top:8px"><span class="c-com">// 4 tools exposed</span>
+<span class="c-key">kg_search</span>(query, top_k)
+<span class="c-key">kg_graph_query</span>(cypher)
+<span class="c-key">kg_board_query</span>(board_id)
+<span class="c-key">kg_add_feedback</span>(qid, score)</pre>
+      </div>
+
+      <div class="intg-card">
+        <div class="proto">B · CLI</div>
+        <h4><span data-zh class="zh">命令行</span><span data-en>Command line</span></h4>
+        <p data-zh>调用方 Agent 不支持 MCP？走 CLI——子进程标准输入输出，跨语言通用。OpenCLI 适配器已就绪。</p>
+        <p data-en>Calling agent doesn't speak MCP? Use CLI — subprocess stdin/stdout, language-agnostic. OpenCLI adapter ready.</p>
+        <pre class="code" style="margin-top:8px"><span class="c-com">$</span> shiguang search <span class="c-str">"TAX07 接口列表"</span>
+<span class="c-com">→</span> <span class="c-key">facts</span>: [<span class="c-num">3</span>], <span class="c-key">citations</span>: [<span class="c-num">3</span>],
+   <span class="c-key">confidence</span>: <span class="c-num">0.91</span></pre>
+      </div>
+
+      <div class="intg-card">
+        <div class="proto">C · REST API</div>
+        <h4><span data-zh class="zh">REST API</span><span data-en>REST API</span></h4>
+        <p data-zh>FastAPI 暴露的标准 HTTP 端点，端口 1000。前端 / 浏览器扩展 / 第三方系统直连。</p>
+        <p data-en>FastAPI HTTP endpoints on port 1000. Frontends, browser extensions, third-party systems plug in.</p>
+        <pre class="code" style="margin-top:8px"><span class="c-key">POST</span> <span class="c-str">/api/v1/retrieve</span>
+{
+  <span class="c-key">"query"</span>: <span class="c-str">"..."</span>,
+  <span class="c-key">"mode"</span>: <span class="c-str">"hybrid"</span>,
+  <span class="c-key">"top_k"</span>: <span class="c-num">10</span>
+}</pre>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- KNOWLEDGE SCHEMA -->
+<section class="section">
+  <div class="wrap">
+    <div class="sect-head">
+      <div>
+        <div class="eyebrow"><span class="dot"></span>05 / <span data-zh>知识图谱 SCHEMA</span><span data-en>Knowledge graph schema</span></div>
+        <h2 class="h-h2" style="margin-top:18px">
+          <span data-zh class="zh">8 类节点。<br/>5 类核心关系。</span>
+          <span data-en>8 node types.<br/>5 core relationships.</span>
+        </h2>
+      </div>
+      <div class="note">
+        <span data-zh>当前 schema 服务于硬件制造场景（超弦科技实测）。多租户多层级版本随客户拓展演进。</span>
+        <span data-en>Current schema serves hardware manufacturing (validated at Chaostring). Multi-tenant version evolves with new clients.</span>
+      </div>
+    </div>
+
+    <div class="schema-list">
+      <div class="schema-item"><div class="stype">NODE</div><div class="sname">Product</div><div class="sdesc"><span data-zh>产品聚合节点。多个 Board 组成一个 Product。</span><span data-en>Product aggregator. Multiple Boards compose a Product.</span></div></div>
+      <div class="schema-item"><div class="stype">NODE</div><div class="sname">Board</div><div class="sdesc"><span data-zh>板卡——核心查询主体。含 parameters_json + 全文索引。</span><span data-en>Board — primary query subject. Carries parameters_json and full-text index.</span></div></div>
+      <div class="schema-item"><div class="stype">NODE</div><div class="sname">Component</div><div class="sdesc"><span data-zh>物理元器件。芯片、电阻、连接器、机电件。</span><span data-en>Physical component. Chips, passives, connectors, electromechanical parts.</span></div></div>
+      <div class="schema-item"><div class="stype">NODE</div><div class="sname">Parameter</div><div class="sdesc"><span data-zh>参数定义：名称 + 值 + 单位。挂在 Board 或 Component 下。</span><span data-en>Parameter definition: name + value + unit. Attached to Board or Component.</span></div></div>
+      <div class="schema-item"><div class="stype">NODE</div><div class="sname">Document</div><div class="sdesc"><span data-zh>文档元数据。file_hash 唯一约束保证不重入。</span><span data-en>Document metadata. file_hash unique constraint prevents duplicates.</span></div></div>
+      <div class="schema-item"><div class="stype">NODE</div><div class="sname">SchematicComponent</div><div class="sdesc"><span data-zh>原理图元器件。Gemini 2.5 解析得来。</span><span data-en>Schematic-extracted component. Parsed by Gemini 2.5.</span></div></div>
+      <div class="schema-item"><div class="stype">REL</div><div class="sname">CONTAINS_COMPONENT</div><div class="sdesc"><span data-zh>Product / Board → Component（含 quantity）</span><span data-en>Product / Board → Component (with quantity)</span></div></div>
+      <div class="schema-item"><div class="stype">REL</div><div class="sname">COMPATIBLE_WITH · REPLACES · CONFLICTS_WITH</div><div class="sdesc"><span data-zh>Component → Component。供 BOM 选型 + 替代分析使用。</span><span data-en>Component → Component. Powers BOM selection and substitute analysis.</span></div></div>
+    </div>
+  </div>
+</section>
+
+<!-- TECH STACK -->
+<section class="section" style="background:var(--bg-1);border-top:1px solid var(--line)">
+  <div class="wrap">
+    <div class="sect-head">
+      <div>
+        <div class="eyebrow"><span class="dot"></span>06 / <span data-zh>技术栈</span><span data-en>Stack</span></div>
+        <h2 class="h-h2" style="margin-top:18px">
+          <span data-zh class="zh">选型只挑一个标准——<br/>能跑在客户机房。</span>
+          <span data-en>Selection criterion: <br/>must run inside the customer's perimeter.</span>
+        </h2>
+      </div>
+    </div>
+
+    <div class="term">
+      <div class="term-bar">SHIGUANGMAILUO · STACK</div>
+      <div class="term-body">
+        <div><span class="prompt">$</span> stack --layer=api</div>
+        <div class="out">FastAPI · Python 3.11 · Uvicorn · port <span class="ok">1000</span></div>
+        <div><span class="prompt">$</span> stack --layer=agent</div>
+        <div class="out">LangGraph · agent_graph/orchestrator.py · 90-turn tool loop</div>
+        <div><span class="prompt">$</span> stack --layer=storage</div>
+        <div class="out">Neo4j 5.15+ <span class="ok">[graph]</span> · Qdrant <span class="ok">[vectors]</span> · MySQL <span class="ok">[history]</span> · SQLite <span class="ok">[skills]</span></div>
+        <div><span class="prompt">$</span> stack --layer=embedding</div>
+        <div class="out">DashScope text-embedding-v4 (1024-d) · BGE Reranker (BAAI/bge-reranker-base)</div>
+        <div><span class="prompt">$</span> stack --layer=llm-routing</div>
+        <div class="out">DeepSeek-Reasoner <span class="ok">[structured extraction]</span></div>
+        <div class="out">DeepSeek-Chat <span class="ok">[general]</span> · GLM-4.5 <span class="ok">[multimodal]</span> · Gemini 2.5 <span class="ok">[schematic]</span></div>
+        <div><span class="prompt">$</span> stack --layer=ocr</div>
+        <div class="out">PaddleOCR + MinerU + LibreOffice fallback</div>
+        <div><span class="prompt">$</span> stack --layer=optimization</div>
+        <div class="out">OR-Tools CP-SAT <span class="ok">[BOM selection]</span></div>
+        <div><span class="prompt">$</span> stack --deployment</div>
+        <div class="ok">→ docker-compose · on-prem · air-gap capable · 完成 / OK</div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- CTA -->
+<section class="section" style="border-top:1px solid var(--line)">
+  <div class="wrap-narrow" style="text-align:center;display:flex;flex-direction:column;align-items:center;gap:24px">
+    <div class="eyebrow"><span class="dot"></span><span data-zh>下一步</span><span data-en>Next</span></div>
+    <h2 class="h-h2" style="max-width:780px">
+      <span data-zh class="zh">想看时光脉络在你企业的<br/>第一性能曲线？</span>
+      <span data-en>Want to see how Shiguangmailuo<br/>performs against your real workflow?</span>
+    </h2>
+    <p class="lead" style="max-width:600px">
+      <span data-zh>30 分钟通话，我们带着可行性评估表上门。第一阶段调研免费。</span>
+      <span data-en>A 30-minute call. We bring a feasibility checklist. Phase one is free.</span>
+    </p>
+    <div style="display:flex;gap:20px;flex-wrap:wrap;justify-content:center;margin-top:8px">
+      <a href="/#cta" class="btn"><span data-zh>预约 30 分钟通话</span><span data-en>Book a 30-min call</span><span class="arr">→</span></a>
+      <a href="/cases/chaoxian.html" class="btn-ghost"><span data-zh>看超弦科技案例</span><span data-en>See Chaostring case</span><span class="arr">→</span></a>
+    </div>
+  </div>
+</section>
+
+<!-- FOOTER -->
+<footer>
+  <div class="wrap">
+    <div class="footer-grid">
+      <div class="footer-brand">
+        <div style="display:flex;align-items:center;gap:12px"><span class="brand-mark" style="width:32px;height:32px"></span><div style="font-family:var(--sans);font-weight:700;font-size:18px;letter-spacing:-0.02em">WeChaser</div></div>
+        <p><span data-zh>企业 AI 中间件<br/>长沙 · 上海 · 海外</span><span data-en>Enterprise AI middleware<br/>Changsha · Shanghai · International</span></p>
+      </div>
+      <div class="footer-cols">
+        <div class="footer-col">
+          <div class="col-head" data-zh>产品</div><div class="col-head" data-en>Product</div>
+          <a href="/products/shiguangmailuo.html"><span data-zh>时光脉络</span><span data-en>Shiguangmailuo</span></a>
+          <a href="#capabilities"><span data-zh>三大能力</span><span data-en>Capabilities</span></a>
+          <a href="#integration"><span data-zh>调用方式</span><span data-en>Integration</span></a>
+        </div>
+        <div class="footer-col">
+          <div class="col-head" data-zh>资源</div><div class="col-head" data-en>Resources</div>
+          <a href="/cases/chaoxian.html"><span data-zh>超弦科技案例</span><span data-en>Chaostring Tech</span></a>
+          <a href="/tech.html"><span data-zh>技术架构</span><span data-en>Architecture</span></a>
+          <a href="/about.html"><span data-zh>关于我们</span><span data-en>About</span></a>
+        </div>
+        <div class="footer-col">
+          <div class="col-head" data-zh>联系</div><div class="col-head" data-en>Contact</div>
+          <a href="mailto:hello@wechaser.ai">hello@wechaser.ai</a>
+          <a href="/#cta"><span data-zh>预约演示</span><span data-en>Book a call</span></a>
+        </div>
+      </div>
+    </div>
+    <div class="footer-bottom">
+      <div>© 2026 WeChaser LLC</div><div>EST. 2025 · BUILT WITH 工艺</div>
+    </div>
+  </div>
+</footer>
+
+<script src="/js/site.js"></script>
+</body>
+</html>

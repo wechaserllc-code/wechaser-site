@@ -1,0 +1,585 @@
+<!doctype html>
+<html lang="zh-CN">
+<head>
+<meta charset="utf-8" />
+<meta name="viewport" content="width=device-width,initial-scale=1" />
+<title>WeChaser · 企业 AI 中间件 · 让 AI 工具变"懂企业"</title>
+<meta name="description" content="WeChaser 为企业部署 AI 中间件——让飞书、钉钉、ChatGPT、Claude 这些 AI 工具瞬间变得"懂你的企业"。旗舰产品时光脉络已落地超弦科技，534 节点 / 890 向量 / 313 测试通过 / 100% 溯源。" />
+<link rel="icon" type="image/svg+xml" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 64 64'%3E%3Crect width='64' height='64' fill='%23060608'/%3E%3Crect x='14' y='14' width='36' height='36' fill='%23C8FA3C'/%3E%3Crect x='14' y='14' width='36' height='1' fill='%23060608'/%3E%3C/svg%3E" />
+<link rel="preconnect" href="https://fonts.googleapis.com" />
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+<link href="https://fonts.googleapis.com/css2?family=Inter+Tight:wght@400;500;600;700;800&family=Inter:wght@400;500;600&family=Noto+Sans+SC:wght@400;500;700;900&family=JetBrains+Mono:wght@400;500;600&display=swap" rel="stylesheet" />
+<link rel="stylesheet" href="styles.css" />
+<style>
+/* ===== HOME-SPECIFIC ===== */
+
+.hero h1{font-size:var(--t-display)}
+.hero-meta{margin-top:48px;display:flex;gap:20px;flex-wrap:wrap}
+.hero-status{margin-bottom:32px}
+.hero-sub{margin-top:32px;max-width:700px;font-size:1.25rem;color:var(--ink-2);line-height:1.6}
+
+.scroll-cue{
+  position:absolute;left:max(var(--gutter),calc((100vw - var(--max))/2 + var(--gutter)));
+  bottom:32px;
+  font-family:var(--mono);font-size:11px;letter-spacing:0.16em;color:var(--ink-4);text-transform:uppercase;
+  display:flex;align-items:center;gap:10px;
+  z-index:1;
+}
+.scroll-cue::before{content:"";width:24px;height:1px;background:var(--lime)}
+
+/* ticker bar */
+.ticker-strip{
+  border-top:1px solid var(--line);border-bottom:1px solid var(--line);
+  background:var(--bg-1);
+  display:grid;grid-template-columns:repeat(4,1fr);
+}
+.ticker-strip .ti{
+  padding:28px 32px;
+  border-right:1px solid var(--line);
+  display:flex;flex-direction:column;gap:8px;
+}
+.ticker-strip .ti:last-child{border-right:none}
+.ticker-strip .ti .v{font-family:var(--sans);font-weight:700;font-size:38px;letter-spacing:-0.025em;line-height:1;display:flex;align-items:baseline;gap:6px}
+.ticker-strip .ti .v small{font-family:var(--mono);font-size:13px;color:var(--ink-3);font-weight:500;letter-spacing:0}
+.ticker-strip .ti .l{font-family:var(--mono);font-size:11px;letter-spacing:0.14em;color:var(--ink-3);text-transform:uppercase;font-weight:500}
+.ticker-strip .ti .l b{color:var(--lime);font-weight:600}
+
+/* WHY */
+.why{padding-top:140px;padding-bottom:140px}
+.why-grid{display:grid;grid-template-columns:240px 1fr;gap:80px;align-items:start}
+.why p{font-size:1.5rem;line-height:1.55;font-weight:500;color:var(--ink);max-width:920px;letter-spacing:-0.005em}
+.why p + p{margin-top:24px;color:var(--ink-2);font-weight:400;font-size:1.25rem}
+.why em{font-style:normal;color:var(--lime);background:rgba(200,250,60,0.08);padding:0 6px;border-radius:4px;font-weight:600}
+
+/* PRODUCTS LATTICE */
+.products-section{background:var(--bg-1);border-top:1px solid var(--line);border-bottom:1px solid var(--line)}
+.product-grid{display:grid;grid-template-columns:1.2fr 1fr;gap:0;border:1px solid var(--line);background:var(--bg)}
+.product-feat{
+  padding:48px;display:flex;flex-direction:column;gap:24px;
+  border-right:1px solid var(--line);position:relative;
+  background:linear-gradient(135deg, var(--bg) 0%, rgba(200,250,60,0.04) 100%);
+}
+.product-feat .badge{
+  display:inline-flex;align-items:center;gap:8px;
+  align-self:flex-start;
+  padding:5px 12px;background:var(--lime);color:var(--bg);
+  font-family:var(--mono);font-size:11px;font-weight:600;letter-spacing:0.12em;text-transform:uppercase;
+  border-radius:999px;
+}
+.product-feat h3{font-family:var(--sans);font-weight:800;font-size:48px;letter-spacing:-0.025em;line-height:1.0}
+.product-feat h3 .zh{font-family:var(--sans-zh);font-weight:900}
+.product-feat p{color:var(--ink-2);line-height:1.7;font-size:1.0625rem;max-width:480px}
+.product-feat .stats{display:grid;grid-template-columns:repeat(3,1fr);gap:0;margin-top:auto;padding-top:24px;border-top:1px solid var(--line)}
+.product-feat .stat-item{display:flex;flex-direction:column;gap:6px;padding-right:16px}
+.product-feat .stat-item .v{font-family:var(--sans);font-weight:700;font-size:28px;letter-spacing:-0.025em;color:var(--lime)}
+.product-feat .stat-item .v small{font-family:var(--mono);font-size:11px;color:var(--ink-3);letter-spacing:0;font-weight:500}
+.product-feat .stat-item .l{font-family:var(--mono);font-size:10px;letter-spacing:0.14em;color:var(--ink-3);text-transform:uppercase}
+.product-feat .arrow-link{
+  margin-top:8px;
+  display:inline-flex;align-items:center;gap:10px;
+  font-family:var(--mono);font-size:12px;letter-spacing:0.1em;font-weight:600;text-transform:uppercase;
+  color:var(--lime);
+  padding:10px 0;
+  align-self:flex-start;
+}
+.product-feat .arrow-link .arr{transition:transform .25s}
+.product-feat .arrow-link:hover .arr{transform:translateX(6px)}
+
+.product-side{display:flex;flex-direction:column}
+.product-side > div{
+  padding:36px 40px;flex:1;
+  border-bottom:1px solid var(--line);
+  display:flex;flex-direction:column;gap:14px;
+  transition:background .25s;
+}
+.product-side > div:last-child{border-bottom:none}
+.product-side > div:hover{background:var(--bg-1)}
+.product-side .ps-meta{font-family:var(--mono);font-size:11px;letter-spacing:0.14em;color:var(--ink-3);text-transform:uppercase}
+.product-side .ps-meta b{color:var(--lime);font-weight:600}
+.product-side h4{font-family:var(--sans);font-weight:700;font-size:22px;letter-spacing:-0.018em;line-height:1.2}
+.product-side h4 .zh{font-family:var(--sans-zh);font-weight:900}
+.product-side p{color:var(--ink-2);font-size:0.95rem;line-height:1.7}
+.product-side .ps-link{margin-top:auto;padding-top:8px;display:inline-flex;align-items:center;gap:8px;font-family:var(--mono);font-size:11px;letter-spacing:0.1em;color:var(--ink-3);text-transform:uppercase;font-weight:500}
+.product-side > div:hover .ps-link{color:var(--lime)}
+
+/* CAPABILITY (kept as 3 cards but darker) */
+.cap-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:1px;background:var(--line);border:1px solid var(--line)}
+.cap-card{
+  background:var(--bg);
+  padding:36px 32px 40px;
+  position:relative;
+  display:flex;flex-direction:column;gap:20px;
+  min-height:340px;
+  transition:background .25s;
+}
+.cap-card:hover{background:var(--bg-1)}
+.cap-card .num{font-family:var(--mono);font-size:11px;letter-spacing:0.18em;color:var(--lime);font-weight:600;text-transform:uppercase}
+.cap-card h3{font-family:var(--sans);font-weight:700;font-size:1.625rem;letter-spacing:-0.018em;line-height:1.2}
+.cap-card h3 .zh{font-family:var(--sans-zh);font-weight:900}
+.cap-card p{color:var(--ink-2);font-size:0.975rem;line-height:1.75}
+.cap-card p strong{color:var(--ink);font-weight:600}
+.cap-card .cap-meta{margin-top:auto;padding-top:14px;font-family:var(--mono);font-size:11px;letter-spacing:0.1em;color:var(--ink-3);text-transform:uppercase}
+.cap-card svg.cap-icon{width:32px;height:32px;color:var(--lime);opacity:0.85}
+
+/* USE CASES (compact) */
+.cases-grid{display:grid;grid-template-columns:1fr 1fr;gap:1px;background:var(--line);border:1px solid var(--line)}
+.case{
+  background:var(--bg);padding:32px 32px 36px;
+  display:flex;flex-direction:column;gap:16px;
+  position:relative;transition:background .25s;
+}
+.case:hover{background:var(--bg-1)}
+.case .case-tag{font-family:var(--mono);font-size:11px;letter-spacing:0.16em;color:var(--lime);text-transform:uppercase;font-weight:600}
+.case h3{font-family:var(--sans);font-weight:700;font-size:1.375rem;line-height:1.25;letter-spacing:-0.015em}
+.case h3 .zh{font-family:var(--sans-zh);font-weight:900}
+.case p{color:var(--ink-2);font-size:0.95rem;line-height:1.75}
+.case .metric-row{margin-top:auto;padding-top:14px;border-top:1px solid var(--line);display:flex;align-items:baseline;gap:14px;font-family:var(--mono);font-size:11px;letter-spacing:0.1em;color:var(--ink-4);text-transform:uppercase}
+.case .metric-row strong{font-family:var(--sans);font-weight:700;font-size:1.625rem;letter-spacing:-0.025em;color:var(--lime)}
+.case .metric-row strong small{font-size:13px;color:rgba(200,250,60,0.65);font-weight:500;letter-spacing:0}
+
+/* HOW (timeline) */
+.timeline{position:relative;display:grid;grid-template-columns:repeat(4,1fr)}
+.timeline::before{content:"";position:absolute;left:0;right:0;top:30px;height:1px;background:var(--line)}
+.timeline::after{content:"";position:absolute;left:0;top:30px;height:1px;width:0;background:var(--lime);box-shadow:0 0 12px var(--lime-glow);animation:fillBar 3s ease-out 0.5s both}
+@keyframes fillBar{0%{width:0}100%{width:100%}}
+@media(prefers-reduced-motion:reduce){.timeline::after{animation:none;width:100%}}
+.tl-step{padding:0 16px;display:flex;flex-direction:column;gap:14px;position:relative;z-index:2}
+.tl-step .marker{
+  width:60px;height:60px;background:var(--bg-1);border:2px solid var(--line);
+  font-family:var(--mono);font-size:18px;font-weight:600;color:var(--ink);
+  display:flex;align-items:center;justify-content:center;
+  border-radius:50%;
+  transition:border-color .25s,background .25s;
+}
+.tl-step:hover .marker{border-color:var(--lime);background:var(--lime);color:var(--bg)}
+.tl-step .meta{font-family:var(--mono);font-size:11px;letter-spacing:0.14em;color:var(--ink-3);text-transform:uppercase;margin-top:6px}
+.tl-step h4{font-family:var(--sans);font-weight:700;font-size:1.25rem;letter-spacing:-0.012em}
+.tl-step h4 .zh{font-family:var(--sans-zh);font-weight:900}
+.tl-step p{color:var(--ink-2);font-size:0.9rem;line-height:1.7}
+
+/* CTA */
+.cta-section{padding:var(--section-y) 0;position:relative;overflow:hidden;border-top:1px solid var(--line)}
+.cta-section::before{
+  content:"";position:absolute;
+  width:60vw;height:60vw;max-width:800px;max-height:800px;
+  right:-15vw;bottom:-30vw;
+  background:radial-gradient(circle, var(--lime-glow) 0%, transparent 60%);
+  pointer-events:none;opacity:0.55;
+}
+.cta-grid{display:grid;grid-template-columns:1.2fr 1fr;gap:80px;align-items:end;position:relative;z-index:1}
+.cta-section h2{font-family:var(--sans);font-weight:800;font-size:clamp(48px,6vw,96px);line-height:0.95;letter-spacing:-0.04em}
+.cta-section h2 .zh{font-family:var(--sans-zh);font-weight:900;letter-spacing:-0.012em}
+.cta-section p{margin-top:24px;color:var(--ink-2);max-width:520px;line-height:1.7}
+.cta-form{
+  background:var(--bg-1);border:1px solid var(--line);
+  padding:32px;display:flex;flex-direction:column;gap:18px;position:relative;
+}
+.cta-form::before{content:"";position:absolute;top:-1px;left:-1px;width:32px;height:32px;background:var(--lime);clip-path:polygon(0 0, 100% 0, 0 100%)}
+.cta-form label{font-family:var(--mono);font-size:11px;letter-spacing:0.16em;color:var(--ink-3);text-transform:uppercase;font-weight:600}
+.cta-form .row{display:flex;border:1px solid var(--line);background:var(--bg)}
+.cta-form input{flex:1;padding:15px 18px;background:transparent;border:none;outline:none;font:inherit;font-size:1rem;color:var(--ink)}
+.cta-form input::placeholder{color:var(--ink-3)}
+.cta-form input:focus{outline:1px solid var(--lime);outline-offset:-1px}
+.cta-form button{padding:15px 22px;background:var(--lime);color:var(--bg);font-family:var(--mono);font-size:12px;letter-spacing:0.12em;text-transform:uppercase;font-weight:700;transition:background .2s}
+.cta-form button:hover{background:var(--ink)}
+.cta-foot{font-family:var(--mono);font-size:11px;color:var(--ink-3);text-transform:uppercase;letter-spacing:0.1em}
+
+/* responsive */
+@media (max-width:1024px){
+  .product-grid{grid-template-columns:1fr}
+  .product-feat{border-right:none;border-bottom:1px solid var(--line)}
+  .cap-grid{grid-template-columns:1fr 1fr}
+  .timeline{grid-template-columns:1fr 1fr;gap:48px 0}
+  .timeline::before,.timeline::after{display:none}
+}
+@media (max-width:880px){
+  .hero h1{font-size:clamp(48px,11vw,96px)}
+  .ticker-strip{grid-template-columns:1fr 1fr}
+  .ticker-strip .ti:nth-child(2){border-right:none}
+  .why-grid{grid-template-columns:1fr;gap:24px}
+  .cap-grid{grid-template-columns:1fr}
+  .cases-grid{grid-template-columns:1fr}
+  .cta-grid{grid-template-columns:1fr;gap:40px;align-items:start}
+}
+</style>
+</head>
+<body>
+
+<!-- NAV -->
+<nav class="nav" id="nav">
+  <div class="wrap">
+    <a href="/" class="brand"><span class="brand-mark"></span><span>WeChaser</span></a>
+    <div class="nav-links">
+      <a href="/products/shiguangmailuo.html" data-zh>产品</a><a href="/products/shiguangmailuo.html" data-en>Product</a>
+      <a href="/cases/chaoxian.html" data-zh>案例</a><a href="/cases/chaoxian.html" data-en>Cases</a>
+      <a href="/tech.html" data-zh>技术</a><a href="/tech.html" data-en>Tech</a>
+      <a href="/about.html" data-zh>关于</a><a href="/about.html" data-en>About</a>
+    </div>
+    <div class="nav-tools">
+      <button class="lang-toggle" id="langToggle" aria-label="Switch language">
+        <span class="zh on">中</span><span class="en">EN</span>
+      </button>
+      <a href="#cta" class="btn"><span data-zh>预约演示</span><span data-en>Book a call</span><span class="arr">→</span></a>
+    </div>
+  </div>
+</nav>
+
+<!-- HERO -->
+<header class="section hero">
+  <div class="hero-bg"></div>
+  <div class="hero-grid"></div>
+  <div class="hero-dots"></div>
+
+  <div class="wrap hero-inner">
+    <div class="hero-status status-pill">
+      <span class="live"></span>
+      <span data-zh>已部署 · 1 家种子客户 · 534 节点 · 313 测试通过</span>
+      <span data-en>DEPLOYED · 1 SEED CLIENT · 534 NODES · 313 TESTS PASSED</span>
+    </div>
+
+    <div class="eyebrow"><span class="dot"></span><span data-zh>WECHASER · 企业 AI 中间件</span><span data-en>WECHASER · ENTERPRISE AI MIDDLEWARE</span></div>
+
+    <h1 style="margin-top:32px;">
+      <span data-zh class="zh">让 AI 工具，<br/>瞬间变得<span class="lime-box">懂你的企业</span>。</span>
+      <span data-en>Make every AI tool<br/><span class="lime-box">know your company</span>.</span>
+    </h1>
+
+    <p class="hero-sub">
+      <span data-zh>WeChaser 不做又一个聊天框。我们做企业 AI 生态的<strong style="color:var(--lime)">中间件</strong>——飞书 AI、钉钉 AI、ChatGPT、Claude 这些工具接上 WeChaser 后，瞬间拿到你企业的真实数据、工艺、客户档案、邮件历史。回答带引用，行动有边界，模型跑在你自己的 GPU 上。</span>
+      <span data-en>WeChaser is not another chatbot. We are the <strong style="color:var(--lime)">middleware</strong> for enterprise AI — Lark AI, DingTalk AI, ChatGPT, Claude all become instantly aware of your company's drawings, SOPs, customer records, and email history. Answers are cited. Actions stay inside permission. Models run on your own GPUs.</span>
+    </p>
+
+    <div class="hero-meta">
+      <a href="#cta" class="btn"><span data-zh>预约 30 分钟通话</span><span data-en>Book a 30-min call</span><span class="arr">→</span></a>
+      <a href="/products/shiguangmailuo.html" class="btn-ghost"><span data-zh>看时光脉络产品页</span><span data-en>See Shiguangmailuo</span><span class="arr">→</span></a>
+    </div>
+  </div>
+
+  <div class="scroll-cue"><span data-zh>滚动 / SCROLL</span><span data-en>SCROLL ↓</span></div>
+</header>
+
+<!-- TICKER STRIP -->
+<section class="ticker-strip">
+  <div class="ti"><div class="v"><span data-count="534">0</span></div><div class="l"><span data-zh>知识图谱节点 · </span><b>NEO4J</b></div></div>
+  <div class="ti"><div class="v"><span data-count="890">0</span></div><div class="l"><span data-zh>向量索引 · </span><b>QDRANT</b></div></div>
+  <div class="ti"><div class="v"><span data-count="313">0</span><small>/319</small></div><div class="l"><span data-zh>集成测试通过 · </span><b>98.1%</b></div></div>
+  <div class="ti"><div class="v"><span data-count="64000">0</span><small>+ LOC</small></div><div class="l"><span data-zh>核心代码量 · </span><b>PYTHON</b></div></div>
+</section>
+
+<!-- WHY -->
+<section class="section why" id="why">
+  <div class="wrap">
+    <div class="why-grid">
+      <div class="eyebrow" style="padding-top:14px"><span class="dot"></span>01 / <span data-zh>立场</span><span data-en>Position</span></div>
+      <div class="reveal">
+        <p data-zh>市面上最缺的不是又一个 AI 应用，而是<em>"让 AI 真正懂这家企业"的那一层中间件</em>。</p>
+        <p data-zh>ChatGPT、Claude、飞书 AI、钉钉 AI——它们是天才大脑，但对你的车间一无所知。我们做的事很专一：把企业的真实知识沉淀下来，做成所有 AI 工具都能调用的知识中枢。</p>
+        <p data-zh>不和 ChatGPT 抢用户。不卖花哨 UI。不做生成。只供原料——但原料工业级溯源，零幻觉。</p>
+
+        <p data-en>The thing the market is missing isn't another AI app. It's <em>the middleware layer that makes AI actually know this company</em>.</p>
+        <p data-en>ChatGPT, Claude, Lark AI, DingTalk AI — brilliant brains that know nothing about your shop floor. We do one specific thing: turn your real enterprise knowledge into a hub every AI tool can call.</p>
+        <p data-en>We don't compete with ChatGPT. We don't sell flashy UI. We don't generate. We supply raw material — industrial-grade, fully cited, zero hallucination.</p>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- FLAGSHIP PRODUCT -->
+<section class="section products-section">
+  <div class="wrap">
+    <div class="sect-head">
+      <div>
+        <div class="eyebrow"><span class="dot"></span>02 / <span data-zh>产品</span><span data-en>Product</span></div>
+        <h2 class="h-h2" style="margin-top:18px">
+          <span data-zh class="zh">三件事，<br/>一件干透。</span>
+          <span data-en>Three things,<br/>done thoroughly.</span>
+        </h2>
+      </div>
+      <div class="note">
+        <span data-zh>旗舰产品「时光脉络」是 WeChaser 的核心载体——把企业知识做成所有 AI 工具的中间件。</span>
+        <span data-en>Our flagship Shiguangmailuo carries the WeChaser thesis — enterprise knowledge as middleware for any AI tool.</span>
+      </div>
+    </div>
+
+    <div class="product-grid">
+      <div class="product-feat">
+        <span class="badge">FLAGSHIP</span>
+        <h3 class="h-h2"><span data-zh class="zh">时光脉络</span><span data-en>Shiguangmailuo</span></h3>
+        <p>
+          <span data-zh>企业 AI 中间件。把图纸、工艺、SOP、客户档案、邮件历史汇成一个有引用、可追溯的知识中枢。其他 AI 工具（飞书 AI / 钉钉 AI / Claude）通过 MCP / CLI / REST 调用——回答带溯源链接，文件原件留本地。</span>
+          <span data-en>Enterprise AI middleware. Drawings, SOPs, customer records, email — converged into a citation-backed knowledge hub. Other AI tools (Lark AI / DingTalk AI / Claude) call us via MCP / CLI / REST. Answers are sourced. File originals stay local.</span>
+        </p>
+        <div class="stats">
+          <div class="stat-item">
+            <div class="v">534<small>·N</small></div>
+            <div class="l"><span data-zh>图谱节点</span><span data-en>Graph nodes</span></div>
+          </div>
+          <div class="stat-item">
+            <div class="v">890<small>·V</small></div>
+            <div class="l"><span data-zh>向量索引</span><span data-en>Vectors</span></div>
+          </div>
+          <div class="stat-item">
+            <div class="v">100<small>·%</small></div>
+            <div class="l"><span data-zh>溯源率</span><span data-en>Citation rate</span></div>
+          </div>
+        </div>
+        <a href="/products/shiguangmailuo.html" class="arrow-link">
+          <span data-zh>看产品详情</span><span data-en>Product detail</span>
+          <span class="arr">→</span>
+        </a>
+      </div>
+
+      <div class="product-side">
+        <div>
+          <div class="ps-meta">02.A / <b>SERVICE</b></div>
+          <h4><span data-zh class="zh">咨询服务</span><span data-en>Consulting</span></h4>
+          <p data-zh>用 AI 复刻麦肯锡级方法论给中小企业。陪跑顾问，交付业务流程梳理 + AI 转型路线图。</p>
+          <p data-en>McKinsey-grade methodology, AI-leveraged, for mid-market. Hands-on advisory: workflow audit + AI transformation roadmap.</p>
+          <span class="ps-link"><span data-zh>了解</span><span data-en>Learn</span> →</span>
+        </div>
+        <div>
+          <div class="ps-meta">02.B / <b>INTEGRATION</b></div>
+          <h4><span data-zh class="zh">飞书 / 钉钉接入</span><span data-en>Lark / DingTalk</span></h4>
+          <p data-zh>把知识中枢直接接到员工每天用的协作工具，不要求换工具。原生 Bot SDK + Hermes Gateway。</p>
+          <p data-en>Plug the knowledge hub directly into the tools people already use — no migration. Native Bot SDK + Hermes Gateway.</p>
+          <span class="ps-link"><span data-zh>查看</span><span data-en>See</span> →</span>
+        </div>
+        <div>
+          <div class="ps-meta">02.C / <b>OPS</b></div>
+          <h4><span data-zh class="zh">文档整理伴生服务</span><span data-en>Document ops</span></h4>
+          <p data-zh>AI 协助把 PDF / Word / 扫描件 / Excel / PPT 整理成标准格式 + 内容纠错 + 入库。</p>
+          <p data-en>AI-assisted: PDFs, Word, scans, Excel, PPT — converted to clean structured format with content QA, ready to ingest.</p>
+          <span class="ps-link"><span data-zh>了解</span><span data-en>Learn</span> →</span>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- THREE CAPABILITIES -->
+<section class="section">
+  <div class="wrap">
+    <div class="sect-head">
+      <div>
+        <div class="eyebrow"><span class="dot"></span>03 / <span data-zh>核心能力</span><span data-en>Capabilities</span></div>
+        <h2 class="h-h2" style="margin-top:18px">
+          <span data-zh class="zh">不堆功能。<br/>三件事，每件做到工业级。</span>
+          <span data-en>No feature soup.<br/>Three things, each at industrial grade.</span>
+        </h2>
+      </div>
+    </div>
+
+    <div class="cap-grid">
+      <article class="cap-card reveal">
+        <svg class="cap-icon" viewBox="0 0 32 32" fill="none" stroke="currentColor" stroke-width="1.5"><rect x="3" y="3" width="10" height="10"/><rect x="19" y="3" width="10" height="10"/><rect x="3" y="19" width="10" height="10"/><rect x="19" y="19" width="10" height="10"/><line x1="13" y1="8" x2="19" y2="8"/><line x1="8" y1="13" x2="8" y2="19"/><line x1="24" y1="13" x2="24" y2="19"/><line x1="13" y1="24" x2="19" y2="24"/></svg>
+        <div class="num">01 / DECOMPOSE</div>
+        <h3><span data-zh class="zh">分析拆解</span><span data-en>Decompose</span></h3>
+        <p data-zh>把"X 产品支持哪些接口、用了什么芯片、有没有兼容问题"这种<strong>复合问题</strong>拆成可查询的子问题，分别走不同检索路径。</p>
+        <p data-en>Compound questions like "what interfaces does product X support, which chip, and any compat issues" get <strong>decomposed</strong> into atomic sub-queries, each routed to the right retrieval path.</p>
+        <div class="cap-meta">query_expander.py + solution_reflect</div>
+      </article>
+
+      <article class="cap-card reveal">
+        <svg class="cap-icon" viewBox="0 0 32 32" fill="none" stroke="currentColor" stroke-width="1.5"><circle cx="14" cy="14" r="9"/><line x1="22" y1="22" x2="28" y2="28" stroke-linecap="round"/><circle cx="14" cy="14" r="3" fill="currentColor" opacity="0.4"/></svg>
+        <div class="num">02 / RETRIEVE</div>
+        <h3><span data-zh class="zh">准确查询</span><span data-en>Retrieve</span></h3>
+        <p data-zh>在<strong>向量库 + 知识图谱 + 全文索引</strong>三路混合检索 + RRF 融合 + MMR 多样性 + BGE Reranker 精排。不是关键词搜索，是工业级语义检索。</p>
+        <p data-en>Hybrid retrieval across <strong>vector store + knowledge graph + full-text index</strong> + RRF fusion + MMR diversity + BGE Reranker. Not keyword search — industrial semantic recall.</p>
+        <div class="cap-meta">hybrid_retriever.py + Qdrant + Neo4j</div>
+      </article>
+
+      <article class="cap-card reveal">
+        <svg class="cap-icon" viewBox="0 0 32 32" fill="none" stroke="currentColor" stroke-width="1.5"><path d="M5 5h22v22H5z"/><line x1="5" y1="11" x2="27" y2="11"/><line x1="11" y1="11" x2="11" y2="27"/><circle cx="19" cy="19" r="2.5" fill="currentColor"/></svg>
+        <div class="num">03 / GROUND</div>
+        <h3><span data-zh class="zh">准确理解</span><span data-en>Ground</span></h3>
+        <p data-zh>检索片段去重、矛盾标识、置信度打分，组装成<strong>结构化原料</strong>给调用方。每条原料都有溯源链接，工业级 grounded RAG，零容忍幻觉。</p>
+        <p data-en>Deduplication, conflict flagging, confidence scoring — assembled into <strong>structured material</strong> for the calling agent. Every fact carries a citation. Industrial-grade grounded RAG, zero-tolerance for hallucination.</p>
+        <div class="cap-meta">100% citation · zero hallucination</div>
+      </article>
+    </div>
+  </div>
+</section>
+
+<!-- USE CASES -->
+<section class="section" style="background:var(--bg-1);border-top:1px solid var(--line);border-bottom:1px solid var(--line)">
+  <div class="wrap">
+    <div class="sect-head">
+      <div>
+        <div class="eyebrow"><span class="dot"></span>04 / <span data-zh>真实场景</span><span data-en>Real situations</span></div>
+        <h2 class="h-h2" style="margin-top:18px">
+          <span data-zh class="zh">四个我们真的<br/>解决过的问题。</span>
+          <span data-en>Four problems<br/>we have actually solved.</span>
+        </h2>
+      </div>
+      <div class="note">
+        <span data-zh>来自超弦科技（湖南长沙铁路机车控制系统硬件公司）一个月真实落地数据。</span>
+        <span data-en>From one month of real deployment at Chaostring Tech — a Changsha-based railway locomotive electronics manufacturer.</span>
+      </div>
+    </div>
+
+    <div class="cases-grid">
+      <article class="case reveal">
+        <div class="case-tag">A · <span data-zh>知识传承</span><span data-en>Tacit knowledge</span></div>
+        <h3><span data-zh class="zh">老工程师下个月退休。</span><span data-en>The senior engineer retires next month.</span></h3>
+        <p data-zh>23 年经验工艺师即将离开。半年的对话采集 + 历史方案归档，他的判断逻辑沉淀进 AI。年轻工程师在飞书提问，能拿到他口吻的回答，附引用。</p>
+        <p data-en>A process engineer with 23 years of pattern-matching is leaving. Six months of recorded conversations + archived decisions distilled into the model. Junior engineers ask in his voice — every answer cited.</p>
+        <div class="metric-row"><strong>23<small>YR</small></strong> <span data-zh>判断逻辑沉淀</span><span data-en>captured</span></div>
+      </article>
+
+      <article class="case reveal">
+        <div class="case-tag">B · <span data-zh>销售响应</span><span data-en>Sales response</span></div>
+        <h3><span data-zh class="zh">"这个能不能做？"</span><span data-en>"Can you make this?"</span></h3>
+        <p data-zh>RFQ 落到销售飞书。AI 副驾即时拉历史相似订单 + 产能现状 + 原材料行情，给出可承诺的价格区间和交期。</p>
+        <p data-en>An RFQ lands. The copilot pulls past orders, current capacity, raw-material indices, proposes a defensible price band with lead time.</p>
+        <div class="metric-row"><strong>24h → 3<small>MIN</small></strong> <span data-zh>响应时间</span><span data-en>response time</span></div>
+      </article>
+
+      <article class="case reveal">
+        <div class="case-tag">C · <span data-zh>工艺合规</span><span data-en>SOP usage</span></div>
+        <h3><span data-zh class="zh">100 页 SOP 没人读。</span><span data-en>Nobody reads the 100-page SOP.</span></h3>
+        <p data-zh>员工只问"换型号要不要清线"。AI 给出该型号具体清线步骤 + 上次违规事故时间线，每条都点回原始 SOP 段落。</p>
+        <p data-en>The actual question: "do we flush the line for this changeover?" The copilot returns exact procedure for this part number + last incident timeline, citing SOP paragraphs by section.</p>
+        <div class="metric-row"><strong>×7</strong> <span data-zh>SOP 实际使用率</span><span data-en>SOP usage lift</span></div>
+      </article>
+
+      <article class="case reveal">
+        <div class="case-tag">D · <span data-zh>邮件考古</span><span data-en>Email archaeology</span></div>
+        <h3><span data-zh class="zh">三个月前那封邮件。</span><span data-en>That email, three months ago.</span></h3>
+        <p data-zh>客户在某封邮件里提过一个变更要求，今天没人记得在哪。AI 跨邮箱、跨人员检索，3 秒钟把上下文还原，附原邮件链接。</p>
+        <p data-en>A customer mentioned a change request in some email weeks ago. The copilot searches across mailboxes and people, restoring the thread with original-message links in seconds.</p>
+        <div class="metric-row"><strong>3<small>S</small></strong> <span data-zh>跨邮箱上下文还原</span><span data-en>cross-mailbox recall</span></div>
+      </article>
+    </div>
+
+    <div style="margin-top:48px;text-align:center">
+      <a href="/cases/chaoxian.html" class="btn-link"><span data-zh>看完整案例 · 超弦科技</span><span data-en>Full case · Chaostring Tech</span> →</a>
+    </div>
+  </div>
+</section>
+
+<!-- HOW IT WORKS -->
+<section class="section">
+  <div class="wrap">
+    <div class="sect-head">
+      <div>
+        <div class="eyebrow"><span class="dot"></span>05 / <span data-zh>路径</span><span data-en>How it works</span></div>
+        <h2 class="h-h2" style="margin-top:18px">
+          <span data-zh class="zh">不卖工具，<br/>陪你跑完一段。</span>
+          <span data-en>We don't sell a tool.<br/>We run the loop with you.</span>
+        </h2>
+      </div>
+      <div class="note">
+        <span data-zh>典型周期 12 周。第一阶段不收费，先做完调研判断有没有真问题。</span>
+        <span data-en>Typical cycle: 12 weeks. Phase one is free — we look at the problem before we charge to solve it.</span>
+      </div>
+    </div>
+
+    <div class="timeline">
+      <div class="tl-step reveal">
+        <div class="marker">01</div>
+        <div class="meta"><span data-zh>2 周 · 免费</span><span data-en>2 weeks · free</span></div>
+        <h4><span data-zh class="zh">调研</span><span data-en>Discovery</span></h4>
+        <p data-zh>上门盘点知识资产。识别 3 条最高价值的业务流程，给出可行性评估表。</p>
+        <p data-en>On-site audit of knowledge assets. We identify the top 3 highest-leverage workflows and produce a feasibility checklist.</p>
+      </div>
+      <div class="tl-step reveal">
+        <div class="marker">02</div>
+        <div class="meta"><span data-zh>4 周</span><span data-en>4 weeks</span></div>
+        <h4><span data-zh class="zh">接入</span><span data-en>Integration</span></h4>
+        <p data-zh>数据管道 + 权限映射 + 模型选型。只接必要源，不大而全。</p>
+        <p data-en>Data pipelines, permission mapping, model selection. We connect only what's needed — never everything.</p>
+      </div>
+      <div class="tl-step reveal">
+        <div class="marker">03</div>
+        <div class="meta"><span data-zh>6 周</span><span data-en>6 weeks</span></div>
+        <h4><span data-zh class="zh">试点</span><span data-en>Pilot</span></h4>
+        <p data-zh>选一条业务线先跑。明确 ROI 指标，每周复盘到员工真在用为止。</p>
+        <p data-en>One business line, end to end. ROI metrics fixed up front; weekly reviews until adoption is real.</p>
+      </div>
+      <div class="tl-step reveal">
+        <div class="marker">04</div>
+        <div class="meta"><span data-zh>持续</span><span data-en>Ongoing</span></div>
+        <h4><span data-zh class="zh">推广</span><span data-en>Rollout</span></h4>
+        <p data-zh>试点模板复用到其他业务线。我们留一个驻场工程师，直到你内部接管。</p>
+        <p data-en>Replicate the template to neighbouring lines. One engineer stays on-site until your team owns it.</p>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- CTA -->
+<section class="cta-section" id="cta">
+  <div class="wrap">
+    <div class="cta-grid">
+      <div>
+        <div class="eyebrow"><span class="dot"></span>06 / <span data-zh>下一步</span><span data-en>Next</span></div>
+        <h2 style="margin-top:18px">
+          <span data-zh class="zh">30 分钟，<br/>看看你的<br/><span class="lime-box">真问题</span> 值不值得动。</span>
+          <span data-en>Thirty minutes.<br/>Let's see if your<br/><span class="lime-box">actual problem</span> is worth solving.</span>
+        </h2>
+        <p>
+          <span data-zh>留个邮箱，我们带着行业案例、可行性评估表、最小试点报价上门。第一阶段不收费。</span>
+          <span data-en>Drop your email. We come with industry cases, a feasibility checklist, and the smallest possible pilot quote. Phase one is free.</span>
+        </p>
+      </div>
+
+      <form class="cta-form" onsubmit="event.preventDefault();const b=this.querySelector('button');b.textContent='✓ RECEIVED';b.style.background='var(--ink)';b.style.color='var(--lime)';">
+        <label data-zh>工作邮箱</label>
+        <label data-en>Work email</label>
+        <div class="row">
+          <input type="email" required placeholder="name@company.com" />
+          <button type="submit"><span data-zh>预约</span><span data-en>Submit</span></button>
+        </div>
+        <div class="cta-foot">
+          <span data-zh>1 个工作日内回邮件 / 不发市场推送</span>
+          <span data-en>REPLY ≤1 BUSINESS DAY · NO MARKETING LIST</span>
+        </div>
+      </form>
+    </div>
+  </div>
+</section>
+
+<!-- FOOTER -->
+<footer>
+  <div class="wrap">
+    <div class="footer-grid">
+      <div class="footer-brand">
+        <div style="display:flex;align-items:center;gap:12px">
+          <span class="brand-mark" style="width:32px;height:32px"></span>
+          <div style="font-family:var(--sans);font-weight:700;font-size:18px;letter-spacing:-0.02em">WeChaser</div>
+        </div>
+        <p>
+          <span data-zh>企业 AI 中间件<br/>长沙 · 上海 · 海外</span>
+          <span data-en>Enterprise AI middleware<br/>Changsha · Shanghai · International</span>
+        </p>
+      </div>
+      <div class="footer-cols">
+        <div class="footer-col">
+          <div class="col-head" data-zh>产品</div><div class="col-head" data-en>Product</div>
+          <a href="/products/shiguangmailuo.html"><span data-zh>时光脉络</span><span data-en>Shiguangmailuo</span></a>
+          <a href="/products/shiguangmailuo.html#capabilities"><span data-zh>三大能力</span><span data-en>Capabilities</span></a>
+          <a href="/products/shiguangmailuo.html#integration"><span data-zh>调用方式</span><span data-en>Integration</span></a>
+        </div>
+        <div class="footer-col">
+          <div class="col-head" data-zh>资源</div><div class="col-head" data-en>Resources</div>
+          <a href="/cases/chaoxian.html"><span data-zh>超弦科技案例</span><span data-en>Chaostring Tech</span></a>
+          <a href="/tech.html"><span data-zh>技术架构</span><span data-en>Architecture</span></a>
+          <a href="/about.html"><span data-zh>关于我们</span><span data-en>About</span></a>
+        </div>
+        <div class="footer-col">
+          <div class="col-head" data-zh>联系</div><div class="col-head" data-en>Contact</div>
+          <a href="mailto:hello@wechaser.ai">hello@wechaser.ai</a>
+          <a href="#cta"><span data-zh>预约演示</span><span data-en>Book a call</span></a>
+        </div>
+      </div>
+    </div>
+    <div class="footer-bottom">
+      <div>© 2026 WeChaser LLC · <span data-zh>务实 AI 赋能</span><span data-en>Pragmatic AI enablement</span></div>
+      <div>EST. 2025 · BUILT WITH 工艺</div>
+    </div>
+  </div>
+</footer>
+
+<script src="js/site.js"></script>
+</body>
+</html>

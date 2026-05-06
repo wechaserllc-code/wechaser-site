@@ -1,0 +1,992 @@
+<!doctype html>
+<html lang="zh-CN">
+<head>
+<meta charset="utf-8" />
+<meta name="viewport" content="width=device-width,initial-scale=1" />
+<title>WeChaser · 制造企业的 AI 知识中枢</title>
+<meta name="description" content="WeChaser 为制造企业部署能用的 AI 知识中枢。把图纸、工艺、邮件、经验秒级可调。每位员工拥有专属 AI 副驾——回答带引用，行动有边界。" />
+<link rel="icon" type="image/svg+xml" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 64 64'%3E%3Crect width='64' height='64' fill='%230A0A0A'/%3E%3Crect x='12' y='12' width='40' height='40' fill='%23C8F833'/%3E%3C/svg%3E" />
+<link rel="preconnect" href="https://fonts.googleapis.com" />
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+<link href="https://fonts.googleapis.com/css2?family=Inter+Tight:wght@400;500;600;700;800&family=Inter:wght@400;500;600&family=Noto+Sans+SC:wght@400;500;700;900&family=JetBrains+Mono:wght@400;500;600&display=swap" rel="stylesheet" />
+<style>
+:root{
+  --bg:#F4F4EE;
+  --bg-soft:#ECECE5;
+  --bg-card:#FFFFFF;
+  --ink:#0A0A0A;
+  --ink-soft:#3D3D3A;
+  --ink-mute:#7E7E78;
+  --line:#D8D8D0;
+  --line-soft:#E6E6DE;
+  --lime:#C8F833;
+  --lime-deep:#9CC72B;
+  --lime-glow:rgba(200,248,51,.45);
+  --night:#0A0A0A;
+  --night-soft:#171716;
+
+  --max:1320px;
+  --gutter:32px;
+
+  --sans:"Inter Tight","Inter","Noto Sans SC",ui-sans-serif,system-ui,sans-serif;
+  --sans-zh:"Noto Sans SC","Inter Tight",ui-sans-serif,sans-serif;
+  --mono:"JetBrains Mono",ui-monospace,monospace;
+
+  --t-display:clamp(64px,9vw,140px);
+  --t-h2:clamp(40px,5vw,72px);
+  --t-h3:clamp(24px,2.4vw,36px);
+  --t-lead:1.25rem;
+  --t-body:1.0625rem;
+  --t-small:0.875rem;
+  --t-mono:0.75rem;
+
+  --section-y:clamp(96px,11vw,160px);
+}
+*,*::before,*::after{box-sizing:border-box;margin:0;padding:0}
+html{scroll-behavior:smooth;-webkit-text-size-adjust:100%}
+body{
+  background:var(--bg);
+  color:var(--ink);
+  font-family:var(--sans-zh);
+  font-size:var(--t-body);
+  line-height:1.7;
+  font-feature-settings:"kern","ss01";
+  text-rendering:optimizeLegibility;
+  -webkit-font-smoothing:antialiased;
+  overflow-x:hidden;
+}
+img,svg{display:block;max-width:100%}
+a{color:inherit;text-decoration:none}
+button{font:inherit;color:inherit;background:none;border:none;cursor:pointer}
+
+[data-en]{display:none}
+body.lang-en [data-zh]{display:none}
+body.lang-en [data-en]{display:revert}
+body.lang-en{font-family:var(--sans)}
+
+.wrap{max-width:var(--max);margin:0 auto;padding:0 var(--gutter)}
+.section{padding:var(--section-y) 0;position:relative}
+
+/* mono caption */
+.eyebrow{
+  display:inline-flex;align-items:center;gap:8px;
+  font-family:var(--mono);
+  font-size:var(--t-mono);
+  font-weight:500;
+  letter-spacing:0.16em;
+  text-transform:uppercase;
+  color:var(--ink-mute);
+}
+.eyebrow .dot{
+  width:6px;height:6px;background:var(--lime);
+  border-radius:50%;
+  box-shadow:0 0 10px var(--lime-glow);
+  animation:pulse 2s ease-in-out infinite;
+}
+@keyframes pulse{0%,100%{opacity:1;transform:scale(1)}50%{opacity:.55;transform:scale(.85)}}
+
+/* NAV */
+.nav{
+  position:sticky;top:0;z-index:50;
+  background:color-mix(in oklch, var(--bg) 78%, transparent);
+  backdrop-filter:saturate(160%) blur(12px);
+  -webkit-backdrop-filter:saturate(160%) blur(12px);
+  border-bottom:1px solid transparent;
+  transition:border-color .25s,background .25s;
+}
+.nav.scrolled{border-bottom-color:var(--line-soft)}
+.nav .wrap{display:flex;align-items:center;justify-content:space-between;padding:18px var(--gutter)}
+.brand{display:flex;align-items:center;gap:12px;font-family:var(--sans);font-weight:700;letter-spacing:-0.02em;font-size:18px}
+.brand-mark{width:28px;height:28px;background:var(--ink);position:relative;flex:none}
+.brand-mark::before{content:"";position:absolute;inset:6px;background:var(--lime)}
+.nav-links{display:flex;gap:36px;font-size:14px;color:var(--ink-soft);font-weight:500}
+.nav-links a{position:relative;transition:color .2s}
+.nav-links a:hover{color:var(--ink)}
+.nav-links a::after{content:"";position:absolute;left:0;right:100%;bottom:-6px;height:2px;background:var(--lime);transition:right .25s ease}
+.nav-links a:hover::after{right:0}
+.nav-tools{display:flex;align-items:center;gap:16px}
+.lang-toggle{
+  font-family:var(--mono);font-size:11px;letter-spacing:0.1em;font-weight:600;
+  display:inline-flex;align-items:center;border:1px solid var(--line);
+  background:var(--bg);
+  border-radius:999px;overflow:hidden;
+}
+.lang-toggle span{padding:7px 12px;color:var(--ink-mute);transition:color .2s,background .2s}
+.lang-toggle span.on{color:var(--ink);background:var(--lime)}
+
+.cta-btn{
+  display:inline-flex;align-items:center;gap:10px;
+  padding:12px 22px;
+  background:var(--ink);color:var(--bg);
+  font-size:13px;font-weight:600;letter-spacing:0.01em;
+  border-radius:999px;
+  transition:transform .25s,box-shadow .25s;
+  position:relative;overflow:hidden;
+  white-space:nowrap;
+}
+.cta-btn::before{
+  content:"";position:absolute;inset:0;background:var(--lime);
+  transform:translateX(-101%);transition:transform .35s cubic-bezier(.7,0,.3,1);
+}
+.cta-btn span,.cta-btn .arr{position:relative;z-index:1;transition:color .25s}
+.cta-btn:hover{transform:translateY(-1px);box-shadow:0 8px 24px -8px rgba(10,10,10,.25)}
+.cta-btn:hover::before{transform:translateX(0)}
+.cta-btn:hover span,.cta-btn:hover .arr{color:var(--ink)}
+.cta-btn .arr{display:inline-block;transition:transform .25s,color .25s}
+.cta-btn:hover .arr{transform:translateX(4px)}
+
+.cta-ghost{
+  display:inline-flex;align-items:center;gap:8px;
+  padding:12px 0;font-size:14px;font-weight:500;color:var(--ink);
+}
+.cta-ghost .arr{transition:transform .25s}
+.cta-ghost:hover .arr{transform:translateX(4px)}
+
+/* HERO */
+.hero{
+  position:relative;
+  padding:80px 0 100px;
+  min-height:92vh;
+  display:flex;flex-direction:column;justify-content:center;
+  overflow:hidden;
+}
+.hero-dots{
+  position:absolute;inset:0;pointer-events:none;z-index:0;
+  background-image:radial-gradient(circle, rgba(10,10,10,0.18) 1.5px, transparent 1.6px);
+  background-size:34px 34px;
+  background-position:0 0;
+  mask-image:radial-gradient(ellipse 75% 70% at 50% 50%, #000 30%, transparent 80%);
+  -webkit-mask-image:radial-gradient(ellipse 75% 70% at 50% 50%, #000 30%, transparent 80%);
+  animation:driftDots 22s linear infinite;
+}
+@keyframes driftDots{
+  0%{background-position:0 0}
+  100%{background-position:34px 34px}
+}
+@media(prefers-reduced-motion:reduce){.hero-dots{animation:none}}
+
+.hero-glow{
+  position:absolute;
+  width:60vw;height:60vw;max-width:900px;max-height:900px;
+  left:50%;top:30%;transform:translate(-50%,-50%);
+  background:radial-gradient(circle, var(--lime-glow) 0%, transparent 60%);
+  filter:blur(40px);
+  opacity:.7;
+  pointer-events:none;z-index:0;
+}
+
+.hero-status{
+  position:absolute;top:96px;right:max(40px,calc((100vw - var(--max))/2 + 40px));
+  display:inline-flex;align-items:center;gap:10px;
+  padding:8px 14px;
+  background:var(--bg-card);
+  border:1px solid var(--line);
+  border-radius:999px;
+  font-family:var(--mono);font-size:11px;letter-spacing:0.1em;font-weight:500;
+  color:var(--ink-soft);
+  z-index:2;
+}
+.hero-status .live{
+  width:8px;height:8px;background:var(--lime-deep);border-radius:50%;
+  box-shadow:0 0 0 4px var(--lime-glow);
+  animation:pulse 1.6s ease-in-out infinite;
+}
+
+.hero-inner{position:relative;z-index:1;width:100%}
+
+.hero h1{
+  font-size:var(--t-display);
+  font-weight:800;
+  letter-spacing:-0.035em;
+  line-height:0.95;
+  font-family:var(--sans);
+  max-width:1180px;
+}
+.hero h1 .zh{font-family:var(--sans-zh);font-weight:900;letter-spacing:-0.01em}
+body.lang-en .hero h1{font-weight:800}
+
+.hero h1 .rotator{
+  display:inline-block;
+  padding:0.04em 0.22em 0.08em;
+  background:var(--lime);
+  color:var(--ink);
+  border-radius:10px;
+  vertical-align:baseline;
+  line-height:1;
+  position:relative;
+  min-width:2.4em;
+  text-align:center;
+  box-shadow:0 4px 18px -6px rgba(200,248,51,.55);
+}
+.hero h1 .rotator em{
+  font-style:normal;
+  display:inline-block;
+  transition:opacity .28s ease,transform .28s ease;
+}
+.hero h1 .rotator.flipping em{
+  opacity:0;
+  transform:translateY(-10px);
+}
+
+.hero-sub{
+  margin-top:36px;
+  max-width:680px;
+  font-size:var(--t-lead);
+  color:var(--ink-soft);
+  line-height:1.65;
+  font-weight:400;
+}
+
+.hero-cta{margin-top:48px;display:flex;gap:24px;align-items:center;flex-wrap:wrap}
+
+/* hero ticker */
+.ticker{
+  margin-top:80px;
+  display:grid;grid-template-columns:repeat(4,1fr);gap:0;
+  border:1px solid var(--line);border-right:none;
+  background:var(--bg-card);
+  position:relative;z-index:1;
+}
+.ticker-item{
+  padding:24px 28px;
+  display:flex;flex-direction:column;gap:6px;
+  border-right:1px solid var(--line);
+  position:relative;
+  transition:background .25s;
+}
+.ticker-item:hover{background:var(--bg-soft)}
+.ticker-item .num{
+  font-family:var(--sans);font-weight:700;font-size:36px;letter-spacing:-0.025em;
+  display:flex;align-items:baseline;gap:4px;
+}
+.ticker-item .num small{font-size:14px;font-weight:500;color:var(--ink-mute);letter-spacing:0}
+.ticker-item .num .lime-dot{width:6px;height:6px;background:var(--lime);border-radius:50%;align-self:center;margin-left:4px}
+.ticker-item .lab{font-family:var(--mono);font-size:11px;letter-spacing:0.12em;color:var(--ink-mute);text-transform:uppercase}
+
+/* WHY */
+.why{padding-top:120px;padding-bottom:120px;border-top:1px solid var(--line-soft);border-bottom:1px solid var(--line-soft)}
+.why-head{display:grid;grid-template-columns:200px 1fr;gap:80px;align-items:start}
+.why-body p{
+  font-size:1.625rem;
+  line-height:1.55;
+  color:var(--ink);
+  font-weight:500;
+  letter-spacing:-0.005em;
+  max-width:920px;
+}
+.why-body p + p{margin-top:24px;color:var(--ink-soft);font-weight:400}
+.why-body em{font-style:normal;background:var(--lime);padding:0 8px;color:var(--ink);border-radius:4px;font-weight:600}
+
+/* CAPABILITY */
+.cap-head{margin-bottom:72px;display:flex;justify-content:space-between;align-items:end;gap:48px;flex-wrap:wrap}
+.cap-head h2{font-size:var(--t-h2);font-weight:800;letter-spacing:-0.03em;line-height:1.05;max-width:820px;font-family:var(--sans)}
+.cap-head h2 .zh{font-family:var(--sans-zh);font-weight:900;letter-spacing:-0.01em}
+.cap-head .cap-note{max-width:300px;color:var(--ink-soft);font-size:0.95rem;line-height:1.7}
+
+.cap-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:20px}
+.cap-card{
+  background:var(--bg-card);
+  border:1px solid var(--line);
+  padding:32px 28px 36px;
+  position:relative;
+  display:flex;flex-direction:column;gap:18px;
+  min-height:380px;
+  transition:transform .35s cubic-bezier(.2,.8,.2,1),box-shadow .35s,border-color .25s;
+  overflow:hidden;
+}
+.cap-card::before{
+  content:"";position:absolute;top:0;right:0;width:48px;height:48px;
+  background:var(--ink);
+  clip-path:polygon(100% 0, 0 0, 100% 100%);
+  transition:background .3s,transform .3s;
+}
+.cap-card::after{
+  content:"";position:absolute;left:0;right:0;bottom:0;height:3px;
+  background:var(--lime);
+  transform:scaleX(0);transform-origin:left;
+  transition:transform .4s cubic-bezier(.2,.8,.2,1);
+}
+.cap-card:hover{transform:translateY(-4px);box-shadow:0 24px 48px -16px rgba(10,10,10,.12);border-color:var(--ink)}
+.cap-card:hover::before{background:var(--lime)}
+.cap-card:hover::after{transform:scaleX(1)}
+.cap-card .cap-num{font-family:var(--mono);font-size:12px;font-weight:600;color:var(--ink-mute);letter-spacing:0.16em}
+.cap-card h3{font-size:1.625rem;font-weight:700;letter-spacing:-0.018em;line-height:1.2;font-family:var(--sans)}
+.cap-card h3 .zh{font-family:var(--sans-zh);font-weight:900;letter-spacing:-0.005em}
+.cap-card p{color:var(--ink-soft);font-size:0.975rem;line-height:1.75}
+.cap-card p strong{color:var(--ink);font-weight:600;background:linear-gradient(180deg,transparent 60%,var(--lime) 60%);padding:0 2px}
+.cap-card .cap-meta{margin-top:auto;padding-top:16px;display:flex;align-items:center;gap:8px;font-family:var(--mono);font-size:11px;letter-spacing:0.1em;color:var(--ink-mute);text-transform:uppercase}
+.cap-card .cap-meta .arr{transition:transform .25s,color .25s}
+.cap-card:hover .cap-meta .arr{transform:translateX(6px);color:var(--ink)}
+
+/* USE CASES */
+.cases{background:var(--ink);color:var(--bg);position:relative;overflow:hidden}
+.cases::before{
+  content:"";position:absolute;inset:0;
+  background-image:
+    linear-gradient(to right, rgba(255,255,255,0.04) 1px, transparent 1px),
+    linear-gradient(to bottom, rgba(255,255,255,0.04) 1px, transparent 1px);
+  background-size:64px 64px;
+  pointer-events:none;
+}
+.cases .wrap{position:relative;z-index:1}
+.cases .eyebrow{color:rgba(244,244,238,.5)}
+.cases .eyebrow .dot{background:var(--lime)}
+.cases-head{margin-bottom:64px;display:flex;justify-content:space-between;align-items:end;gap:48px;flex-wrap:wrap}
+.cases-head h2{font-size:var(--t-h2);font-weight:800;letter-spacing:-0.03em;line-height:1.05;max-width:780px;color:var(--bg);font-family:var(--sans)}
+.cases-head h2 .zh{font-family:var(--sans-zh);font-weight:900;letter-spacing:-0.01em}
+
+.case-grid{display:grid;grid-template-columns:1fr 1fr;gap:20px}
+.case{
+  background:var(--night-soft);
+  border:1px solid rgba(255,255,255,0.08);
+  padding:36px 32px;
+  display:flex;flex-direction:column;gap:18px;min-height:360px;
+  position:relative;overflow:hidden;
+  transition:border-color .3s,background .3s;
+}
+.case:hover{border-color:var(--lime);background:rgba(200,248,51,0.04)}
+.case .case-tag{
+  display:inline-flex;align-items:center;gap:8px;
+  font-family:var(--mono);font-size:11px;letter-spacing:0.12em;color:var(--lime);text-transform:uppercase;font-weight:600;
+}
+.case h3{font-family:var(--sans);font-weight:700;font-size:1.5rem;line-height:1.25;letter-spacing:-0.018em;color:var(--bg)}
+.case h3 .zh{font-family:var(--sans-zh);font-weight:900;letter-spacing:-0.005em}
+.case p{color:rgba(244,244,238,.7);line-height:1.75;font-size:0.975rem}
+.case .metric{
+  margin-top:auto;padding-top:18px;
+  display:flex;align-items:baseline;gap:14px;
+  border-top:1px solid rgba(255,255,255,0.08);
+  font-family:var(--mono);font-size:11px;letter-spacing:0.1em;color:rgba(244,244,238,.45);text-transform:uppercase;
+}
+.case .metric strong{
+  font-family:var(--sans);font-weight:700;font-size:1.875rem;color:var(--lime);letter-spacing:-0.025em;
+  display:inline-flex;align-items:baseline;gap:2px;
+}
+.case .metric strong small{font-size:14px;color:rgba(200,248,51,.6);letter-spacing:0;font-weight:500}
+.case .arrow{
+  position:absolute;top:32px;right:32px;
+  width:18px;height:18px;
+  color:rgba(255,255,255,0.2);
+  transition:transform .3s,color .3s;
+}
+.case:hover .arrow{color:var(--lime);transform:translate(3px,-3px)}
+
+/* HOW (horizontal stepper) */
+.how{padding-top:140px;padding-bottom:140px}
+.how-head{margin-bottom:80px;display:flex;justify-content:space-between;align-items:end;gap:48px;flex-wrap:wrap}
+.how-head h2{font-size:var(--t-h2);font-weight:800;letter-spacing:-0.03em;line-height:1.05;max-width:660px;font-family:var(--sans)}
+.how-head h2 .zh{font-family:var(--sans-zh);font-weight:900;letter-spacing:-0.01em}
+.how-head .how-note{max-width:380px;color:var(--ink-soft);line-height:1.7}
+
+.stepper{position:relative;display:grid;grid-template-columns:repeat(4,1fr);gap:0}
+.stepper::before{
+  content:"";position:absolute;left:0;right:0;top:38px;height:2px;
+  background:var(--line);
+  z-index:0;
+}
+.stepper::after{
+  content:"";position:absolute;left:0;top:38px;height:2px;width:0;
+  background:var(--lime);
+  z-index:1;
+  animation:fillBar 3s ease-out 0.6s both;
+}
+@keyframes fillBar{0%{width:0}100%{width:100%}}
+@media(prefers-reduced-motion:reduce){.stepper::after{animation:none;width:100%}}
+
+.step{padding:0 14px;position:relative;z-index:2;display:flex;flex-direction:column;gap:14px}
+.step .step-marker{
+  width:76px;height:76px;flex:none;
+  background:var(--bg);border:2px solid var(--line);
+  display:flex;align-items:center;justify-content:center;
+  font-family:var(--mono);font-size:24px;font-weight:600;letter-spacing:-0.02em;
+  color:var(--ink);
+  border-radius:50%;
+  transition:border-color .3s,background .3s,color .3s,transform .3s;
+}
+.step:hover .step-marker{background:var(--lime);border-color:var(--lime);transform:scale(1.04)}
+.step .step-meta{font-family:var(--mono);font-size:11px;letter-spacing:0.16em;color:var(--ink-mute);text-transform:uppercase;font-weight:500;margin-top:8px}
+.step h4{font-family:var(--sans);font-weight:700;font-size:1.375rem;line-height:1.25;letter-spacing:-0.015em}
+.step h4 .zh{font-family:var(--sans-zh);font-weight:900}
+.step p{color:var(--ink-soft);font-size:0.95rem;line-height:1.7}
+
+/* TRUST */
+.trust{background:var(--bg-soft);border-top:1px solid var(--line)}
+.trust h2{font-size:var(--t-h2);font-weight:800;letter-spacing:-0.03em;line-height:1.05;max-width:780px;margin-top:18px;margin-bottom:64px;font-family:var(--sans)}
+.trust h2 .zh{font-family:var(--sans-zh);font-weight:900;letter-spacing:-0.01em}
+.trust-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:0;border-top:2px solid var(--ink);border-bottom:2px solid var(--ink)}
+.trust-item{padding:40px 32px;border-right:1px solid var(--line);display:flex;flex-direction:column;gap:14px;background:var(--bg);position:relative;transition:background .25s}
+.trust-item:last-child{border-right:none}
+.trust-item:hover{background:var(--bg-card)}
+.trust-item .t-num{
+  font-family:var(--mono);font-size:11px;letter-spacing:0.18em;font-weight:600;color:var(--ink-mute);
+  display:inline-flex;align-items:center;gap:8px;
+}
+.trust-item .t-num::before{content:"";width:8px;height:8px;background:var(--lime);border-radius:1px}
+.trust-item h4{font-family:var(--sans);font-weight:700;font-size:1.25rem;line-height:1.3;letter-spacing:-0.012em}
+.trust-item h4 .zh{font-family:var(--sans-zh);font-weight:900}
+.trust-item p{color:var(--ink-soft);font-size:0.95rem;line-height:1.75}
+
+/* CTA */
+.cta-section{padding:var(--section-y) 0;background:var(--bg);position:relative;overflow:hidden}
+.cta-section::before{
+  content:"";position:absolute;
+  width:50vw;height:50vw;max-width:700px;max-height:700px;
+  right:-15vw;bottom:-25vw;
+  background:radial-gradient(circle, var(--lime-glow) 0%, transparent 60%);
+  filter:blur(40px);opacity:.6;pointer-events:none;
+}
+.cta-grid{display:grid;grid-template-columns:1.2fr 1fr;gap:80px;align-items:end;position:relative;z-index:1}
+.cta-left h2{
+  font-family:var(--sans);font-weight:800;font-size:clamp(48px,6vw,96px);
+  line-height:0.95;letter-spacing:-0.04em;
+}
+.cta-left h2 .zh{font-family:var(--sans-zh);font-weight:900;letter-spacing:-0.012em}
+.cta-left h2 .lime-bg{background:var(--lime);padding:0 0.12em;border-radius:8px;display:inline-block;line-height:1.1}
+.cta-left p{margin-top:28px;color:var(--ink-soft);font-size:1.0625rem;line-height:1.7;max-width:520px}
+
+.cta-form{
+  background:var(--bg-card);
+  border:1px solid var(--line);
+  padding:32px;
+  display:flex;flex-direction:column;gap:18px;
+  position:relative;
+}
+.cta-form::before{
+  content:"";position:absolute;top:-2px;left:-2px;width:32px;height:32px;
+  background:var(--lime);
+  clip-path:polygon(0 0, 100% 0, 0 100%);
+}
+.cta-form label{font-family:var(--mono);font-size:11px;letter-spacing:0.16em;color:var(--ink-mute);text-transform:uppercase;font-weight:600}
+.cta-form .row{display:flex;gap:0;border:1px solid var(--line);background:var(--bg)}
+.cta-form input{
+  flex:1;padding:16px 18px;background:transparent;border:none;outline:none;
+  font:inherit;font-size:1rem;color:var(--ink);
+}
+.cta-form input::placeholder{color:var(--ink-mute)}
+.cta-form input:focus{outline:2px solid var(--lime);outline-offset:-2px}
+.cta-form button{
+  padding:16px 24px;background:var(--ink);color:var(--bg);
+  font-family:var(--mono);font-size:12px;letter-spacing:0.12em;text-transform:uppercase;font-weight:600;
+  transition:background .2s,color .2s;
+  cursor:pointer;
+}
+.cta-form button:hover{background:var(--lime);color:var(--ink)}
+.cta-foot{font-family:var(--mono);font-size:11px;color:var(--ink-mute);line-height:1.6;letter-spacing:0.04em;text-transform:uppercase}
+
+/* FOOTER */
+footer{padding:64px 0 40px;border-top:1px solid var(--line);background:var(--bg)}
+.footer-grid{display:flex;justify-content:space-between;align-items:start;gap:48px;flex-wrap:wrap}
+.footer-brand{display:flex;flex-direction:column;gap:18px;max-width:320px}
+.footer-brand .name{font-family:var(--sans);font-weight:700;font-size:18px;letter-spacing:-0.02em}
+.footer-brand p{font-family:var(--mono);font-size:11px;letter-spacing:0.12em;color:var(--ink-mute);line-height:1.7;text-transform:uppercase}
+.footer-cols{display:flex;gap:64px;flex-wrap:wrap}
+.footer-col{display:flex;flex-direction:column;gap:14px;min-width:140px}
+.footer-col .col-head{font-family:var(--mono);font-size:11px;letter-spacing:0.18em;color:var(--ink-mute);text-transform:uppercase;margin-bottom:6px;font-weight:600}
+.footer-col a{font-size:14px;color:var(--ink-soft);transition:color .2s,padding-left .2s}
+.footer-col a:hover{color:var(--ink);padding-left:6px}
+.footer-bottom{
+  margin-top:48px;padding-top:28px;border-top:1px solid var(--line-soft);
+  display:flex;justify-content:space-between;
+  font-family:var(--mono);font-size:11px;letter-spacing:0.1em;color:var(--ink-mute);text-transform:uppercase;flex-wrap:wrap;gap:18px;
+}
+
+/* reveal */
+.reveal{opacity:0;transform:translateY(18px);transition:opacity .8s ease,transform .8s ease}
+.reveal.in{opacity:1;transform:none}
+@media(prefers-reduced-motion:reduce){.reveal{opacity:1;transform:none;transition:none}}
+
+/* RESPONSIVE */
+@media (max-width:1024px){
+  .cap-grid{grid-template-columns:1fr 1fr}
+  .stepper{grid-template-columns:1fr 1fr;gap:48px 0}
+  .stepper::before,.stepper::after{display:none}
+}
+@media (max-width:880px){
+  .nav-links{display:none}
+  .why-head{grid-template-columns:1fr;gap:24px}
+  .case-grid{grid-template-columns:1fr}
+  .ticker{grid-template-columns:1fr 1fr}
+  .ticker-item:nth-child(2){border-right:none}
+  .trust-grid{grid-template-columns:1fr}
+  .trust-item{border-right:none;border-bottom:1px solid var(--line)}
+  .trust-item:last-child{border-bottom:none}
+  .cta-grid{grid-template-columns:1fr;gap:48px;align-items:start}
+  .hero-status{position:static;margin-bottom:24px;align-self:flex-start}
+}
+@media (max-width:560px){
+  .cap-grid{grid-template-columns:1fr}
+  .stepper{grid-template-columns:1fr;gap:32px}
+  .ticker{grid-template-columns:1fr}
+  .ticker-item:nth-child(2){border-right:1px solid var(--line)}
+  .ticker-item{border-right:none;border-bottom:1px solid var(--line)}
+  .ticker-item:last-child{border-bottom:none}
+  .hero{padding:48px 0 64px}
+}
+</style>
+</head>
+<body>
+
+<!-- NAV -->
+<nav class="nav" id="nav">
+  <div class="wrap">
+    <a href="#" class="brand" aria-label="WeChaser home">
+      <span class="brand-mark"></span>
+      <span>WeChaser</span>
+    </a>
+    <div class="nav-links">
+      <a href="#why" data-zh>缘起</a><a href="#why" data-en>Why now</a>
+      <a href="#capability" data-zh>能力</a><a href="#capability" data-en>Capability</a>
+      <a href="#cases" data-zh>场景</a><a href="#cases" data-en>Use cases</a>
+      <a href="#how" data-zh>路径</a><a href="#how" data-en>How it works</a>
+      <a href="#trust" data-zh>保障</a><a href="#trust" data-en>Trust</a>
+    </div>
+    <div class="nav-tools">
+      <button class="lang-toggle" id="langToggle" aria-label="Switch language">
+        <span class="zh on">中</span><span class="en">EN</span>
+      </button>
+      <a href="#cta" class="cta-btn">
+        <span data-zh>预约演示</span><span data-en>Book a call</span>
+        <span class="arr">→</span>
+      </a>
+    </div>
+  </div>
+</nav>
+
+<!-- HERO -->
+<header class="section hero">
+  <div class="hero-glow"></div>
+  <div class="hero-dots"></div>
+  <div class="hero-status">
+    <span class="live"></span>
+    <span data-zh>试点中 · 5 家中型工厂</span>
+    <span data-en>PILOTING · 5 MID-SIZE FACTORIES</span>
+  </div>
+  <div class="wrap hero-inner">
+    <div class="eyebrow"><span class="dot"></span><span data-zh>WECHASER LLC · 制造业 AI 知识中枢</span><span data-en>WECHASER LLC · ENTERPRISE AI FOR MANUFACTURING</span></div>
+
+    <h1 style="margin-top:36px;">
+      <span data-zh class="zh">让<span class="rotator" id="rotZh"><em>图纸</em></span><br/>秒级可调。</span>
+      <span data-en>Make <span class="rotator" id="rotEn"><em>drawings</em></span><br/>instantly callable.</span>
+    </h1>
+
+    <p class="hero-sub">
+      <span data-zh>为制造企业部署一个真正能用的 AI 知识中枢。每位员工的专属 AI 副驾——回答带引用，行动有边界，跑在你自己的 GPU 上。</span>
+      <span data-en>A working AI knowledge hub for manufacturers. Every employee gets a copilot whose answers are cited, whose actions stay inside permission, and which runs on your own GPUs.</span>
+    </p>
+
+    <div class="hero-cta">
+      <a href="#cta" class="cta-btn">
+        <span data-zh>预约 30 分钟通话</span><span data-en>Book a 30-min call</span>
+        <span class="arr">→</span>
+      </a>
+      <a href="#capability" class="cta-ghost">
+        <span data-zh>看看我们怎么干</span><span data-en>See how we work</span>
+        <span class="arr">→</span>
+      </a>
+    </div>
+
+    <div class="ticker">
+      <div class="ticker-item">
+        <div class="num" data-count="12847">0<small>·条</small></div>
+        <div class="lab"><span data-zh>本月已回答</span><span data-en>Answers this month</span></div>
+      </div>
+      <div class="ticker-item">
+        <div class="num"><span data-count="3.2">0</span><small>s</small></div>
+        <div class="lab"><span data-zh>平均响应</span><span data-en>Avg response</span></div>
+      </div>
+      <div class="ticker-item">
+        <div class="num"><span data-count="98.4">0</span><small>%</small></div>
+        <div class="lab"><span data-zh>引用准确率</span><span data-en>Citation accuracy</span></div>
+      </div>
+      <div class="ticker-item">
+        <div class="num"><span data-count="100">0</span><small>%<span class="lime-dot"></span></small></div>
+        <div class="lab"><span data-zh>本地化部署</span><span data-en>On-prem capable</span></div>
+      </div>
+    </div>
+  </div>
+</header>
+
+<!-- WHY -->
+<section class="section why" id="why">
+  <div class="wrap">
+    <div class="why-head">
+      <div class="eyebrow" style="padding-top:14px;"><span class="dot"></span>01 / <span data-zh>缘起</span><span data-en>Why now</span></div>
+      <div class="why-body reveal">
+        <p data-zh>制造企业的知识沉淀在三个地方：<em>老工程师的脑子里</em>、塞满文件的硬盘、抄来抄去的微信群。</p>
+        <p data-zh>当 AI 推理成本进入工业级可承受区间，这些知识第一次有可能被真正调用——不是搜索引擎式检索，而是带上下文、带工艺逻辑、带授权边界的回答。</p>
+        <p data-zh>WeChaser 只做一件事：把这一刻的可能性，落到你的车间、销售、客服三条主线上。</p>
+
+        <p data-en>Manufacturing knowledge lives in three unreachable places: <em>the heads of senior engineers</em>, hard drives full of static documents, and chat groups nobody can search.</p>
+        <p data-en>As inference cost finally drops into the industrial zone, this knowledge becomes addressable — not as keyword search, but as answers grounded in process logic, with permission boundaries intact.</p>
+        <p data-en>WeChaser does one thing: land that possibility onto your shop floor, sales desk, and support line.</p>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- CAPABILITY -->
+<section class="section" id="capability">
+  <div class="wrap">
+    <div class="cap-head">
+      <div>
+        <div class="eyebrow"><span class="dot"></span>02 / <span data-zh>能力</span><span data-en>Capability</span></div>
+        <h2 style="margin-top:18px;">
+          <span data-zh class="zh">三件事，<br/>一件干透。</span>
+          <span data-en>Three things,<br/>done thoroughly.</span>
+        </h2>
+      </div>
+      <div class="cap-note">
+        <span data-zh>不堆功能。每一项都对应制造业一条具体业务线，三个月内可见 ROI。</span>
+        <span data-en>No feature soup. Each capability maps to a real manufacturing line, with ROI inside a quarter.</span>
+      </div>
+    </div>
+
+    <div class="cap-grid">
+      <article class="cap-card reveal">
+        <div class="cap-num">01 / KNOWLEDGE</div>
+        <h3>
+          <span data-zh class="zh">知识中枢</span>
+          <span data-en>Knowledge hub</span>
+        </h3>
+        <p data-zh>图纸、SOP、客户档案、邮件历史汇成一个<strong>有引用、可追溯</strong>的回答层。不是搜索，是问答。每一句回答都点回它的原始来源。</p>
+        <p data-en>Drawings, SOPs, customer records, email — converged into a <strong>citation-backed answer layer</strong>. Not search. Answers. Each line traces back to its source.</p>
+        <div class="cap-meta"><span data-zh>详情</span><span data-en>Detail</span> <span class="arr">→</span></div>
+      </article>
+
+      <article class="cap-card reveal">
+        <div class="cap-num">02 / WORKFLOW</div>
+        <h3>
+          <span data-zh class="zh">流程副驾</span>
+          <span data-en>Workflow copilot</span>
+        </h3>
+        <p data-zh>嵌入车间、销售、客服三条主线。<strong>跟着真实流程走</strong>，用员工已有的工具——飞书、钉钉、邮件——接入，不要求换工具。</p>
+        <p data-en><strong>Embedded in the line</strong> — shop-floor, sales, support. Riding on Lark, DingTalk, email. People don't switch tools to use it; the AI shows up where work already happens.</p>
+        <div class="cap-meta"><span data-zh>详情</span><span data-en>Detail</span> <span class="arr">→</span></div>
+      </article>
+
+      <article class="cap-card reveal">
+        <div class="cap-num">03 / DEPLOYMENT</div>
+        <h3>
+          <span data-zh class="zh">私有部署</span>
+          <span data-en>Private deployment</span>
+        </h3>
+        <p data-zh>核心模型可走<strong>本地 GPU</strong>，敏感数据不出厂。鉴权对接你企业现有 AD/LDAP，权限即护栏。可断网运行。</p>
+        <p data-en>Core models run on <strong>local GPUs</strong>. Sensitive data stays inside the perimeter. Auth integrates with your existing AD/LDAP. Operates air-gapped if you need it to.</p>
+        <div class="cap-meta"><span data-zh>详情</span><span data-en>Detail</span> <span class="arr">→</span></div>
+      </article>
+    </div>
+  </div>
+</section>
+
+<!-- USE CASES -->
+<section class="section cases" id="cases">
+  <div class="wrap">
+    <div class="cases-head">
+      <div>
+        <div class="eyebrow"><span class="dot"></span>03 / <span data-zh>场景</span><span data-en>Use cases</span></div>
+        <h2 style="margin-top:18px;">
+          <span data-zh class="zh">四个我们真的<br/>解决过的场景。</span>
+          <span data-en>Four situations<br/>we've actually solved.</span>
+        </h2>
+      </div>
+    </div>
+
+    <div class="case-grid">
+      <article class="case reveal">
+        <svg class="arrow" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M7 17L17 7M17 7H8M17 7V16"/></svg>
+        <div class="case-tag">A · <span data-zh>知识传承</span><span data-en>Tacit knowledge</span></div>
+        <h3>
+          <span data-zh class="zh">老工程师下个月退休。</span>
+          <span data-en>The senior engineer retires next month.</span>
+        </h3>
+        <p data-zh>23 年经验的工艺师即将离开。半年的对话采集 + 历史方案归档，他的判断逻辑沉淀进 AI。年轻工程师在车间提问，能拿到他口吻的回答，附引用。</p>
+        <p data-en>A process engineer with 23 years of pattern-matching is leaving. Six months of recorded conversations plus archived decisions, distilled into the model. Junior engineers now ask in his voice — every answer cited.</p>
+        <div class="metric"><strong>23<small>年</small></strong> <span data-zh>判断逻辑沉淀</span><span data-en>years of judgment, captured</span></div>
+      </article>
+
+      <article class="case reveal">
+        <svg class="arrow" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M7 17L17 7M17 7H8M17 7V16"/></svg>
+        <div class="case-tag">B · <span data-zh>销售响应</span><span data-en>Sales response</span></div>
+        <h3>
+          <span data-zh class="zh">"这个能不能做？"</span>
+          <span data-en>"Can you make this?"</span>
+        </h3>
+        <p data-zh>销售收到询单。AI 副驾即时调出历史相似订单、产能现状、原材料行情，给出可承诺的价格区间和交期。从 24 小时变成 3 分钟。</p>
+        <p data-en>An RFQ lands. The copilot pulls past orders, current capacity, raw-material indices, and proposes a defensible price band with lead time. Yesterday: a day. Now: minutes.</p>
+        <div class="metric"><strong>24h → 3min</strong> <span data-zh>响应时间</span><span data-en>response time</span></div>
+      </article>
+
+      <article class="case reveal">
+        <svg class="arrow" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M7 17L17 7M17 7H8M17 7V16"/></svg>
+        <div class="case-tag">C · <span data-zh>工艺合规</span><span data-en>SOP usage</span></div>
+        <h3>
+          <span data-zh class="zh">100 页 SOP 没人读。</span>
+          <span data-en>Nobody reads the 100-page SOP.</span>
+        </h3>
+        <p data-zh>员工只问"换型号要不要清线"。AI 给出该型号的具体清线步骤、上次违规的事故时间线，每一条都点回原始 SOP 段落。</p>
+        <p data-en>The actual question is "do we flush the line for this changeover?" The copilot returns the exact procedure for this part number plus the last incident timeline, citing the SOP paragraphs by section.</p>
+        <div class="metric"><strong>×7</strong> <span data-zh>SOP 实际使用率</span><span data-en>SOP usage lift</span></div>
+      </article>
+
+      <article class="case reveal">
+        <svg class="arrow" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M7 17L17 7M17 7H8M17 7V16"/></svg>
+        <div class="case-tag">D · <span data-zh>邮件考古</span><span data-en>Email archaeology</span></div>
+        <h3>
+          <span data-zh class="zh">三个月前的那封邮件。</span>
+          <span data-en>That email, three months ago.</span>
+        </h3>
+        <p data-zh>客户在某封邮件里提过一个变更要求，今天没人记得在哪。AI 跨邮箱、跨人员检索，3 秒钟把上下文还原，附原邮件链接。</p>
+        <p data-en>A customer mentioned a change request in some email weeks ago. The copilot searches across mailboxes and people, restoring the thread with original-message links in seconds.</p>
+        <div class="metric"><strong>3<small>s</small></strong> <span data-zh>跨邮箱上下文还原</span><span data-en>cross-mailbox recall</span></div>
+      </article>
+    </div>
+  </div>
+</section>
+
+<!-- HOW -->
+<section class="section how" id="how">
+  <div class="wrap">
+    <div class="how-head">
+      <div>
+        <div class="eyebrow"><span class="dot"></span>04 / <span data-zh>路径</span><span data-en>How it works</span></div>
+        <h2 style="margin-top:18px;">
+          <span data-zh class="zh">不卖工具，<br/>陪你跑完一段。</span>
+          <span data-en>We don't sell a tool.<br/>We run the loop with you.</span>
+        </h2>
+      </div>
+      <div class="how-note">
+        <span data-zh>典型周期 12 周。第一阶段不收费，先做完调研判断有没有真问题。</span>
+        <span data-en>Typical cycle: 12 weeks. Phase one is free — we look at the problem before we charge to solve it.</span>
+      </div>
+    </div>
+
+    <div class="stepper">
+      <div class="step reveal">
+        <div class="step-marker">01</div>
+        <div class="step-meta"><span data-zh>2 周 · 免费</span><span data-en>2 weeks · free</span></div>
+        <h4><span data-zh class="zh">调研</span><span data-en>Discovery</span></h4>
+        <p data-zh>上门盘点知识资产，识别 3 条最高价值的业务流程，给出可行性评估表。</p>
+        <p data-en>On-site audit of knowledge assets. We identify the three highest-leverage workflows and produce a feasibility checklist.</p>
+      </div>
+      <div class="step reveal">
+        <div class="step-marker">02</div>
+        <div class="step-meta"><span data-zh>4 周</span><span data-en>4 weeks</span></div>
+        <h4><span data-zh class="zh">接入</span><span data-en>Integration</span></h4>
+        <p data-zh>数据管道 + 权限映射 + 模型选型。只接必要源，不大而全。</p>
+        <p data-en>Data pipelines, permission mapping, model selection. We connect only what's needed — never everything.</p>
+      </div>
+      <div class="step reveal">
+        <div class="step-marker">03</div>
+        <div class="step-meta"><span data-zh>6 周</span><span data-en>6 weeks</span></div>
+        <h4><span data-zh class="zh">试点</span><span data-en>Pilot</span></h4>
+        <p data-zh>选一条业务线先跑。明确 ROI 指标，每周复盘到员工真在用为止。</p>
+        <p data-en>One business line, end to end. ROI metrics fixed up front; weekly reviews until adoption is real.</p>
+      </div>
+      <div class="step reveal">
+        <div class="step-marker">04</div>
+        <div class="step-meta"><span data-zh>持续</span><span data-en>Ongoing</span></div>
+        <h4><span data-zh class="zh">推广</span><span data-en>Rollout</span></h4>
+        <p data-zh>试点模板复用到其他业务线。我们留一个驻场工程师，直到你内部接管。</p>
+        <p data-en>Replicate the working template to neighbouring lines. One engineer stays on-site until your team owns it.</p>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- TRUST -->
+<section class="section trust" id="trust">
+  <div class="wrap">
+    <div class="eyebrow"><span class="dot"></span>05 / <span data-zh>保障</span><span data-en>Trust</span></div>
+    <h2>
+      <span data-zh class="zh">为制造业的<br/>真实顾虑做的设计。</span>
+      <span data-en>Designed for the things<br/>manufacturers actually worry about.</span>
+    </h2>
+    <div class="trust-grid">
+      <div class="trust-item reveal">
+        <div class="t-num">01 / DATA</div>
+        <h4><span data-zh class="zh">数据不出厂</span><span data-en>Data stays inside</span></h4>
+        <p data-zh>核心模型支持本地 GPU 部署。可断网运行，敏感图纸、客户档案、配方永不上云。</p>
+        <p data-en>Core models can run on local GPUs. Air-gapped operation supported. Sensitive drawings, customer records, and formulas never leave the perimeter.</p>
+      </div>
+      <div class="trust-item reveal">
+        <div class="t-num">02 / ACCESS</div>
+        <h4><span data-zh class="zh">权限即护栏</span><span data-en>Permission is the railing</span></h4>
+        <p data-zh>每条回答带引用，越权数据自动屏蔽。鉴权对接你现有 AD/LDAP，不是再造一套账号。</p>
+        <p data-en>Every answer is cited. Out-of-scope data is silently filtered. Auth uses your existing AD/LDAP — not yet another account system.</p>
+      </div>
+      <div class="trust-item reveal">
+        <div class="t-num">03 / PROCESS</div>
+        <h4><span data-zh class="zh">工艺即约束</span><span data-en>Process as constraint</span></h4>
+        <p data-zh>嵌入企业现有审核流，不是 AI 自由发挥。可解释、可审计、可回滚，每一次发布都留痕。</p>
+        <p data-en>Embedded into your existing review flow — not free-floating generation. Every output is explainable, auditable, and reversible.</p>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- CTA -->
+<section class="cta-section" id="cta">
+  <div class="wrap">
+    <div class="cta-grid">
+      <div class="cta-left">
+        <div class="eyebrow"><span class="dot"></span>06 / <span data-zh>下一步</span><span data-en>Next</span></div>
+        <h2 style="margin-top:18px;">
+          <span data-zh class="zh">30 分钟，<br/>看看你的<span class="lime-bg">真问题</span><br/>值不值得动。</span>
+          <span data-en>Thirty minutes.<br/>Let's see if your<br/><span class="lime-bg">actual problem</span> is worth solving.</span>
+        </h2>
+        <p>
+          <span data-zh>留个邮箱，我们带着行业案例、可行性评估表、最小试点报价上门。第一阶段不收费。</span>
+          <span data-en>Drop your email. We come with industry cases, a feasibility checklist, and the smallest possible pilot quote. Phase one is free.</span>
+        </p>
+      </div>
+
+      <form class="cta-form" onsubmit="event.preventDefault();const b=this.querySelector('button');b.textContent='✓ RECEIVED';b.style.background='var(--lime)';b.style.color='var(--ink)';">
+        <label data-zh>工作邮箱</label>
+        <label data-en>Work email</label>
+        <div class="row">
+          <input type="email" required placeholder="name@company.com" />
+          <button type="submit"><span data-zh>预约</span><span data-en>Submit</span></button>
+        </div>
+        <div class="cta-foot">
+          <span data-zh>1 个工作日内回邮件 / 不发市场推送</span>
+          <span data-en>REPLY WITHIN 1 BUSINESS DAY · NO MARKETING LIST</span>
+        </div>
+      </form>
+    </div>
+  </div>
+</section>
+
+<!-- FOOTER -->
+<footer>
+  <div class="wrap">
+    <div class="footer-grid">
+      <div class="footer-brand">
+        <div style="display:flex;align-items:center;gap:12px;">
+          <span class="brand-mark" style="width:32px;height:32px"></span>
+          <div class="name">WeChaser</div>
+        </div>
+        <p>
+          <span data-zh>制造业 AI 知识中枢<br/>长沙 · 上海 · 海外</span>
+          <span data-en>Enterprise AI for manufacturing<br/>Changsha · Shanghai · International</span>
+        </p>
+      </div>
+
+      <div class="footer-cols">
+        <div class="footer-col">
+          <div class="col-head" data-zh>导览</div>
+          <div class="col-head" data-en>Sitemap</div>
+          <a href="#why"><span data-zh>缘起</span><span data-en>Why now</span></a>
+          <a href="#capability"><span data-zh>能力</span><span data-en>Capability</span></a>
+          <a href="#cases"><span data-zh>场景</span><span data-en>Use cases</span></a>
+          <a href="#how"><span data-zh>路径</span><span data-en>How it works</span></a>
+        </div>
+        <div class="footer-col">
+          <div class="col-head" data-zh>联系</div>
+          <div class="col-head" data-en>Contact</div>
+          <a href="mailto:hello@wechaser.ai">hello@wechaser.ai</a>
+          <a href="#cta"><span data-zh>预约演示</span><span data-en>Book a call</span></a>
+        </div>
+        <div class="footer-col">
+          <div class="col-head" data-zh>资源</div>
+          <div class="col-head" data-en>Resources</div>
+          <a href="#"><span data-zh>制造业 AI 案例集</span><span data-en>Industry briefs</span></a>
+          <a href="#"><span data-zh>可行性评估表</span><span data-en>Feasibility checklist</span></a>
+        </div>
+      </div>
+    </div>
+    <div class="footer-bottom">
+      <div>© 2026 WeChaser LLC · <span data-zh>务实 AI 赋能</span><span data-en>Pragmatic AI enablement</span></div>
+      <div>EST. 2025 · BUILT WITH 工艺</div>
+    </div>
+  </div>
+</footer>
+
+<script>
+  // language toggle
+  const body = document.body;
+  const toggle = document.getElementById('langToggle');
+  const zhSpan = toggle.querySelector('.zh');
+  const enSpan = toggle.querySelector('.en');
+  function setLang(lang){
+    if(lang==='en'){ body.classList.add('lang-en'); document.documentElement.setAttribute('lang','en'); zhSpan.classList.remove('on'); enSpan.classList.add('on'); }
+    else { body.classList.remove('lang-en'); document.documentElement.setAttribute('lang','zh-CN'); enSpan.classList.remove('on'); zhSpan.classList.add('on'); }
+    try { localStorage.setItem('wc_lang', lang); } catch(e){}
+  }
+  toggle.addEventListener('click', ()=>{
+    setLang(body.classList.contains('lang-en') ? 'zh' : 'en');
+  });
+  try {
+    const saved = localStorage.getItem('wc_lang');
+    if(saved) setLang(saved);
+  } catch(e){}
+
+  // nav scrolled state
+  const nav = document.getElementById('nav');
+  const onScroll = ()=> nav.classList.toggle('scrolled', window.scrollY > 8);
+  window.addEventListener('scroll', onScroll, {passive:true});
+  onScroll();
+
+  // reveal on scroll with safety fallback
+  const reveals = document.querySelectorAll('.reveal');
+  const io = new IntersectionObserver((entries)=>{
+    entries.forEach(e=>{ if(e.isIntersecting){ e.target.classList.add('in'); io.unobserve(e.target); } });
+  }, {threshold:0.05, rootMargin:'0px 0px 200px 0px'});
+  reveals.forEach(el=>io.observe(el));
+  setTimeout(()=>{ reveals.forEach(el=>el.classList.add('in')); }, 1600);
+
+  // hero rotator — JS-driven for reliability
+  const rotZhWords = ['图纸','工艺','邮件','经验'];
+  const rotEnWords = ['drawings','SOPs','emails','know-how'];
+  function startRotator(elId, words){
+    const el = document.getElementById(elId);
+    if(!el) return;
+    const span = el.querySelector('em');
+    let i = 0;
+    setInterval(()=>{
+      el.classList.add('flipping');
+      setTimeout(()=>{
+        i = (i+1) % words.length;
+        span.textContent = words[i];
+        el.classList.remove('flipping');
+      }, 280);
+    }, 2200);
+  }
+  if(!window.matchMedia('(prefers-reduced-motion: reduce)').matches){
+    startRotator('rotZh', rotZhWords);
+    startRotator('rotEn', rotEnWords);
+  }
+
+  // count-up tickers (run when in view, once)
+  const ticks = document.querySelectorAll('.ticker [data-count]');
+  function fmt(n, decimals){
+    if(decimals === 0) return Math.round(n).toLocaleString();
+    return n.toFixed(decimals);
+  }
+  function animateCount(el){
+    const target = parseFloat(el.getAttribute('data-count'));
+    const decimals = (el.getAttribute('data-count').split('.')[1]||'').length;
+    const dur = 1400;
+    const start = performance.now();
+    function tick(t){
+      const p = Math.min(1, (t-start)/dur);
+      const eased = 1 - Math.pow(1-p, 3);
+      el.firstChild ? el.firstChild.nodeValue = fmt(target * eased, decimals) : (el.textContent = fmt(target * eased, decimals));
+      if(p<1) requestAnimationFrame(tick);
+    }
+    requestAnimationFrame(tick);
+  }
+  const tio = new IntersectionObserver((entries)=>{
+    entries.forEach(e=>{ if(e.isIntersecting){ animateCount(e.target); tio.unobserve(e.target); } });
+  }, {threshold:0.3});
+  ticks.forEach(el=>tio.observe(el));
+  // safety: if not in view after 1.8s (e.g. fullpage screenshot), still animate
+  setTimeout(()=>{
+    ticks.forEach(el=>{
+      const v = el.firstChild ? el.firstChild.nodeValue : el.textContent;
+      if(v === '0' || v === '0.0' || v === '0.00') animateCount(el);
+    });
+  }, 1800);
+</script>
+
+</body>
+</html>

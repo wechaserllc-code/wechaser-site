@@ -1,0 +1,444 @@
+<!doctype html>
+<html lang="zh-CN">
+<head>
+<meta charset="utf-8" />
+<meta name="viewport" content="width=device-width,initial-scale=1" />
+<title>技术架构 · WeChaser</title>
+<meta name="description" content="WeChaser 技术架构：FastAPI + LangGraph + Neo4j + Qdrant + DashScope 嵌入 + BGE Reranker + DeepSeek。Hermes Agent 通过 MCP Bridge 调用，飞书 Gateway 接入。工业级 grounded RAG 设计原则。" />
+<link rel="icon" type="image/svg+xml" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 64 64'%3E%3Crect width='64' height='64' fill='%23060608'/%3E%3Crect x='14' y='14' width='36' height='36' fill='%23C8FA3C'/%3E%3Crect x='14' y='14' width='36' height='1' fill='%23060608'/%3E%3C/svg%3E" />
+<link rel="preconnect" href="https://fonts.googleapis.com" />
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+<link href="https://fonts.googleapis.com/css2?family=Inter+Tight:wght@400;500;600;700;800&family=Inter:wght@400;500;600&family=Noto+Sans+SC:wght@400;500;700;900&family=JetBrains+Mono:wght@400;500;600&display=swap" rel="stylesheet" />
+<link rel="stylesheet" href="styles.css" />
+<style>
+.tech-tag{display:inline-flex;align-items:center;gap:8px;padding:5px 14px;background:var(--bg-1);color:var(--cyan);border:1px solid rgba(0,217,255,0.25);font-family:var(--mono);font-size:11px;font-weight:600;letter-spacing:0.14em;text-transform:uppercase;border-radius:999px;margin-bottom:24px}
+
+/* big architecture canvas */
+.arch-big{
+  background:var(--bg-1);border:1px solid var(--line);
+  padding:48px 32px;
+  position:relative;overflow:hidden;
+  font-family:var(--mono);
+}
+.arch-big::before{content:"";position:absolute;inset:0;background-image:linear-gradient(to right,rgba(255,255,255,0.03) 1px,transparent 1px),linear-gradient(to bottom,rgba(255,255,255,0.03) 1px,transparent 1px);background-size:32px 32px;pointer-events:none}
+.arch-big > *{position:relative;z-index:1}
+.arch-tier{display:flex;flex-direction:column;align-items:center;gap:14px;margin-bottom:14px}
+.arch-tier-label{font-family:var(--mono);font-size:11px;letter-spacing:0.16em;color:var(--ink-3);text-transform:uppercase;font-weight:500;align-self:flex-start}
+.arch-row-flex{display:flex;gap:14px;justify-content:center;flex-wrap:wrap;width:100%}
+.box{
+  border:1px solid var(--line);background:var(--bg);
+  padding:14px 22px;
+  font-size:12px;font-weight:500;color:var(--ink-2);letter-spacing:0.04em;
+  text-align:center;min-width:160px;
+  display:flex;flex-direction:column;gap:4px;align-items:center;
+  transition:border-color .25s,color .25s;
+}
+.box small{font-size:10px;color:var(--ink-4);letter-spacing:0.12em;text-transform:uppercase}
+.box:hover{border-color:var(--lime);color:var(--ink)}
+.box.lime{border-color:var(--lime);background:rgba(200,250,60,0.06);color:var(--ink)}
+.box.lime small{color:var(--lime)}
+.box.cyan{border-color:rgba(0,217,255,0.4);background:rgba(0,217,255,0.04)}
+.box.cyan small{color:var(--cyan)}
+.arrow-down{
+  display:block;width:1px;height:30px;background:var(--lime);margin:0 auto;
+  position:relative;
+}
+.arrow-down::after{content:"";position:absolute;bottom:0;left:-3px;width:7px;height:7px;border-right:1px solid var(--lime);border-bottom:1px solid var(--lime);transform:rotate(45deg)}
+.arch-mid-label{
+  font-family:var(--mono);font-size:11px;color:var(--lime);letter-spacing:0.16em;text-transform:uppercase;text-align:center;
+  margin:6px 0;
+}
+
+/* dataflow */
+.flow{display:grid;grid-template-columns:1fr 1fr;gap:48px;align-items:start}
+.flow-col{display:flex;flex-direction:column;gap:14px}
+.flow-col h3{font-family:var(--sans);font-weight:700;font-size:1.5rem;letter-spacing:-0.018em;line-height:1.2;margin-bottom:8px}
+.flow-col h3 .zh{font-family:var(--sans-zh);font-weight:900}
+.flow-step{
+  display:grid;grid-template-columns:24px 1fr;gap:14px;align-items:start;
+  padding:14px 18px;border:1px solid var(--line);background:var(--bg-1);
+}
+.flow-step .n{font-family:var(--mono);font-size:11px;color:var(--lime);font-weight:600;letter-spacing:0.1em}
+.flow-step h4{font-family:var(--sans);font-weight:600;font-size:0.95rem;letter-spacing:-0.01em;margin-bottom:4px}
+.flow-step h4 .zh{font-family:var(--sans-zh);font-weight:700}
+.flow-step p{color:var(--ink-3);font-size:0.825rem;line-height:1.6;font-family:var(--mono)}
+
+/* stack table */
+.stack-table{display:grid;grid-template-columns:200px 1fr 200px;border:1px solid var(--line)}
+.stack-table > div{padding:18px 22px;border-bottom:1px solid var(--line);background:var(--bg)}
+.stack-table > div:nth-child(3n){border-right:none}
+.stack-table > div:nth-last-child(-n+3){border-bottom:none}
+.stack-table .h{background:var(--bg-1);font-family:var(--mono);font-size:11px;letter-spacing:0.14em;color:var(--ink-3);text-transform:uppercase;font-weight:600}
+.stack-table .layer{font-family:var(--mono);font-size:11px;letter-spacing:0.14em;color:var(--lime);text-transform:uppercase;font-weight:600}
+.stack-table .stack-val{color:var(--ink);font-weight:500}
+.stack-table .stack-val code{font-family:var(--mono);font-size:0.95em;color:var(--cyan);background:transparent;padding:0;border:none}
+.stack-table .stack-note{font-family:var(--mono);font-size:11px;color:var(--ink-3);letter-spacing:0.04em}
+
+/* design principle list */
+.principles{display:grid;grid-template-columns:1fr 1fr;gap:24px}
+.principle{
+  border:1px solid var(--line);background:var(--bg-1);
+  padding:32px;display:flex;flex-direction:column;gap:14px;
+  position:relative;overflow:hidden;
+}
+.principle::before{
+  content:attr(data-num);
+  position:absolute;top:18px;right:24px;
+  font-family:var(--mono);font-size:48px;font-weight:600;color:rgba(200,250,60,0.08);line-height:1;letter-spacing:-0.04em;
+}
+.principle h3{font-family:var(--sans);font-weight:700;font-size:1.25rem;letter-spacing:-0.015em;line-height:1.25}
+.principle h3 .zh{font-family:var(--sans-zh);font-weight:900}
+.principle p{color:var(--ink-2);font-size:0.95rem;line-height:1.7}
+.principle .impl{
+  font-family:var(--mono);font-size:11px;color:var(--ink-3);letter-spacing:0.06em;
+  padding-top:10px;border-top:1px solid var(--line);margin-top:auto;
+}
+.principle .impl b{color:var(--lime);font-weight:600;letter-spacing:0.1em;text-transform:uppercase;margin-right:8px}
+
+/* MCP tools list */
+.tool-list{display:grid;grid-template-columns:repeat(2,1fr);gap:1px;background:var(--line);border:1px solid var(--line)}
+.tool-item{background:var(--bg);padding:24px 28px;display:flex;flex-direction:column;gap:10px;transition:background .25s}
+.tool-item:hover{background:var(--bg-1)}
+.tool-item .cat{font-family:var(--mono);font-size:11px;letter-spacing:0.14em;color:var(--lime);text-transform:uppercase;font-weight:600}
+.tool-item .name{font-family:var(--mono);font-size:0.95rem;font-weight:600;color:var(--cyan);letter-spacing:0.02em}
+.tool-item .desc{color:var(--ink-2);font-size:0.875rem;line-height:1.65}
+.tool-item .pill{display:inline-block;padding:2px 8px;background:rgba(200,250,60,0.1);color:var(--lime);font-family:var(--mono);font-size:10px;letter-spacing:0.12em;font-weight:600;text-transform:uppercase;border-radius:3px;align-self:flex-start;margin-top:4px}
+.tool-item .pill.todo{background:rgba(255,184,0,0.1);color:var(--amber)}
+
+@media (max-width:880px){
+  .flow{grid-template-columns:1fr}
+  .stack-table{grid-template-columns:1fr;display:block}
+  .stack-table > div{display:block;border-right:none}
+  .principles{grid-template-columns:1fr}
+  .tool-list{grid-template-columns:1fr}
+}
+</style>
+</head>
+<body>
+
+<!-- NAV -->
+<nav class="nav" id="nav">
+  <div class="wrap">
+    <a href="/" class="brand"><span class="brand-mark"></span><span>WeChaser</span></a>
+    <div class="nav-links">
+      <a href="/products/shiguangmailuo.html" data-zh>产品</a><a href="/products/shiguangmailuo.html" data-en>Product</a>
+      <a href="/cases/chaoxian.html" data-zh>案例</a><a href="/cases/chaoxian.html" data-en>Cases</a>
+      <a href="/tech.html" class="active" data-zh>技术</a><a href="/tech.html" class="active" data-en>Tech</a>
+      <a href="/about.html" data-zh>关于</a><a href="/about.html" data-en>About</a>
+    </div>
+    <div class="nav-tools">
+      <button class="lang-toggle" id="langToggle"><span class="zh on">中</span><span class="en">EN</span></button>
+      <a href="/#cta" class="btn"><span data-zh>预约演示</span><span data-en>Book a call</span><span class="arr">→</span></a>
+    </div>
+  </div>
+</nav>
+
+<!-- PAGE HEADER -->
+<header class="page-header">
+  <div class="wrap">
+    <div class="crumb">
+      <a href="/">WECHASER</a><span class="sep">/</span>
+      <span data-zh>技术架构</span><span data-en>TECH ARCHITECTURE</span>
+    </div>
+    <div class="tech-tag">// TECH DEEP-DIVE</div>
+    <h1>
+      <span data-zh class="zh">技术架构。</span>
+      <span data-en>Tech architecture.</span>
+    </h1>
+    <p class="sub">
+      <span data-zh>没有市场词。这页讲清楚 WeChaser / 时光脉络的代码、数据、调用链是怎么搭起来的——技术决策人可以直接判断这套东西能不能进你机房。</span>
+      <span data-en>No marketing words. This page lays out how WeChaser / Shiguangmailuo is actually built — code, data, call paths — so technical decision-makers can judge directly whether it fits your stack.</span>
+    </p>
+  </div>
+</header>
+
+<!-- GLOBAL ARCHITECTURE -->
+<section class="section">
+  <div class="wrap">
+    <div class="sect-head">
+      <div>
+        <div class="eyebrow"><span class="dot"></span>01 / <span data-zh>系统全貌</span><span data-en>System overview</span></div>
+        <h2 class="h-h2" style="margin-top:18px">
+          <span data-zh class="zh">两大核心系统：<br/>Hermes Agent + 时光脉络。</span>
+          <span data-en>Two core systems:<br/>Hermes Agent + Shiguangmailuo.</span>
+        </h2>
+      </div>
+      <div class="note">
+        <span data-zh>Hermes 是神经系统（推理 / 调度 / 记忆），时光脉络是知识躯体（图谱 / 向量 / 文档）。中间走 MCP Bridge。</span>
+        <span data-en>Hermes is the nervous system (reasoning / scheduling / memory). Shiguangmailuo is the knowledge body (graph / vector / docs). MCP Bridge connects them.</span>
+      </div>
+    </div>
+
+    <div class="arch-big">
+      <div class="arch-tier-label"><span data-zh>用户交互层 / USER LAYER</span><span data-en>USER LAYER</span></div>
+      <div class="arch-row-flex">
+        <div class="box">Lark Bot<small>FEISHU</small></div>
+        <div class="box">Web UI<small>GRADIO</small></div>
+        <div class="box">REST API<small>FASTAPI</small></div>
+        <div class="box">CLI / MCP<small>OPENCLAW</small></div>
+      </div>
+      <div class="arrow-down"></div>
+      <div class="arch-mid-label">// MCP / HTTP / STDIO</div>
+      <div class="arch-tier-label" style="margin-top:14px"><span data-zh>核心系统 / CORE</span><span data-en>CORE SYSTEMS</span></div>
+      <div class="arch-row-flex">
+        <div class="box cyan">
+          <div style="font-weight:700;color:var(--cyan)">Hermes Agent</div>
+          <small><span data-zh>神经系统</span><span data-en>NERVOUS</span></small>
+          <div style="font-size:10px;color:var(--ink-3);margin-top:4px">run_agent.py · memory · cron · skills · gateway</div>
+        </div>
+        <div class="box lime">
+          <div style="font-weight:700;color:var(--lime)"><span data-zh>时光脉络 API</span><span data-en>Shiguangmailuo API</span></div>
+          <small><span data-zh>知识躯体</span><span data-en>BODY</span></small>
+          <div style="font-size:10px;color:var(--ink-3);margin-top:4px">FastAPI · LangGraph · ingest_pipeline · hybrid_retriever</div>
+        </div>
+      </div>
+      <div class="arrow-down"></div>
+      <div class="arch-tier-label" style="margin-top:14px"><span data-zh>数据存储层 / STORAGE</span><span data-en>STORAGE LAYER</span></div>
+      <div class="arch-row-flex">
+        <div class="box">Neo4j<small>GRAPH</small></div>
+        <div class="box">Qdrant<small>VECTORS</small></div>
+        <div class="box">MySQL<small>HISTORY</small></div>
+        <div class="box">SQLite<small>SKILLS · STATE</small></div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- DATA FLOW -->
+<section class="section" style="background:var(--bg-1);border-top:1px solid var(--line);border-bottom:1px solid var(--line)">
+  <div class="wrap">
+    <div class="sect-head">
+      <div>
+        <div class="eyebrow"><span class="dot"></span>02 / <span data-zh>数据流</span><span data-en>Data flow</span></div>
+        <h2 class="h-h2" style="margin-top:18px">
+          <span data-zh class="zh">入库 + 查询 + 进化，<br/>三条独立 pipeline。</span>
+          <span data-en>Ingest + Query + Evolve,<br/>three independent pipelines.</span>
+        </h2>
+      </div>
+    </div>
+
+    <div class="flow">
+      <div class="flow-col">
+        <h3><span data-zh class="zh">入库 / Ingest</span><span data-en>Ingest</span></h3>
+        <div class="flow-step"><div class="n">01</div><div><h4><span data-zh class="zh">格式检测</span><span data-en>Format detection</span></h4><p>FileParser · PDF / Word / Excel / PPT / Image</p></div></div>
+        <div class="flow-step"><div class="n">02</div><div><h4><span data-zh class="zh">解析分块</span><span data-en>Parse + chunk</span></h4><p>DocumentParser · MinerU · PaddleOCR</p></div></div>
+        <div class="flow-step"><div class="n">03</div><div><h4><span data-zh class="zh">LLM 结构化抽取</span><span data-en>LLM extract</span></h4><p>DeepSeek-Reasoner / GLM-4.5 · prompts/ 全部专门设计</p></div></div>
+        <div class="flow-step"><div class="n">04</div><div><h4><span data-zh class="zh">数据验证</span><span data-en>Validate</span></h4><p>Validator · file_hash 唯一约束 · schema check</p></div></div>
+        <div class="flow-step"><div class="n">05</div><div><h4><span data-zh class="zh">图谱入库 + 向量入库</span><span data-en>Graph + vector load</span></h4><p>Neo4jLoader · Qdrant VectorStore · 1024-d embedding</p></div></div>
+      </div>
+
+      <div class="flow-col">
+        <h3><span data-zh class="zh">查询 / Query</span><span data-en>Query</span></h3>
+        <div class="flow-step"><div class="n">01</div><div><h4><span data-zh class="zh">意图识别 + 路由</span><span data-en>Intent route</span></h4><p>quick / standard / deep · 不同档位走不同 pipeline</p></div></div>
+        <div class="flow-step"><div class="n">02</div><div><h4><span data-zh class="zh">三路混合检索</span><span data-en>Hybrid retrieve</span></h4><p>vector + graph + sparse · 并行</p></div></div>
+        <div class="flow-step"><div class="n">03</div><div><h4><span data-zh class="zh">RRF 融合 + MMR 多样性</span><span data-en>RRF + MMR</span></h4><p>rerank fusion + redundancy removal</p></div></div>
+        <div class="flow-step"><div class="n">04</div><div><h4><span data-zh class="zh">BGE 精排</span><span data-en>BGE rerank</span></h4><p>BAAI/bge-reranker-base · 最终 top-k</p></div></div>
+        <div class="flow-step"><div class="n">05</div><div><h4><span data-zh class="zh">LLM 综合 + 溯源</span><span data-en>Synthesis + cite</span></h4><p>DeepSeek-Chat · grounded RAG · 100% citation</p></div></div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- TECH STACK -->
+<section class="section">
+  <div class="wrap">
+    <div class="sect-head">
+      <div>
+        <div class="eyebrow"><span class="dot"></span>03 / <span data-zh>技术栈</span><span data-en>Stack</span></div>
+        <h2 class="h-h2" style="margin-top:18px">
+          <span data-zh class="zh">每一项都有"能跑在客户机房"<br/>的兜底版本。</span>
+          <span data-en>Every choice has<br/>"runs on customer hardware" as a constraint.</span>
+        </h2>
+      </div>
+    </div>
+
+    <div class="stack-table">
+      <div class="h">LAYER</div>
+      <div class="h"><span data-zh>主选 / 备选</span><span data-en>PRIMARY / FALLBACK</span></div>
+      <div class="h"><span data-zh>说明</span><span data-en>NOTE</span></div>
+
+      <div class="layer">API</div>
+      <div class="stack-val">FastAPI · <code>port 1000</code> · Uvicorn</div>
+      <div class="stack-note"><span data-zh>同步 + WebSocket。</span><span data-en>Sync + WS.</span></div>
+
+      <div class="layer">Web UI</div>
+      <div class="stack-val">Gradio · <code>port 7860</code> + Ingest UI <code>:7861</code></div>
+      <div class="stack-note"><span data-zh>客户内部使用。</span><span data-en>Internal admin.</span></div>
+
+      <div class="layer">Agent</div>
+      <div class="stack-val">LangGraph · agent_graph/orchestrator.py</div>
+      <div class="stack-note"><span data-zh>90 轮工具调用上限。</span><span data-en>90-turn cap.</span></div>
+
+      <div class="layer">Graph DB</div>
+      <div class="stack-val">Neo4j 5.15+ · 534 nodes · file_hash unique</div>
+      <div class="stack-note"><span data-zh>核心查询主体。</span><span data-en>Primary store.</span></div>
+
+      <div class="layer">Vector</div>
+      <div class="stack-val">Qdrant · 890 points · cosine</div>
+      <div class="stack-note"><span data-zh>Milvus 备选。</span><span data-en>Milvus fallback.</span></div>
+
+      <div class="layer">Embedding</div>
+      <div class="stack-val">DashScope text-embedding-v4 · 1024-d</div>
+      <div class="stack-note"><span data-zh>本地化时切 BGE。</span><span data-en>BGE for offline.</span></div>
+
+      <div class="layer">Reranker</div>
+      <div class="stack-val">BGE Reranker · BAAI/bge-reranker-base</div>
+      <div class="stack-note"><span data-zh>本地推理。</span><span data-en>Local infer.</span></div>
+
+      <div class="layer">LLM (extract)</div>
+      <div class="stack-val">DeepSeek-Reasoner · DeepSeek-Chat · Qwen</div>
+      <div class="stack-note"><span data-zh>结构化抽取主用。</span><span data-en>Structured.</span></div>
+
+      <div class="layer">LLM (multimodal)</div>
+      <div class="stack-val">Gemini 2.5 Flash/Pro · GLM-4.5 · GPT-4o</div>
+      <div class="stack-note"><span data-zh>原理图 / Word / 图像。</span><span data-en>Schematic / image.</span></div>
+
+      <div class="layer">OCR</div>
+      <div class="stack-val">PaddleOCR + LibreOffice fallback</div>
+      <div class="stack-note"><span data-zh>本地，离线。</span><span data-en>Local, offline.</span></div>
+
+      <div class="layer">Optimization</div>
+      <div class="stack-val">OR-Tools CP-SAT</div>
+      <div class="stack-note"><span data-zh>BOM 选型求解。</span><span data-en>BOM selection.</span></div>
+
+      <div class="layer">History</div>
+      <div class="stack-val">MySQL · 会话 + feedback</div>
+      <div class="stack-note"><span data-zh>SQLite 单机替代。</span><span data-en>SQLite swap.</span></div>
+
+      <div class="layer">Deployment</div>
+      <div class="stack-val">docker-compose · on-prem · air-gap</div>
+      <div class="stack-note"><span data-zh>客户机房一键起。</span><span data-en>One-click on customer host.</span></div>
+    </div>
+  </div>
+</section>
+
+<!-- MCP TOOLS -->
+<section class="section" style="background:var(--bg-1);border-top:1px solid var(--line);border-bottom:1px solid var(--line)">
+  <div class="wrap">
+    <div class="sect-head">
+      <div>
+        <div class="eyebrow"><span class="dot"></span>04 / <span data-zh>MCP 工具集</span><span data-en>MCP tools</span></div>
+        <h2 class="h-h2" style="margin-top:18px">
+          <span data-zh class="zh">已交付 4 个工具。<br/>规划中 8 个。</span>
+          <span data-en>4 tools shipped.<br/>8 more in plan.</span>
+        </h2>
+      </div>
+    </div>
+
+    <div class="tool-list">
+      <div class="tool-item"><div class="cat"><span data-zh>检索</span><span data-en>Retrieve</span></div><div class="name">kg_search(query, top_k)</div><div class="desc"><span data-zh>三路混合检索 → 融合 → 精排，返回结构化原料 + 引用。</span><span data-en>Hybrid 3-way retrieval → fusion → rerank, returns structured material + citations.</span></div><span class="pill">SHIPPED</span></div>
+      <div class="tool-item"><div class="cat"><span data-zh>检索</span><span data-en>Retrieve</span></div><div class="name">kg_graph_query(cypher)</div><div class="desc"><span data-zh>原生 Cypher 查询。Agent 直接对图谱发 query 用。</span><span data-en>Raw Cypher query for direct graph access by the Agent.</span></div><span class="pill">SHIPPED</span></div>
+      <div class="tool-item"><div class="cat"><span data-zh>检索</span><span data-en>Retrieve</span></div><div class="name">kg_board_query(board_id)</div><div class="desc"><span data-zh>板卡完整信息：参数 + 元器件 + 文档 + 关系图。</span><span data-en>Full board info: parameters + components + docs + relations.</span></div><span class="pill">SHIPPED</span></div>
+      <div class="tool-item"><div class="cat"><span data-zh>反馈</span><span data-en>Feedback</span></div><div class="name">kg_add_feedback(qid, score)</div><div class="desc"><span data-zh>用户反馈记录到 reflection 日志，用于自修补和精炼。</span><span data-en>Records user feedback into the reflection log for self-patching and refinement.</span></div><span class="pill">SHIPPED</span></div>
+      <div class="tool-item"><div class="cat"><span data-zh>检索</span><span data-en>Retrieve</span></div><div class="name">kg_find_component(...)</div><div class="desc"><span data-zh>查找元器件 + 替代关系 + 兼容性。</span><span data-en>Find component + replacement + compatibility relations.</span></div><span class="pill todo">TODO</span></div>
+      <div class="tool-item"><div class="cat"><span data-zh>写入</span><span data-en>Write</span></div><div class="name">kg_patch_gap(...)</div><div class="desc"><span data-zh>图谱自修补：检测语义有图谱无的情况，生成补丁 → 审核队列。</span><span data-en>Auto-patch: detects "vector has it, graph doesn't" gap, generates patch → review queue.</span></div><span class="pill todo">TODO</span></div>
+      <div class="tool-item"><div class="cat"><span data-zh>入库</span><span data-en>Ingest</span></div><div class="name">kg_ingest_document(...)</div><div class="desc"><span data-zh>触发文档摄入 pipeline。Agent 直接喂文档。</span><span data-en>Triggers ingest pipeline. Agent feeds docs directly.</span></div><span class="pill todo">TODO</span></div>
+      <div class="tool-item"><div class="cat"><span data-zh>精炼</span><span data-en>Synthesis</span></div><div class="name">kg_synthesize(topic)</div><div class="desc"><span data-zh>跨文档精炼：发现"最近 3 份报告都提到 X"这种洞察。</span><span data-en>Cross-doc synthesis: surfaces patterns like "last 3 reports all mention X".</span></div><span class="pill todo">TODO</span></div>
+    </div>
+  </div>
+</section>
+
+<!-- DESIGN PRINCIPLES -->
+<section class="section">
+  <div class="wrap">
+    <div class="sect-head">
+      <div>
+        <div class="eyebrow"><span class="dot"></span>05 / <span data-zh>设计原则</span><span data-en>Design principles</span></div>
+        <h2 class="h-h2" style="margin-top:18px">
+          <span data-zh class="zh">五条铁律，<br/>所有技术决策的尺子。</span>
+          <span data-en>Five iron laws —<br/>the ruler we measure decisions against.</span>
+        </h2>
+      </div>
+    </div>
+
+    <div class="principles">
+      <div class="principle" data-num="01">
+        <h3><span data-zh class="zh">AI 准确度 = 用户表达 × AI 理解度</span><span data-en>Accuracy = user expression × AI understanding</span></h3>
+        <p data-zh>提升整体准确度有两条路：让用户表达更精确（不可控），或让 AI 更懂这家企业（我们的事）。后者是知识库的核心价值。</p>
+        <p data-en>To raise accuracy you can either tighten user expression (out of our hands) or deepen AI's understanding of this specific company (our job). The latter is the entire value of a knowledge base.</p>
+        <div class="impl"><b>impl</b> hybrid retrieval + grounded RAG + reflection loop</div>
+      </div>
+
+      <div class="principle" data-num="02">
+        <h3><span data-zh class="zh">知识库不直接解决问题</span><span data-en>The KB doesn't solve problems directly</span></h3>
+        <p data-zh>它让其他 AI 工具变得能解决问题。边界要清晰——我们不做生成，不抢调用方的活。这条原则保护我们不被功能蔓延拖垮。</p>
+        <p data-en>It makes other AI tools capable of solving them. The boundary stays sharp — we don't generate, we don't compete with the calling agent. This is what protects us from feature creep.</p>
+        <div class="impl"><b>impl</b> middleware-only · MCP / CLI / REST as the only surface</div>
+      </div>
+
+      <div class="principle" data-num="03">
+        <h3><span data-zh class="zh">生成 ≠ 检索</span><span data-en>Generation ≠ retrieval</span></h3>
+        <p data-zh>知识库只做后者，前者交给调用方 Agent。这避免了"知识库幻觉"——大多数 RAG 灾难都来自把生成揉进检索环节。</p>
+        <p data-en>The KB does only retrieval; generation belongs to the calling agent. This avoids the "knowledge-base hallucination" failure mode — most RAG disasters come from blending generation into retrieval.</p>
+        <div class="impl"><b>impl</b> structured facts + citations + confidence — never prose</div>
+      </div>
+
+      <div class="principle" data-num="04">
+        <h3><span data-zh class="zh">工业级零容忍幻觉</span><span data-en>Industrial-grade zero-hallucination</span></h3>
+        <p data-zh>未来要介入工业生产决策。决策辅助系统级别的责任 ≠ 聊天玩具级别的容忍度。100% 溯源是底线，不知道就拒答。</p>
+        <p data-en>We are headed toward supporting industrial production decisions. Decision-support liability ≠ chat-toy tolerance. 100% citation is the floor; if we don't know, we refuse.</p>
+        <div class="impl"><b>impl</b> citation-required output schema · refusal pathway built in</div>
+      </div>
+
+      <div class="principle" data-num="05">
+        <h3><span data-zh class="zh">先用起来，再迭代</span><span data-en>Run first, iterate after</span></h3>
+        <p data-zh>不被花哨 UI 或未来场景拖住。第一阶段：能简单安装、操作、有 app 图标、有 WebUI。等真用起来，反馈来推迭代方向。</p>
+        <p data-en>Don't be paralysed by polished UI or hypothetical scenarios. Phase one: install, operate, app icon, WebUI. Let real usage drive what to build next.</p>
+        <div class="impl"><b>impl</b> shipped early · feedback-driven roadmap · weekly review</div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- CTA -->
+<section class="section" style="border-top:1px solid var(--line)">
+  <div class="wrap-narrow" style="text-align:center;display:flex;flex-direction:column;align-items:center;gap:24px">
+    <div class="eyebrow"><span class="dot"></span><span data-zh>更深入？</span><span data-en>Deeper?</span></div>
+    <h2 class="h-h2" style="max-width:780px">
+      <span data-zh class="zh">需要更具体的<br/><span class="lime-box">代码 / 部署方案</span> ？</span>
+      <span data-en>Want a deeper look at<br/><span class="lime-box">code / deployment</span>?</span>
+    </h2>
+    <p class="lead" style="max-width:600px">
+      <span data-zh>如果你是技术负责人，我们可以走更深的会议——演示 MCP 接入流程、跑一遍 docker-compose 到客户机房的部署。</span>
+      <span data-en>If you're a technical lead, we can do a deeper session — live demo of MCP integration and a docker-compose deployment dry-run on your hardware.</span>
+    </p>
+    <div style="display:flex;gap:20px;flex-wrap:wrap;justify-content:center;margin-top:8px">
+      <a href="/#cta" class="btn"><span data-zh>预约技术演示</span><span data-en>Book tech demo</span><span class="arr">→</span></a>
+      <a href="/products/shiguangmailuo.html" class="btn-ghost"><span data-zh>产品页</span><span data-en>Product page</span><span class="arr">→</span></a>
+    </div>
+  </div>
+</section>
+
+<!-- FOOTER -->
+<footer>
+  <div class="wrap">
+    <div class="footer-grid">
+      <div class="footer-brand">
+        <div style="display:flex;align-items:center;gap:12px"><span class="brand-mark" style="width:32px;height:32px"></span><div style="font-family:var(--sans);font-weight:700;font-size:18px;letter-spacing:-0.02em">WeChaser</div></div>
+        <p><span data-zh>企业 AI 中间件<br/>长沙 · 上海 · 海外</span><span data-en>Enterprise AI middleware<br/>Changsha · Shanghai · International</span></p>
+      </div>
+      <div class="footer-cols">
+        <div class="footer-col">
+          <div class="col-head" data-zh>产品</div><div class="col-head" data-en>Product</div>
+          <a href="/products/shiguangmailuo.html"><span data-zh>时光脉络</span><span data-en>Shiguangmailuo</span></a>
+        </div>
+        <div class="footer-col">
+          <div class="col-head" data-zh>资源</div><div class="col-head" data-en>Resources</div>
+          <a href="/cases/chaoxian.html"><span data-zh>超弦科技案例</span><span data-en>Chaostring Tech</span></a>
+          <a href="/tech.html"><span data-zh>技术架构</span><span data-en>Architecture</span></a>
+          <a href="/about.html"><span data-zh>关于我们</span><span data-en>About</span></a>
+        </div>
+        <div class="footer-col">
+          <div class="col-head" data-zh>联系</div><div class="col-head" data-en>Contact</div>
+          <a href="mailto:hello@wechaser.ai">hello@wechaser.ai</a>
+          <a href="/#cta"><span data-zh>预约演示</span><span data-en>Book a call</span></a>
+        </div>
+      </div>
+    </div>
+    <div class="footer-bottom"><div>© 2026 WeChaser LLC</div><div>EST. 2025 · BUILT WITH 工艺</div></div>
+  </div>
+</footer>
+
+<script src="/js/site.js"></script>
+</body>
+</html>
