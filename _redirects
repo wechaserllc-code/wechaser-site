@@ -1,0 +1,10 @@
+# Cloudflare Pages redirects file
+# Format: source destination [status]
+
+# Old single-client case URL → new anonymized cases index
+/cases/chaoxian.html  /cases/  301
+/cases/chaoxian       /cases/  301
+
+# Convenience aliases
+/services             /services/consulting.html  302
+/pricing              /pricing.html              302

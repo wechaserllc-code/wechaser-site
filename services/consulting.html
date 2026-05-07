@@ -1,0 +1,287 @@
+<!doctype html>
+<html lang="zh-CN">
+<head>
+<meta charset="utf-8" />
+<meta name="viewport" content="width=device-width,initial-scale=1" />
+<title>咨询服务 · WeChaser</title>
+<meta name="description" content="陪跑式 AI 咨询：业务流程梳理、AI 转型路线图、最小可落地试点设计。第一阶段调研免费，3-5 家深度客户，不广撒网。" />
+<link rel="icon" type="image/svg+xml" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 64 64'%3E%3Crect width='64' height='64' fill='%23060608'/%3E%3Crect x='14' y='14' width='36' height='36' fill='%23C8FA3C'/%3E%3Crect x='14' y='14' width='36' height='1' fill='%23060608'/%3E%3C/svg%3E" />
+<link rel="preconnect" href="https://fonts.googleapis.com" />
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+<link href="https://fonts.googleapis.com/css2?family=Inter+Tight:wght@400;500;600;700;800&family=Inter:wght@400;500;600&family=Noto+Sans+SC:wght@400;500;700;900&family=JetBrains+Mono:wght@400;500;600&display=swap" rel="stylesheet" />
+<link rel="stylesheet" href="../styles.css" />
+<style>
+.svc-tag{display:inline-flex;align-items:center;gap:8px;padding:5px 14px;background:var(--bg-1);color:var(--lime);border:1px solid var(--line-lime);font-family:var(--mono);font-size:11px;font-weight:600;letter-spacing:0.14em;text-transform:uppercase;border-radius:999px;margin-bottom:24px}
+
+.deliv-grid{display:grid;grid-template-columns:repeat(2,1fr);gap:1px;background:var(--line);border:1px solid var(--line)}
+.deliv{background:var(--bg);padding:28px 32px;display:flex;flex-direction:column;gap:12px}
+.deliv .num{font-family:var(--mono);font-size:11px;letter-spacing:0.16em;color:var(--lime);text-transform:uppercase;font-weight:600}
+.deliv h3{font-family:var(--sans);font-weight:700;font-size:1.25rem;letter-spacing:-0.012em;line-height:1.3}
+.deliv h3 .zh{font-family:var(--sans-zh);font-weight:900}
+.deliv p{color:var(--ink-2);font-size:0.95rem;line-height:1.7}
+.deliv .meta{margin-top:auto;padding-top:14px;border-top:1px solid var(--line);font-family:var(--mono);font-size:11px;color:var(--ink-3);letter-spacing:0.06em;text-transform:uppercase}
+
+.who-grid{display:grid;grid-template-columns:1fr 1fr;gap:48px}
+.who-col h3{font-family:var(--sans);font-weight:700;font-size:1.375rem;line-height:1.3;margin-bottom:18px}
+.who-col h3 .zh{font-family:var(--sans-zh);font-weight:900}
+.who-col ul{list-style:none;padding:0;display:flex;flex-direction:column;gap:14px}
+.who-col li{padding-left:22px;position:relative;color:var(--ink-2);font-size:0.975rem;line-height:1.7}
+.who-col.yes li::before{content:"✓";position:absolute;left:0;color:var(--lime);font-weight:700}
+.who-col.no li::before{content:"✗";position:absolute;left:0;color:var(--rose);font-weight:700}
+
+.price-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:1px;background:var(--line);border:1px solid var(--line)}
+.price-card{background:var(--bg);padding:32px 28px;display:flex;flex-direction:column;gap:14px;min-height:280px}
+.price-card.featured{background:linear-gradient(135deg,var(--bg) 0%,rgba(200,250,60,0.05) 100%);border:1px solid var(--line-lime)}
+.price-card .stage{font-family:var(--mono);font-size:11px;letter-spacing:0.16em;color:var(--lime);text-transform:uppercase;font-weight:600}
+.price-card h3{font-family:var(--sans);font-weight:700;font-size:1.5rem;letter-spacing:-0.018em;line-height:1.2}
+.price-card h3 .zh{font-family:var(--sans-zh);font-weight:900}
+.price-card .amt{font-family:var(--sans);font-weight:700;font-size:32px;letter-spacing:-0.02em;color:var(--ink);margin-top:8px}
+.price-card .amt small{font-family:var(--mono);font-size:13px;color:var(--ink-3);font-weight:500;margin-left:4px}
+.price-card p{color:var(--ink-2);font-size:0.92rem;line-height:1.7}
+.price-card ul{list-style:none;padding:0;margin-top:auto;padding-top:14px;border-top:1px solid var(--line);display:flex;flex-direction:column;gap:6px}
+.price-card li{padding-left:16px;position:relative;color:var(--ink-2);font-size:0.875rem;line-height:1.5}
+.price-card li::before{content:"–";position:absolute;left:0;color:var(--lime);font-weight:700}
+
+@media(max-width:880px){.deliv-grid{grid-template-columns:1fr}.who-grid{grid-template-columns:1fr}.price-grid{grid-template-columns:1fr}}
+</style>
+</head>
+<body>
+
+<nav class="nav" id="nav">
+  <div class="wrap">
+    <a href="/" class="brand"><span class="brand-mark"></span><span>WeChaser</span></a>
+    <div class="nav-links">
+      <a href="/products/shiguangmailuo.html" data-zh>产品</a><a href="/products/shiguangmailuo.html" data-en>Product</a>
+      <a href="/cases/" data-zh>案例</a><a href="/cases/" data-en>Cases</a>
+      <a href="/tech.html" data-zh>技术</a><a href="/tech.html" data-en>Tech</a>
+      <a href="/about.html" data-zh>关于</a><a href="/about.html" data-en>About</a>
+    </div>
+    <div class="nav-tools">
+      <button class="lang-toggle" id="langToggle"><span class="zh on">中</span><span class="en">EN</span></button>
+      <a href="/#cta" class="btn"><span data-zh>预约演示</span><span data-en>Book a call</span><span class="arr">→</span></a>
+    </div>
+  </div>
+</nav>
+
+<header class="page-header">
+  <div class="wrap">
+    <div class="crumb">
+      <a href="/">WECHASER</a><span class="sep">/</span>
+      <span data-zh>服务</span><span data-en>SERVICES</span><span class="sep">/</span>
+      <span data-zh>咨询</span><span data-en>CONSULTING</span>
+    </div>
+    <div class="svc-tag">SERVICE 02.A / CONSULTING</div>
+    <h1>
+      <span data-zh class="zh">陪跑式 AI 咨询。<br/>不卖 deck，做交付。</span>
+      <span data-en>Hands-on AI advisory.<br/>Not slide-decks — actual deliverables.</span>
+    </h1>
+    <p class="sub">
+      <span data-zh>结构化方法论 + 行业案例库 + AI 协同，把"AI 能不能用 / 怎么用 / 从哪里开始"这三个问题在 4-6 周内给出可执行的答案。第一阶段调研不收费。</span>
+      <span data-en>Structured methodology + industry case library + AI co-pilots — turning "can AI help us / how / where to start" into executable answers within 4-6 weeks. The first phase (discovery) is free.</span>
+    </p>
+  </div>
+</header>
+
+<section class="section">
+  <div class="wrap">
+    <div class="sect-head">
+      <div>
+        <div class="eyebrow"><span class="dot"></span>01 / <span data-zh>是给谁的</span><span data-en>Who it's for</span></div>
+        <h2 class="h-h2" style="margin-top:18px">
+          <span data-zh class="zh">不是所有公司<br/>都该上 AI。</span>
+          <span data-en>Not every company<br/>should adopt AI.</span>
+        </h2>
+      </div>
+    </div>
+    <div class="who-grid" style="margin-top:48px">
+      <div class="who-col yes">
+        <h3><span data-zh class="zh">✓ 适合的公司</span><span data-en>✓ Good fit</span></h3>
+        <ul>
+          <li data-zh>年营收 5000 万 - 5 亿，能内部决策的中型企业</li>
+          <li data-en>Mid-market: ¥50M-¥500M revenue, with internal decision authority</li>
+          <li data-zh>有 3 年以上业务沉淀（文档 / 客户档案 / 工艺记录）</li>
+          <li data-en>3+ years of accumulated knowledge (docs / customer files / process records)</li>
+          <li data-zh>核心业务环节有明显效率瓶颈或经验外流风险</li>
+          <li data-en>Identifiable bottleneck — or knowledge-loss risk — in a core workflow</li>
+          <li data-zh>决策人愿意花时间过 1-2 次深度访谈</li>
+          <li data-en>A decision-maker willing to invest 1-2 deep interview sessions</li>
+        </ul>
+      </div>
+      <div class="who-col no">
+        <h3><span data-zh class="zh">✗ 不合适的</span><span data-en>✗ Not a fit</span></h3>
+        <ul>
+          <li data-zh>"想搞个 AI 聊天框"作为唯一目标</li>
+          <li data-en>Goal is "we want a chatbot" with no further depth</li>
+          <li data-zh>预算少于 10 万 — 试点都跑不起来</li>
+          <li data-en>Budget under ~¥100K — can't even fund a real pilot</li>
+          <li data-zh>没有真实业务数据，只想拿 AI 做营销卖点</li>
+          <li data-en>No real internal data — AI is just a marketing line</li>
+          <li data-zh>期望 1-2 周看到 ROI</li>
+          <li data-en>Expect ROI within 1-2 weeks</li>
+        </ul>
+      </div>
+    </div>
+  </div>
+</section>
+
+<section class="section" style="background:var(--bg-1);border-top:1px solid var(--line);border-bottom:1px solid var(--line)">
+  <div class="wrap">
+    <div class="sect-head">
+      <div>
+        <div class="eyebrow"><span class="dot"></span>02 / <span data-zh>交付物</span><span data-en>Deliverables</span></div>
+        <h2 class="h-h2" style="margin-top:18px">
+          <span data-zh class="zh">六份具体文件，<br/>每份能直接用。</span>
+          <span data-en>Six concrete artifacts,<br/>each immediately usable.</span>
+        </h2>
+      </div>
+    </div>
+    <div class="deliv-grid" style="margin-top:48px">
+      <div class="deliv">
+        <div class="num">01 / DIAGNOSIS</div>
+        <h3><span data-zh class="zh">业务流程诊断报告</span><span data-en>Workflow diagnosis</span></h3>
+        <p data-zh>3-5 条关键流程的现状画图 + 痛点定位 + 数据流梳理。明确"AI 能切哪里"。</p>
+        <p data-en>Current-state diagrams of 3-5 key workflows + pain-point localization + data-flow audit. Pinpoints "where AI can wedge in."</p>
+        <div class="meta"><span data-zh>~25 页 · 含访谈附录</span><span data-en>~25 pages · with interview appendix</span></div>
+      </div>
+      <div class="deliv">
+        <div class="num">02 / ROADMAP</div>
+        <h3><span data-zh class="zh">AI 转型路线图</span><span data-en>AI transformation roadmap</span></h3>
+        <p data-zh>分阶段：3 个月做什么 / 6 个月 / 12 个月。每个阶段绑定具体可验证产出。</p>
+        <p data-en>Phased: what to ship at 3 / 6 / 12 months. Each phase tied to verifiable outputs.</p>
+        <div class="meta"><span data-zh>Gantt + 里程碑</span><span data-en>Gantt + milestones</span></div>
+      </div>
+      <div class="deliv">
+        <div class="num">03 / PILOT</div>
+        <h3><span data-zh class="zh">最小可落地试点设计</span><span data-en>Smallest-viable pilot design</span></h3>
+        <p data-zh>选 1 条业务线 + 1 个团队 + 8-12 周周期，明确成功指标和退出条件。</p>
+        <p data-en>One business line + one team + 8-12 weeks, with success metrics and a kill criterion.</p>
+        <div class="meta"><span data-zh>试点 SOW</span><span data-en>Pilot SOW</span></div>
+      </div>
+      <div class="deliv">
+        <div class="num">04 / STACK</div>
+        <h3><span data-zh class="zh">技术选型矩阵</span><span data-en>Tech-selection matrix</span></h3>
+        <p data-zh>开源 vs 商用 vs 自研三轴对比，给出符合企业合规要求的推荐组合。</p>
+        <p data-en>Open-source vs commercial vs in-house — three-axis comparison with a compliance-aware recommended bundle.</p>
+        <div class="meta"><span data-zh>对比表 + 评分</span><span data-en>Matrix + scores</span></div>
+      </div>
+      <div class="deliv">
+        <div class="num">05 / TEAM</div>
+        <h3><span data-zh class="zh">人才配置建议</span><span data-en>Team configuration</span></h3>
+        <p data-zh>试点期需要的角色 + 招聘 / 外包 / 培养路径建议。明确不需要的角色。</p>
+        <p data-en>Roles needed during pilot + hire / contract / upskill paths. And the roles you don't need.</p>
+        <div class="meta"><span data-zh>JD 模板 + 工时估算</span><span data-en>JD templates + hour estimates</span></div>
+      </div>
+      <div class="deliv">
+        <div class="num">06 / RISK</div>
+        <h3><span data-zh class="zh">风险与红线清单</span><span data-en>Risk + red-line list</span></h3>
+        <p data-zh>数据安全、合规、模型可解释性、组织阻力——把可能的坑提前列出，备好对策。</p>
+        <p data-en>Data security, compliance, model interpretability, org friction — surfaced upfront with mitigation plans.</p>
+        <div class="meta"><span data-zh>风险矩阵 + 预案</span><span data-en>Risk matrix + playbook</span></div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<section class="section">
+  <div class="wrap">
+    <div class="sect-head">
+      <div>
+        <div class="eyebrow"><span class="dot"></span>03 / <span data-zh>报价</span><span data-en>Pricing</span></div>
+        <h2 class="h-h2" style="margin-top:18px">
+          <span data-zh class="zh">三阶段，<br/>第一阶段免费。</span>
+          <span data-en>Three phases.<br/>Phase one is free.</span>
+        </h2>
+      </div>
+      <div class="note">
+        <span data-zh>每一阶段都有明确退出点。觉得不对就停，不会被拖入"沉没成本陷阱"。</span>
+        <span data-en>Every phase has a clean exit. If it doesn't fit, you stop — no sunk-cost trap.</span>
+      </div>
+    </div>
+
+    <div class="price-grid" style="margin-top:48px">
+      <div class="price-card">
+        <div class="stage">PHASE 01</div>
+        <h3><span data-zh class="zh">调研访谈</span><span data-en>Discovery</span></h3>
+        <div class="amt">¥0<small data-zh> · 免费</small><small data-en> · free</small></div>
+        <p data-zh>1-2 次深度访谈 + 现状盘点 + 可行性评估表。结束后双方决定是否进入下一阶段。</p>
+        <p data-en>1-2 deep interviews + current-state audit + feasibility checklist. Both sides decide whether to proceed.</p>
+        <ul>
+          <li data-zh>2-3 周</li><li data-en>2-3 weeks</li>
+          <li data-zh>不收费 · 不签 SOW</li><li data-en>No fee · no SOW</li>
+        </ul>
+      </div>
+      <div class="price-card featured">
+        <div class="stage">PHASE 02 · MAIN</div>
+        <h3><span data-zh class="zh">咨询交付</span><span data-en>Consulting delivery</span></h3>
+        <div class="amt">¥80K-¥250K<small> · 4-6 wk</small></div>
+        <p data-zh>上面 6 份交付物 + 2-3 次中期对齐会议。不达成预设交付物按比例退款。</p>
+        <p data-en>The 6 deliverables above + 2-3 mid-cycle alignment sessions. Pro-rata refund if deliverables aren't met.</p>
+        <ul>
+          <li data-zh>分 3 期付款 · 每期可终止</li><li data-en>3 instalments · cancellable each</li>
+          <li data-zh>含赠送的时光脉络 1 年使用授权</li><li data-en>1-year Shiguangmailuo license included</li>
+        </ul>
+      </div>
+      <div class="price-card">
+        <div class="stage">PHASE 03 · OPTIONAL</div>
+        <h3><span data-zh class="zh">试点实施</span><span data-en>Pilot execution</span></h3>
+        <div class="amt"><span data-zh>按试点 SOW</span><span data-en>By pilot SOW</span></div>
+        <p data-zh>如果客户决定让我们继续做 Phase 03 的实施工作，按 SOW 单独计价。也可以由客户内部团队接管。</p>
+        <p data-en>If you want us to execute the pilot, priced per SOW. Or your internal team can take over — we hand off cleanly.</p>
+        <ul>
+          <li data-zh>8-12 周</li><li data-en>8-12 weeks</li>
+          <li data-zh>每周复盘 · 可终止</li><li data-en>Weekly retros · cancellable</li>
+        </ul>
+      </div>
+    </div>
+  </div>
+</section>
+
+<section class="section" style="border-top:1px solid var(--line)">
+  <div class="wrap-narrow" style="text-align:center;display:flex;flex-direction:column;align-items:center;gap:24px">
+    <div class="eyebrow"><span class="dot"></span><span data-zh>下一步</span><span data-en>Next</span></div>
+    <h2 class="h-h2" style="max-width:780px">
+      <span data-zh class="zh">先聊 30 分钟，<br/>再决定要不要进 Phase 02。</span>
+      <span data-en>Start with 30 minutes,<br/>then decide if Phase 02 fits.</span>
+    </h2>
+    <div style="display:flex;gap:20px;flex-wrap:wrap;justify-content:center;margin-top:8px">
+      <a href="/#cta" class="btn"><span data-zh>预约 30 分钟</span><span data-en>Book 30-min</span><span class="arr">→</span></a>
+      <a href="/services/integration.html" class="btn-ghost"><span data-zh>看集成服务</span><span data-en>Integration service</span><span class="arr">→</span></a>
+    </div>
+  </div>
+</section>
+
+<footer>
+  <div class="wrap">
+    <div class="footer-grid">
+      <div class="footer-brand">
+        <div style="display:flex;align-items:center;gap:12px"><span class="brand-mark" style="width:32px;height:32px"></span><div style="font-family:var(--sans);font-weight:700;font-size:18px;letter-spacing:-0.02em">WeChaser</div></div>
+        <p><span data-zh>企业 AI 中间件<br/>Remote-first · 中文 / 英文支持</span><span data-en>Enterprise AI middleware<br/>Remote-first · CN / EN supported</span></p>
+      </div>
+      <div class="footer-cols">
+        <div class="footer-col">
+          <div class="col-head" data-zh>服务</div><div class="col-head" data-en>Services</div>
+          <a href="/services/consulting.html"><span data-zh>咨询</span><span data-en>Consulting</span></a>
+          <a href="/services/integration.html"><span data-zh>集成接入</span><span data-en>Integration</span></a>
+          <a href="/services/document-ops.html"><span data-zh>文档运营</span><span data-en>Document ops</span></a>
+          <a href="/pricing.html"><span data-zh>报价</span><span data-en>Pricing</span></a>
+        </div>
+        <div class="footer-col">
+          <div class="col-head" data-zh>资源</div><div class="col-head" data-en>Resources</div>
+          <a href="/cases/"><span data-zh>案例</span><span data-en>Cases</span></a>
+          <a href="/tech.html"><span data-zh>技术架构</span><span data-en>Architecture</span></a>
+          <a href="/about.html"><span data-zh>关于我们</span><span data-en>About</span></a>
+        </div>
+        <div class="footer-col">
+          <div class="col-head" data-zh>联系</div><div class="col-head" data-en>Contact</div>
+          <a href="mailto:hello@wechaser.ai">hello@wechaser.ai</a>
+          <a href="/#cta"><span data-zh>预约演示</span><span data-en>Book a call</span></a>
+        </div>
+      </div>
+    </div>
+    <div class="footer-bottom"><div>© 2026 WeChaser LLC</div><div>EST. 2025 · CRAFTED WITH CARE</div></div>
+  </div>
+</footer>
+
+<script src="/js/site.js"></script>
+</body>
+</html>

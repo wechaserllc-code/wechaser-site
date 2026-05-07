@@ -1,0 +1,81 @@
+<!doctype html>
+<html lang="zh-CN">
+<head>
+<meta charset="utf-8" />
+<meta name="viewport" content="width=device-width,initial-scale=1" />
+<title>404 · WeChaser</title>
+<meta name="description" content="找不到这个页面 · WeChaser" />
+<link rel="icon" type="image/svg+xml" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 64 64'%3E%3Crect width='64' height='64' fill='%23060608'/%3E%3Crect x='14' y='14' width='36' height='36' fill='%23C8FA3C'/%3E%3Crect x='14' y='14' width='36' height='1' fill='%23060608'/%3E%3C/svg%3E" />
+<link rel="preconnect" href="https://fonts.googleapis.com" />
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+<link href="https://fonts.googleapis.com/css2?family=Inter+Tight:wght@400;500;600;700;800&family=Inter:wght@400;500;600&family=Noto+Sans+SC:wght@400;500;700;900&family=JetBrains+Mono:wght@400;500;600&display=swap" rel="stylesheet" />
+<link rel="stylesheet" href="/styles.css" />
+<style>
+.x404{
+  min-height:80vh;display:flex;flex-direction:column;justify-content:center;align-items:flex-start;
+  padding:80px 0;
+}
+.x404 .code{
+  font-family:var(--sans);font-weight:800;font-size:clamp(80px,18vw,240px);
+  letter-spacing:-0.04em;line-height:0.9;color:var(--lime);
+}
+.x404 h1{
+  font-family:var(--sans);font-weight:800;font-size:clamp(36px,5vw,64px);
+  letter-spacing:-0.02em;line-height:1.1;margin-top:16px;
+}
+.x404 h1 .zh{font-family:var(--sans-zh);font-weight:900}
+.x404 p{margin-top:18px;color:var(--ink-2);font-size:1.0625rem;line-height:1.7;max-width:600px}
+.x404 p code{font-family:var(--mono);font-size:0.95em;color:var(--lime);background:var(--bg-1);padding:2px 6px;border-radius:3px}
+.x404 .links{margin-top:32px;display:flex;gap:18px;flex-wrap:wrap}
+</style>
+</head>
+<body>
+
+<nav class="nav" id="nav">
+  <div class="wrap">
+    <a href="/" class="brand"><span class="brand-mark"></span><span>WeChaser</span></a>
+    <div class="nav-links">
+      <a href="/products/shiguangmailuo.html" data-zh>产品</a><a href="/products/shiguangmailuo.html" data-en>Product</a>
+      <a href="/cases/" data-zh>案例</a><a href="/cases/" data-en>Cases</a>
+      <a href="/tech.html" data-zh>技术</a><a href="/tech.html" data-en>Tech</a>
+      <a href="/about.html" data-zh>关于</a><a href="/about.html" data-en>About</a>
+    </div>
+    <div class="nav-tools">
+      <button class="lang-toggle" id="langToggle"><span class="zh on">中</span><span class="en">EN</span></button>
+      <a href="/#cta" class="btn"><span data-zh>预约演示</span><span data-en>Book a call</span><span class="arr">→</span></a>
+    </div>
+  </div>
+</nav>
+
+<section class="section">
+  <div class="wrap">
+    <div class="x404">
+      <div class="code">404</div>
+      <div class="eyebrow" style="margin-top:24px"><span class="dot"></span><span data-zh>找不到这一页</span><span data-en>Page not found</span></div>
+      <h1>
+        <span data-zh class="zh">这里没东西。<br/>不是 bug，是这个 URL 不存在。</span>
+        <span data-en>Nothing here.<br/>Not a bug — this URL doesn't exist.</span>
+      </h1>
+      <p>
+        <span data-zh>可能是链接打错、页面已移动，或者从老案例 URL 跳过来。先看看下面这几个入口：</span>
+        <span data-en>Might be a typo, or a moved page, or an old case URL. Try one of these instead:</span>
+      </p>
+      <div class="links">
+        <a href="/" class="btn"><span data-zh>回首页</span><span data-en>Home</span><span class="arr">→</span></a>
+        <a href="/products/shiguangmailuo.html" class="btn-ghost"><span data-zh>产品</span><span data-en>Product</span><span class="arr">→</span></a>
+        <a href="/cases/" class="btn-ghost"><span data-zh>案例</span><span data-en>Cases</span><span class="arr">→</span></a>
+        <a href="mailto:hello@wechaser.ai" class="btn-ghost"><span data-zh>报错给我们</span><span data-en>Email us</span><span class="arr">→</span></a>
+      </div>
+    </div>
+  </div>
+</section>
+
+<footer>
+  <div class="wrap">
+    <div class="footer-bottom" style="padding-top:32px"><div>© 2026 WeChaser LLC</div><div>EST. 2025 · CRAFTED WITH CARE</div></div>
+  </div>
+</footer>
+
+<script src="/js/site.js"></script>
+</body>
+</html>

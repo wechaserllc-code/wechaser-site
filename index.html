@@ -5,6 +5,17 @@
 <meta name="viewport" content="width=device-width,initial-scale=1" />
 <title>WeChaser · 企业 AI 中间件 · 让 AI 工具变"懂企业"</title>
 <meta name="description" content="WeChaser 为企业部署 AI 中间件——让飞书、钉钉、ChatGPT、Claude 这些 AI 工具瞬间变得"懂你的企业"。旗舰产品时光脉络已在制造、电商、法律等行业落地，534 节点 / 890 向量 / 313 测试通过 / 100% 溯源。" />
+<meta property="og:type" content="website" />
+<meta property="og:url" content="https://wechaser.ai/" />
+<meta property="og:title" content="WeChaser · 企业 AI 中间件 · 让 AI 工具变"懂企业"" />
+<meta property="og:description" content="WeChaser 为企业部署 AI 中间件——让飞书、钉钉、ChatGPT、Claude 这些 AI 工具瞬间变得"懂你的企业"。已在制造、电商、法律行业落地。" />
+<meta property="og:image" content="https://wechaser.ai/og-image.png" />
+<meta property="og:image:width" content="1200" />
+<meta property="og:image:height" content="630" />
+<meta property="og:locale" content="zh_CN" />
+<meta name="twitter:card" content="summary_large_image" />
+<meta name="twitter:image" content="https://wechaser.ai/og-image.png" />
+<link rel="canonical" href="https://wechaser.ai/" />
 <link rel="icon" type="image/svg+xml" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 64 64'%3E%3Crect width='64' height='64' fill='%23060608'/%3E%3Crect x='14' y='14' width='36' height='36' fill='%23C8FA3C'/%3E%3Crect x='14' y='14' width='36' height='1' fill='%23060608'/%3E%3C/svg%3E" />
 <link rel="preconnect" href="https://fonts.googleapis.com" />
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
@@ -86,21 +97,22 @@
 .product-feat .arrow-link:hover .arr{transform:translateX(6px)}
 
 .product-side{display:flex;flex-direction:column}
-.product-side > div{
+.product-side > div, .product-side > a{
   padding:36px 40px;flex:1;
   border-bottom:1px solid var(--line);
   display:flex;flex-direction:column;gap:14px;
   transition:background .25s;
+  text-decoration:none;color:inherit;
 }
-.product-side > div:last-child{border-bottom:none}
-.product-side > div:hover{background:var(--bg-1)}
+.product-side > div:last-child, .product-side > a:last-child{border-bottom:none}
+.product-side > div:hover, .product-side > a:hover{background:var(--bg-1)}
 .product-side .ps-meta{font-family:var(--mono);font-size:11px;letter-spacing:0.14em;color:var(--ink-3);text-transform:uppercase}
 .product-side .ps-meta b{color:var(--lime);font-weight:600}
 .product-side h4{font-family:var(--sans);font-weight:700;font-size:22px;letter-spacing:-0.018em;line-height:1.2}
 .product-side h4 .zh{font-family:var(--sans-zh);font-weight:900}
 .product-side p{color:var(--ink-2);font-size:0.95rem;line-height:1.7}
 .product-side .ps-link{margin-top:auto;padding-top:8px;display:inline-flex;align-items:center;gap:8px;font-family:var(--mono);font-size:11px;letter-spacing:0.1em;color:var(--ink-3);text-transform:uppercase;font-weight:500}
-.product-side > div:hover .ps-link{color:var(--lime)}
+.product-side > div:hover .ps-link, .product-side > a:hover .ps-link{color:var(--lime)}
 
 /* CAPABILITY (kept as 3 cards but darker) */
 .cap-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:1px;background:var(--line);border:1px solid var(--line)}
@@ -233,8 +245,8 @@
   <div class="wrap hero-inner">
     <div class="hero-status status-pill">
       <span class="live"></span>
-      <span data-zh>已部署 · 1 家种子客户 · 534 节点 · 313 测试通过</span>
-      <span data-en>DEPLOYED · 1 SEED CLIENT · 534 NODES · 313 TESTS PASSED</span>
+      <span data-zh>已部署 · 3 个真实项目 · 100% 溯源 · 完全本地化</span>
+      <span data-en>DEPLOYED · 3 LIVE ENGAGEMENTS · 100% CITED · FULLY ON-PREM</span>
     </div>
 
     <div class="eyebrow"><span class="dot"></span><span data-zh>WECHASER · 企业 AI 中间件</span><span data-en>WECHASER · ENTERPRISE AI MIDDLEWARE</span></div>
@@ -330,27 +342,27 @@
       </div>
 
       <div class="product-side">
-        <div>
+        <a href="/services/consulting.html">
           <div class="ps-meta">02.A / <b>SERVICE</b></div>
           <h4><span data-zh class="zh">咨询服务</span><span data-en>Consulting</span></h4>
-          <p data-zh>用 AI 复刻麦肯锡级方法论给中小企业。陪跑顾问，交付业务流程梳理 + AI 转型路线图。</p>
-          <p data-en>McKinsey-grade methodology, AI-leveraged, for mid-market. Hands-on advisory: workflow audit + AI transformation roadmap.</p>
+          <p data-zh>结构化方法论 + 行业案例库 + AI 协同，陪跑式顾问。交付：业务流程梳理 + AI 转型路线图 + 最小可落地试点设计。</p>
+          <p data-en>Structured methodology + industry case library + AI co-pilots, delivered hands-on. Outputs: workflow audit, AI transformation roadmap, smallest-viable pilot design.</p>
           <span class="ps-link"><span data-zh>了解</span><span data-en>Learn</span> →</span>
-        </div>
-        <div>
+        </a>
+        <a href="/services/integration.html">
           <div class="ps-meta">02.B / <b>INTEGRATION</b></div>
           <h4><span data-zh class="zh">飞书 / 钉钉接入</span><span data-en>Lark / DingTalk</span></h4>
           <p data-zh>把知识中枢直接接到员工每天用的协作工具，不要求换工具。原生 Bot SDK + Hermes Gateway。</p>
           <p data-en>Plug the knowledge hub directly into the tools people already use — no migration. Native Bot SDK + Hermes Gateway.</p>
           <span class="ps-link"><span data-zh>查看</span><span data-en>See</span> →</span>
-        </div>
-        <div>
+        </a>
+        <a href="/services/document-ops.html">
           <div class="ps-meta">02.C / <b>OPS</b></div>
           <h4><span data-zh class="zh">文档整理伴生服务</span><span data-en>Document ops</span></h4>
           <p data-zh>AI 协助把 PDF / Word / 扫描件 / Excel / PPT 整理成标准格式 + 内容纠错 + 入库。</p>
           <p data-en>AI-assisted: PDFs, Word, scans, Excel, PPT — converted to clean structured format with content QA, ready to ingest.</p>
           <span class="ps-link"><span data-zh>了解</span><span data-en>Learn</span> →</span>
-        </div>
+        </a>
       </div>
     </div>
   </div>
@@ -421,33 +433,33 @@
       <article class="case reveal">
         <div class="case-tag">A · <span data-zh>知识传承</span><span data-en>Tacit knowledge</span></div>
         <h3><span data-zh class="zh">老工程师下个月退休。</span><span data-en>The senior engineer retires next month.</span></h3>
-        <p data-zh>23 年经验工艺师即将离开。半年的对话采集 + 历史方案归档，他的判断逻辑沉淀进 AI。年轻工程师在飞书提问，能拿到他口吻的回答，附引用。</p>
-        <p data-en>A process engineer with 23 years of pattern-matching is leaving. Six months of recorded conversations + archived decisions distilled into the model. Junior engineers ask in his voice — every answer cited.</p>
-        <div class="metric-row"><strong>23<small>YR</small></strong> <span data-zh>判断逻辑沉淀</span><span data-en>captured</span></div>
+        <p data-zh>资深工艺师即将离开。我们用对话采集 + 历史方案归档，把他的判断逻辑结构化进知识库。年轻工程师在飞书提问，能拿到带引用的"他过往是怎么决策的"。</p>
+        <p data-en>A senior process engineer is leaving. Recorded conversations + archived decisions get structured into the KB. Junior engineers ask in Lark and get cited "how he used to decide" — not a parroted voice, a traceable record.</p>
+        <div class="metric-row"><strong><span data-zh>对话归档</span><span data-en>Captured</span></strong> <span data-zh>+ 决策溯源</span><span data-en>+ decision trace</span></div>
       </article>
 
       <article class="case reveal">
         <div class="case-tag">B · <span data-zh>销售响应</span><span data-en>Sales response</span></div>
         <h3><span data-zh class="zh">"这个能不能做？"</span><span data-en>"Can you make this?"</span></h3>
-        <p data-zh>RFQ 落到销售飞书。AI 副驾即时拉历史相似订单 + 产能现状 + 原材料行情，给出可承诺的价格区间和交期。</p>
-        <p data-en>An RFQ lands. The copilot pulls past orders, current capacity, raw-material indices, proposes a defensible price band with lead time.</p>
-        <div class="metric-row"><strong>24h → 3<small>MIN</small></strong> <span data-zh>响应时间</span><span data-en>response time</span></div>
+        <p data-zh>RFQ 落到销售飞书。AI 副驾拉历史相似订单 + 产能现状 + 原材料行情，给销售一份可参考的回复底稿——价格 / 交期仍由人确认，不替人决策。</p>
+        <p data-en>An RFQ lands in Lark. The copilot pulls past orders, current capacity and raw-material indices, drafts a reference reply — the rep still confirms price and lead time. We don't replace the human decision.</p>
+        <div class="metric-row"><strong>T+1 → T+0</strong> <span data-zh>销售底稿就绪</span><span data-en>Draft on day-zero</span></div>
       </article>
 
       <article class="case reveal">
         <div class="case-tag">C · <span data-zh>工艺合规</span><span data-en>SOP usage</span></div>
         <h3><span data-zh class="zh">100 页 SOP 没人读。</span><span data-en>Nobody reads the 100-page SOP.</span></h3>
-        <p data-zh>员工只问"换型号要不要清线"。AI 给出该型号具体清线步骤 + 上次违规事故时间线，每条都点回原始 SOP 段落。</p>
-        <p data-en>The actual question: "do we flush the line for this changeover?" The copilot returns exact procedure for this part number + last incident timeline, citing SOP paragraphs by section.</p>
-        <div class="metric-row"><strong>×7</strong> <span data-zh>SOP 实际使用率</span><span data-en>SOP usage lift</span></div>
+        <p data-zh>员工只问"换型号要不要清线"。AI 给出该型号具体清线步骤 + 上次类似事故的处置时间线，每条都点回原始 SOP 段落。</p>
+        <p data-en>The actual question: "do we flush the line for this changeover?" The copilot returns the exact procedure for this part number + the timeline from the last similar incident, each pointing back to a specific SOP paragraph.</p>
+        <div class="metric-row"><strong><span data-zh>段落级</span><span data-en>Paragraph</span></strong> <span data-zh>SOP 引用</span><span data-en>citation</span></div>
       </article>
 
       <article class="case reveal">
         <div class="case-tag">D · <span data-zh>邮件考古</span><span data-en>Email archaeology</span></div>
         <h3><span data-zh class="zh">三个月前那封邮件。</span><span data-en>That email, three months ago.</span></h3>
-        <p data-zh>客户在某封邮件里提过一个变更要求，今天没人记得在哪。AI 跨邮箱、跨人员检索，3 秒钟把上下文还原，附原邮件链接。</p>
-        <p data-en>A customer mentioned a change request in some email weeks ago. The copilot searches across mailboxes and people, restoring the thread with original-message links in seconds.</p>
-        <div class="metric-row"><strong>3<small>S</small></strong> <span data-zh>跨邮箱上下文还原</span><span data-en>cross-mailbox recall</span></div>
+        <p data-zh>客户在某封邮件里提过一个变更要求，今天没人记得在哪。AI 跨邮箱、跨人员检索，秒级还原上下文，附原邮件链接——不用拍脑袋猜"我记得他说过…"。</p>
+        <p data-en>A customer mentioned a change request weeks ago — nobody remembers which thread. The copilot searches cross-mailbox, restores the context in seconds with the original-message link. No more "I think he said something about…"</p>
+        <div class="metric-row"><strong><span data-zh>跨邮箱</span><span data-en>Cross-mailbox</span></strong> <span data-zh>原文链接</span><span data-en>original link</span></div>
       </article>
     </div>
 
@@ -514,20 +526,20 @@
       <div>
         <div class="eyebrow"><span class="dot"></span>06 / <span data-zh>下一步</span><span data-en>Next</span></div>
         <h2 style="margin-top:18px">
-          <span data-zh class="zh">30 分钟，<br/>看看你的<br/><span class="lime-box">真问题</span> 值不值得动。</span>
-          <span data-en>Thirty minutes.<br/>Let's see if your<br/><span class="lime-box">actual problem</span> is worth solving.</span>
+          <span data-zh class="zh">30 分钟，<br/>把你的<br/><span class="lime-box">真问题</span> 讲清楚。</span>
+          <span data-en>Thirty minutes.<br/>Bring us your<br/><span class="lime-box">real problem</span> — we'll see how to start.</span>
         </h2>
         <p>
-          <span data-zh>留个邮箱，我们带着行业案例、可行性评估表、最小试点报价上门。第一阶段不收费。</span>
-          <span data-en>Drop your email. We come with industry cases, a feasibility checklist, and the smallest possible pilot quote. Phase one is free.</span>
+          <span data-zh>留个邮箱，我们带着行业案例、可行性评估表、最小试点报价上门。第一阶段调研不收费。</span>
+          <span data-en>Drop your email. We come with industry cases, a feasibility checklist, and the smallest-viable pilot quote. Phase one (discovery) is free.</span>
         </p>
       </div>
 
-      <form class="cta-form" onsubmit="event.preventDefault();const b=this.querySelector('button');b.textContent='✓ RECEIVED';b.style.background='var(--ink)';b.style.color='var(--lime)';">
+      <form class="cta-form" id="ctaForm">
         <label data-zh>工作邮箱</label>
         <label data-en>Work email</label>
         <div class="row">
-          <input type="email" required placeholder="name@company.com" />
+          <input type="email" id="ctaEmail" required placeholder="name@company.com" />
           <button type="submit"><span data-zh>预约</span><span data-en>Submit</span></button>
         </div>
         <div class="cta-foot">
@@ -535,6 +547,19 @@
           <span data-en>REPLY ≤1 BUSINESS DAY · NO MARKETING LIST</span>
         </div>
       </form>
+      <script>
+      (function(){
+        var f=document.getElementById('ctaForm');if(!f)return;
+        f.addEventListener('submit',function(e){
+          e.preventDefault();
+          var em=document.getElementById('ctaEmail').value.trim();if(!em)return;
+          var subject=encodeURIComponent('[WeChaser] 30-min call request — '+em);
+          var body=encodeURIComponent('Hi WeChaser,\n\nI'd like to book a 30-minute call.\n\nMy work email: '+em+'\nMy company / role: \nWhat I'm trying to figure out: \n\nThanks.');
+          window.location.href='mailto:hello@wechaser.ai?subject='+subject+'&body='+body;
+          var b=f.querySelector('button');b.textContent='✓ EMAIL CLIENT OPENED';b.style.background='var(--ink)';b.style.color='var(--lime)';
+        });
+      })();
+      </script>
     </div>
   </div>
 </section>
@@ -549,8 +574,8 @@
           <div style="font-family:var(--sans);font-weight:700;font-size:18px;letter-spacing:-0.02em">WeChaser</div>
         </div>
         <p>
-          <span data-zh>企业 AI 中间件<br/>长沙 · 上海 · 海外</span>
-          <span data-en>Enterprise AI middleware<br/>Changsha · Shanghai · International</span>
+          <span data-zh>企业 AI 中间件<br/>Remote-first · 中文 / 英文支持</span>
+          <span data-en>Enterprise AI middleware<br/>Remote-first · CN / EN supported</span>
         </p>
       </div>
       <div class="footer-cols">
@@ -561,21 +586,24 @@
           <a href="/products/shiguangmailuo.html#integration"><span data-zh>调用方式</span><span data-en>Integration</span></a>
         </div>
         <div class="footer-col">
+          <div class="col-head" data-zh>服务</div><div class="col-head" data-en>Services</div>
+          <a href="/services/consulting.html"><span data-zh>咨询</span><span data-en>Consulting</span></a>
+          <a href="/services/integration.html"><span data-zh>集成接入</span><span data-en>Integration</span></a>
+          <a href="/services/document-ops.html"><span data-zh>文档运营</span><span data-en>Document ops</span></a>
+          <a href="/pricing.html"><span data-zh>报价</span><span data-en>Pricing</span></a>
+        </div>
+        <div class="footer-col">
           <div class="col-head" data-zh>资源</div><div class="col-head" data-en>Resources</div>
           <a href="/cases/"><span data-zh>案例</span><span data-en>Cases</span></a>
           <a href="/tech.html"><span data-zh>技术架构</span><span data-en>Architecture</span></a>
           <a href="/about.html"><span data-zh>关于我们</span><span data-en>About</span></a>
-        </div>
-        <div class="footer-col">
-          <div class="col-head" data-zh>联系</div><div class="col-head" data-en>Contact</div>
           <a href="mailto:hello@wechaser.ai">hello@wechaser.ai</a>
-          <a href="#cta"><span data-zh>预约演示</span><span data-en>Book a call</span></a>
         </div>
       </div>
     </div>
     <div class="footer-bottom">
       <div>© 2026 WeChaser LLC · <span data-zh>务实 AI 赋能</span><span data-en>Pragmatic AI enablement</span></div>
-      <div>EST. 2025 · BUILT WITH 工艺</div>
+      <div>EST. 2025 · CRAFTED WITH CARE</div>
     </div>
   </div>
 </footer>

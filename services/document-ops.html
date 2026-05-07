@@ -1,0 +1,359 @@
+<!doctype html>
+<html lang="zh-CN">
+<head>
+<meta charset="utf-8" />
+<meta name="viewport" content="width=device-width,initial-scale=1" />
+<title>文档整理伴生服务 · WeChaser</title>
+<meta name="description" content="AI 协助把 PDF / Word / 扫描件 / Excel / PPT 整理成标准格式 + 内容质检 + 入库。OCR + 结构化解析 + 段落级元数据，知识库可用的标准底座。" />
+<link rel="icon" type="image/svg+xml" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 64 64'%3E%3Crect width='64' height='64' fill='%23060608'/%3E%3Crect x='14' y='14' width='36' height='36' fill='%23C8FA3C'/%3E%3Crect x='14' y='14' width='36' height='1' fill='%23060608'/%3E%3C/svg%3E" />
+<link rel="preconnect" href="https://fonts.googleapis.com" />
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+<link href="https://fonts.googleapis.com/css2?family=Inter+Tight:wght@400;500;600;700;800&family=Inter:wght@400;500;600&family=Noto+Sans+SC:wght@400;500;700;900&family=JetBrains+Mono:wght@400;500;600&display=swap" rel="stylesheet" />
+<link rel="stylesheet" href="../styles.css" />
+<style>
+.svc-tag{display:inline-flex;align-items:center;gap:8px;padding:5px 14px;background:var(--bg-1);color:var(--lime);border:1px solid var(--line-lime);font-family:var(--mono);font-size:11px;font-weight:600;letter-spacing:0.14em;text-transform:uppercase;border-radius:999px;margin-bottom:24px}
+
+.fmt-grid{display:grid;grid-template-columns:repeat(4,1fr);gap:1px;background:var(--line);border:1px solid var(--line)}
+.fmt{background:var(--bg);padding:24px 22px;display:flex;flex-direction:column;gap:10px;min-height:180px}
+.fmt .ext{font-family:var(--mono);font-weight:700;font-size:1.5rem;color:var(--lime);letter-spacing:-0.01em}
+.fmt h4{font-family:var(--sans);font-weight:700;font-size:1rem;letter-spacing:-0.01em;line-height:1.3}
+.fmt h4 .zh{font-family:var(--sans-zh);font-weight:900}
+.fmt p{color:var(--ink-2);font-size:0.85rem;line-height:1.6}
+.fmt .note{margin-top:auto;font-family:var(--mono);font-size:10px;color:var(--ink-3);letter-spacing:0.06em;text-transform:uppercase}
+
+.pipe{
+  display:grid;grid-template-columns:repeat(5,1fr);gap:0;
+  border:1px solid var(--line);position:relative;
+}
+.pipe::before{content:"";position:absolute;left:0;right:0;top:50%;height:1px;background:var(--line);z-index:0}
+.pipe-step{
+  background:var(--bg);padding:32px 22px;
+  border-right:1px solid var(--line);
+  display:flex;flex-direction:column;gap:12px;
+  position:relative;z-index:1;text-align:center;align-items:center;
+}
+.pipe-step:last-child{border-right:none}
+.pipe-step .num{
+  width:48px;height:48px;border:1px solid var(--line);background:var(--bg-1);
+  font-family:var(--mono);font-size:14px;font-weight:600;color:var(--ink);
+  display:flex;align-items:center;justify-content:center;border-radius:50%;
+}
+.pipe-step:hover .num{border-color:var(--lime);background:var(--lime);color:var(--bg)}
+.pipe-step h4{font-family:var(--sans);font-weight:700;font-size:1rem;letter-spacing:-0.005em;line-height:1.3}
+.pipe-step h4 .zh{font-family:var(--sans-zh);font-weight:900}
+.pipe-step p{color:var(--ink-2);font-size:0.85rem;line-height:1.6}
+.pipe-step .meta{font-family:var(--mono);font-size:10px;letter-spacing:0.1em;color:var(--ink-3);text-transform:uppercase;margin-top:auto;padding-top:8px}
+
+.qc-grid{display:grid;grid-template-columns:1fr 1fr;gap:1px;background:var(--line);border:1px solid var(--line)}
+.qc{background:var(--bg);padding:28px 32px;display:flex;flex-direction:column;gap:14px}
+.qc .num{font-family:var(--mono);font-size:11px;letter-spacing:0.16em;color:var(--lime);text-transform:uppercase;font-weight:600}
+.qc h3{font-family:var(--sans);font-weight:700;font-size:1.125rem;letter-spacing:-0.01em;line-height:1.3}
+.qc h3 .zh{font-family:var(--sans-zh);font-weight:900}
+.qc p{color:var(--ink-2);font-size:0.95rem;line-height:1.7}
+.qc p strong{color:var(--ink);font-weight:600}
+
+@media(max-width:880px){.fmt-grid{grid-template-columns:1fr 1fr}.pipe{grid-template-columns:1fr}.pipe-step{border-right:none;border-bottom:1px solid var(--line)}.qc-grid{grid-template-columns:1fr}}
+</style>
+</head>
+<body>
+
+<nav class="nav" id="nav">
+  <div class="wrap">
+    <a href="/" class="brand"><span class="brand-mark"></span><span>WeChaser</span></a>
+    <div class="nav-links">
+      <a href="/products/shiguangmailuo.html" data-zh>产品</a><a href="/products/shiguangmailuo.html" data-en>Product</a>
+      <a href="/cases/" data-zh>案例</a><a href="/cases/" data-en>Cases</a>
+      <a href="/tech.html" data-zh>技术</a><a href="/tech.html" data-en>Tech</a>
+      <a href="/about.html" data-zh>关于</a><a href="/about.html" data-en>About</a>
+    </div>
+    <div class="nav-tools">
+      <button class="lang-toggle" id="langToggle"><span class="zh on">中</span><span class="en">EN</span></button>
+      <a href="/#cta" class="btn"><span data-zh>预约演示</span><span data-en>Book a call</span><span class="arr">→</span></a>
+    </div>
+  </div>
+</nav>
+
+<header class="page-header">
+  <div class="wrap">
+    <div class="crumb">
+      <a href="/">WECHASER</a><span class="sep">/</span>
+      <span data-zh>服务</span><span data-en>SERVICES</span><span class="sep">/</span>
+      <span data-zh>文档运营</span><span data-en>DOCUMENT OPS</span>
+    </div>
+    <div class="svc-tag">SERVICE 02.C / DOCUMENT OPS</div>
+    <h1>
+      <span data-zh class="zh">文档整理<br/>伴生服务。</span>
+      <span data-en>Document operations<br/>as a service.</span>
+    </h1>
+    <p class="sub">
+      <span data-zh>知识库的好坏，70% 由入库前的文档质量决定。我们提供 AI 辅助的文档整理 + 质检 + 入库流水线——把客户散落在文件夹、邮箱、扫描件里的资料，变成知识库可用的标准底座。</span>
+      <span data-en>70% of a knowledge base's quality is determined before ingestion. We run an AI-assisted pipeline that turns scattered files, emails, and scans into a clean, structured foundation that the KB can actually consume.</span>
+    </p>
+  </div>
+</header>
+
+<section class="section">
+  <div class="wrap">
+    <div class="sect-head">
+      <div>
+        <div class="eyebrow"><span class="dot"></span>01 / <span data-zh>支持的输入格式</span><span data-en>Supported inputs</span></div>
+        <h2 class="h-h2" style="margin-top:18px">
+          <span data-zh class="zh">企业里能见到的<br/>常见文档类型，都吃。</span>
+          <span data-en>If your enterprise has it,<br/>we can ingest it.</span>
+        </h2>
+      </div>
+    </div>
+    <div class="fmt-grid" style="margin-top:48px">
+      <div class="fmt">
+        <div class="ext">.pdf</div>
+        <h4><span data-zh class="zh">PDF（含扫描件）</span><span data-en>PDF (incl. scans)</span></h4>
+        <p data-zh>原生 PDF 文本提取 + 扫描件 PaddleOCR + 表格 MinerU 解析。</p>
+        <p data-en>Native PDF text extraction + scan-based PaddleOCR + table parsing via MinerU.</p>
+        <div class="note">PADDLEOCR · MINERU</div>
+      </div>
+      <div class="fmt">
+        <div class="ext">.docx</div>
+        <h4><span data-zh class="zh">Word 文档</span><span data-en>Word documents</span></h4>
+        <p data-zh>含样式 / 标题层级 / 评论 / 修订记录的完整保留。</p>
+        <p data-en>Full preservation: styles, heading hierarchy, comments, track-changes.</p>
+        <div class="note">PYTHON-DOCX</div>
+      </div>
+      <div class="fmt">
+        <div class="ext">.xlsx</div>
+        <h4><span data-zh class="zh">Excel 表格</span><span data-en>Excel sheets</span></h4>
+        <p data-zh>多 sheet · 跨表引用 · 公式求值。SKU 库 / BOM 表的入库主力。</p>
+        <p data-en>Multi-sheet · cross-sheet refs · formula eval. The workhorse for SKU / BOM ingestion.</p>
+        <div class="note">OPENPYXL</div>
+      </div>
+      <div class="fmt">
+        <div class="ext">.pptx</div>
+        <h4><span data-zh class="zh">PowerPoint</span><span data-en>PowerPoint</span></h4>
+        <p data-zh>页面文本 + 演讲者备注 + 嵌入图表。客户会议汇报的素材库。</p>
+        <p data-en>Slide text + speaker notes + embedded charts. The corpus from sales decks lives here.</p>
+        <div class="note">PYTHON-PPTX</div>
+      </div>
+      <div class="fmt">
+        <div class="ext">.eml/.mbox</div>
+        <h4><span data-zh class="zh">邮件归档</span><span data-en>Email archives</span></h4>
+        <p data-zh>跨邮箱合并解析 · 附件自动展开 · 线程结构保留。</p>
+        <p data-en>Cross-mailbox merging · auto-expanded attachments · thread structure preserved.</p>
+        <div class="note">IMAP / EXPORT</div>
+      </div>
+      <div class="fmt">
+        <div class="ext">.dwg/.dxf</div>
+        <h4><span data-zh class="zh">CAD 图纸</span><span data-en>CAD drawings</span></h4>
+        <p data-zh>仅元数据（标题栏 / 修订记录 / BOM 表）入库；图形保留链接。</p>
+        <p data-en>Metadata only — title block / revision history / BOM. Graphics linked, not parsed.</p>
+        <div class="note">EZDXF · EXPERIMENTAL</div>
+      </div>
+      <div class="fmt">
+        <div class="ext">audio</div>
+        <h4><span data-zh class="zh">录音 / 会议纪要</span><span data-en>Audio / meeting notes</span></h4>
+        <p data-zh>m4a / mp3 / wav → Whisper 转写 + 说话人分离 + 时间戳锚点。</p>
+        <p data-en>m4a / mp3 / wav → Whisper transcription + speaker diarization + timestamp anchors.</p>
+        <div class="note">WHISPER</div>
+      </div>
+      <div class="fmt">
+        <div class="ext">.png/.jpg</div>
+        <h4><span data-zh class="zh">原理图 / 照片</span><span data-en>Schematics / photos</span></h4>
+        <p data-zh>Gemini 2.5 视觉模型解析 — 提取元器件、参数、关联标注。</p>
+        <p data-en>Gemini 2.5 vision — extracts components, parameters, related annotations.</p>
+        <div class="note">GEMINI 2.5</div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<section class="section" style="background:var(--bg-1);border-top:1px solid var(--line);border-bottom:1px solid var(--line)">
+  <div class="wrap">
+    <div class="sect-head">
+      <div>
+        <div class="eyebrow"><span class="dot"></span>02 / <span data-zh>处理流水线</span><span data-en>Processing pipeline</span></div>
+        <h2 class="h-h2" style="margin-top:18px">
+          <span data-zh class="zh">五步流水线，<br/>每一步都有人/机交叉点。</span>
+          <span data-en>Five steps,<br/>each with a human-in-the-loop checkpoint.</span>
+        </h2>
+      </div>
+    </div>
+
+    <div class="pipe" style="margin-top:48px">
+      <div class="pipe-step">
+        <div class="num">01</div>
+        <h4><span data-zh class="zh">采集</span><span data-en>Collect</span></h4>
+        <p data-zh>清单化文件夹 / 邮箱 / 共享盘。授权访问范围。</p>
+        <p data-en>Inventory folders / mailboxes / shared drives. Auth scope.</p>
+        <div class="meta">CLIENT-SIDE</div>
+      </div>
+      <div class="pipe-step">
+        <div class="num">02</div>
+        <h4><span data-zh class="zh">解析</span><span data-en>Parse</span></h4>
+        <p data-zh>OCR / 文本抽取 / 表格识别 / 视觉解析。8 种格式自适应。</p>
+        <p data-en>OCR / text extract / table parse / vision parse. 8 formats auto-routed.</p>
+        <div class="meta">AI-DRIVEN</div>
+      </div>
+      <div class="pipe-step">
+        <div class="num">03</div>
+        <h4><span data-zh class="zh">清洗</span><span data-en>Clean</span></h4>
+        <p data-zh>去重 / 修正 OCR 错字 / 拆段落。生成段落级元数据。</p>
+        <p data-en>Dedup / OCR correction / paragraph splitting. Paragraph-level metadata.</p>
+        <div class="meta">AI + RULES</div>
+      </div>
+      <div class="pipe-step">
+        <div class="num">04</div>
+        <h4><span data-zh class="zh">质检</span><span data-en>QA</span></h4>
+        <p data-zh>每批抽样 5%，人工对照原文。低置信度段落必检。</p>
+        <p data-en>Sample 5% per batch against source. Low-confidence paragraphs mandatory review.</p>
+        <div class="meta">HUMAN-IN-LOOP</div>
+      </div>
+      <div class="pipe-step">
+        <div class="num">05</div>
+        <h4><span data-zh class="zh">入库</span><span data-en>Ingest</span></h4>
+        <p data-zh>向量化 + 知识图谱节点构建 + 全文索引。可断网部署。</p>
+        <p data-en>Vectorize + KG node construction + full-text index. Air-gappable.</p>
+        <div class="meta">ON-PREM</div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<section class="section">
+  <div class="wrap">
+    <div class="sect-head">
+      <div>
+        <div class="eyebrow"><span class="dot"></span>03 / <span data-zh>内容质检</span><span data-en>Content QA</span></div>
+        <h2 class="h-h2" style="margin-top:18px">
+          <span data-zh class="zh">不只是"扫一遍 OCR 完事"。</span>
+          <span data-en>It's not just "OCR and done".</span>
+        </h2>
+      </div>
+      <div class="note">
+        <span data-zh>四类常见错误必查——这些都是我们在轨交客户实战中踩过的坑。</span>
+        <span data-en>Four common error classes are explicitly audited — landmines we've stepped on in production.</span>
+      </div>
+    </div>
+
+    <div class="qc-grid" style="margin-top:48px">
+      <div class="qc">
+        <div class="num">01 / OCR DRIFT</div>
+        <h3><span data-zh class="zh">OCR 字符漂移</span><span data-en>OCR character drift</span></h3>
+        <p data-zh>"0/O" "1/l" "B/8" 等容易识别错。我们对<strong>关键字段</strong>（型号、参数值、料号）做正则模式校验 + 二次模型 cross-check。</p>
+        <p data-en>"0/O" "1/l" "B/8" classic confusions. Critical fields (part number, parameter value, SKU) get regex pattern validation + secondary-model cross-check.</p>
+      </div>
+      <div class="qc">
+        <div class="num">02 / TABLE BREAK</div>
+        <h3><span data-zh class="zh">表格断裂</span><span data-en>Table fragmentation</span></h3>
+        <p data-zh>跨页表 / 合并单元格容易丢行。MinerU 解析 + 行数校验，对不上数会标红。</p>
+        <p data-en>Cross-page tables / merged cells often drop rows. MinerU parse + row-count verification — mismatches flagged.</p>
+      </div>
+      <div class="qc">
+        <div class="num">03 / DUPLICATE</div>
+        <h3><span data-zh class="zh">同源重复</span><span data-en>Same-source duplicates</span></h3>
+        <p data-zh>同一份文档 v1/v2/v3 散落在不同文件夹。<strong>file_hash 唯一约束 + 内容相似度</strong>双层去重，保留最新版本。</p>
+        <p data-en>v1/v2/v3 of the same doc scattered across folders. Two-layer dedup: <strong>file_hash uniqueness + content similarity</strong>. Keep the latest.</p>
+      </div>
+      <div class="qc">
+        <div class="num">04 / SEMANTIC</div>
+        <h3><span data-zh class="zh">语义边界混淆</span><span data-en>Semantic boundary mix-up</span></h3>
+        <p data-zh>"A 产品规格"被解析成"B 产品规格"——这种错误最危险。靠<strong>段落上下文 + 关键词锚点</strong>双验证，可疑段落人工复查。</p>
+        <p data-en>"Product A spec" parsed as "Product B spec" — most dangerous. Detected via <strong>paragraph context + keyword anchor</strong> double-check; suspicious paragraphs go to human review.</p>
+      </div>
+    </div>
+  </div>
+</section>
+
+<section class="section" style="background:var(--bg-1);border-top:1px solid var(--line)">
+  <div class="wrap">
+    <div class="sect-head">
+      <div>
+        <div class="eyebrow"><span class="dot"></span>04 / <span data-zh>报价模式</span><span data-en>Pricing model</span></div>
+        <h2 class="h-h2" style="margin-top:18px">
+          <span data-zh class="zh">按文件量计价，<br/>不按"项目周期"。</span>
+          <span data-en>Priced by volume,<br/>not by "project duration".</span>
+        </h2>
+      </div>
+    </div>
+
+    <div style="margin-top:48px;display:grid;grid-template-columns:repeat(3,1fr);gap:1px;background:var(--line);border:1px solid var(--line)">
+      <div style="background:var(--bg);padding:32px 32px">
+        <div style="font-family:var(--mono);font-size:11px;letter-spacing:0.14em;color:var(--lime);text-transform:uppercase;font-weight:600">SMALL</div>
+        <h3 style="font-family:var(--sans);font-weight:700;font-size:1.5rem;margin-top:10px;letter-spacing:-0.018em"><span data-zh class="zh">< 200 份文档</span><span data-en>&lt; 200 docs</span></h3>
+        <div style="font-family:var(--sans);font-weight:700;font-size:28px;letter-spacing:-0.02em;color:var(--ink);margin-top:12px">¥30K - ¥80K</div>
+        <p style="margin-top:12px;color:var(--ink-2);font-size:0.95rem;line-height:1.7" data-zh>典型咨询客户的初始资料量。2-3 周交付。常作为咨询服务的附赠包。</p>
+        <p style="margin-top:12px;color:var(--ink-2);font-size:0.95rem;line-height:1.7" data-en>Typical consulting-client starter set. 2-3 weeks. Often bundled with the consulting service.</p>
+      </div>
+      <div style="background:var(--bg);padding:32px 32px;border:1px solid var(--line-lime);background:linear-gradient(135deg,var(--bg) 0%,rgba(200,250,60,0.05) 100%)">
+        <div style="font-family:var(--mono);font-size:11px;letter-spacing:0.14em;color:var(--lime);text-transform:uppercase;font-weight:600">MEDIUM · COMMON</div>
+        <h3 style="font-family:var(--sans);font-weight:700;font-size:1.5rem;margin-top:10px;letter-spacing:-0.018em"><span data-zh class="zh">200 - 2K 份</span><span data-en>200 - 2K docs</span></h3>
+        <div style="font-family:var(--sans);font-weight:700;font-size:28px;letter-spacing:-0.02em;color:var(--ink);margin-top:12px">¥80K - ¥250K</div>
+        <p style="margin-top:12px;color:var(--ink-2);font-size:0.95rem;line-height:1.7" data-zh>中型企业核心知识资产盘点典型规模。4-6 周交付。含 1 次中期对齐会。</p>
+        <p style="margin-top:12px;color:var(--ink-2);font-size:0.95rem;line-height:1.7" data-en>Typical scope for a mid-market client's core knowledge audit. 4-6 weeks. One mid-cycle alignment session.</p>
+      </div>
+      <div style="background:var(--bg);padding:32px 32px">
+        <div style="font-family:var(--mono);font-size:11px;letter-spacing:0.14em;color:var(--lime);text-transform:uppercase;font-weight:600">LARGE</div>
+        <h3 style="font-family:var(--sans);font-weight:700;font-size:1.5rem;margin-top:10px;letter-spacing:-0.018em"><span data-zh class="zh">> 2K 份</span><span data-en>&gt; 2K docs</span></h3>
+        <div style="font-family:var(--sans);font-weight:700;font-size:28px;letter-spacing:-0.02em;color:var(--ink);margin-top:12px"><span data-zh>定制</span><span data-en>Custom</span></div>
+        <p style="margin-top:12px;color:var(--ink-2);font-size:0.95rem;line-height:1.7" data-zh>分批入库 / 多源数据 / 复杂权限场景。按 SOW 计价 + 阶段性付款，每阶段可终止。</p>
+        <p style="margin-top:12px;color:var(--ink-2);font-size:0.95rem;line-height:1.7" data-en>Batch ingestion / multi-source / complex permissions. Priced per SOW with milestone-based payment, each milestone cancellable.</p>
+      </div>
+    </div>
+
+    <p style="margin-top:32px;color:var(--ink-3);font-size:0.875rem;line-height:1.7;font-family:var(--mono);letter-spacing:0.04em">
+      <span data-zh>※ 上述报价不含基础设施成本（GPU / 存储）。如需 on-prem 完整方案，含基础设施部署的整体报价请单独询价。</span>
+      <span data-en>※ Pricing above does not include infrastructure (GPU / storage). For full on-prem deployment with infra, ask for a separate combined quote.</span>
+    </p>
+  </div>
+</section>
+
+<section class="section" style="border-top:1px solid var(--line)">
+  <div class="wrap-narrow" style="text-align:center;display:flex;flex-direction:column;align-items:center;gap:24px">
+    <div class="eyebrow"><span class="dot"></span><span data-zh>下一步</span><span data-en>Next</span></div>
+    <h2 class="h-h2" style="max-width:780px">
+      <span data-zh class="zh">把你的资料盘点一下，<br/>看到底有多大。</span>
+      <span data-en>Inventory your assets first,<br/>see what's actually there.</span>
+    </h2>
+    <p class="lead" style="max-width:600px">
+      <span data-zh>30 分钟通话，告诉我们你大概有多少份资料分散在哪里——我们可以给你一个粗略报价区间，决定要不要进入正式评估。</span>
+      <span data-en>A 30-minute call. Tell us roughly how many docs you have and where they sit — we'll give you a ballpark range to decide whether a formal scope makes sense.</span>
+    </p>
+    <div style="display:flex;gap:20px;flex-wrap:wrap;justify-content:center;margin-top:8px">
+      <a href="/#cta" class="btn"><span data-zh>预约 30 分钟</span><span data-en>Book 30-min</span><span class="arr">→</span></a>
+      <a href="/services/consulting.html" class="btn-ghost"><span data-zh>看咨询服务</span><span data-en>Consulting service</span><span class="arr">→</span></a>
+    </div>
+  </div>
+</section>
+
+<footer>
+  <div class="wrap">
+    <div class="footer-grid">
+      <div class="footer-brand">
+        <div style="display:flex;align-items:center;gap:12px"><span class="brand-mark" style="width:32px;height:32px"></span><div style="font-family:var(--sans);font-weight:700;font-size:18px;letter-spacing:-0.02em">WeChaser</div></div>
+        <p><span data-zh>企业 AI 中间件<br/>Remote-first · 中文 / 英文支持</span><span data-en>Enterprise AI middleware<br/>Remote-first · CN / EN supported</span></p>
+      </div>
+      <div class="footer-cols">
+        <div class="footer-col">
+          <div class="col-head" data-zh>服务</div><div class="col-head" data-en>Services</div>
+          <a href="/services/consulting.html"><span data-zh>咨询</span><span data-en>Consulting</span></a>
+          <a href="/services/integration.html"><span data-zh>集成接入</span><span data-en>Integration</span></a>
+          <a href="/services/document-ops.html"><span data-zh>文档运营</span><span data-en>Document ops</span></a>
+          <a href="/pricing.html"><span data-zh>报价</span><span data-en>Pricing</span></a>
+        </div>
+        <div class="footer-col">
+          <div class="col-head" data-zh>资源</div><div class="col-head" data-en>Resources</div>
+          <a href="/cases/"><span data-zh>案例</span><span data-en>Cases</span></a>
+          <a href="/tech.html"><span data-zh>技术架构</span><span data-en>Architecture</span></a>
+          <a href="/about.html"><span data-zh>关于我们</span><span data-en>About</span></a>
+        </div>
+        <div class="footer-col">
+          <div class="col-head" data-zh>联系</div><div class="col-head" data-en>Contact</div>
+          <a href="mailto:hello@wechaser.ai">hello@wechaser.ai</a>
+          <a href="/#cta"><span data-zh>预约演示</span><span data-en>Book a call</span></a>
+        </div>
+      </div>
+    </div>
+    <div class="footer-bottom"><div>© 2026 WeChaser LLC</div><div>EST. 2025 · CRAFTED WITH CARE</div></div>
+  </div>
+</footer>
+
+<script src="/js/site.js"></script>
+</body>
+</html>

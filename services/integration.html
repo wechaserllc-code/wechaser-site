@@ -1,0 +1,328 @@
+<!doctype html>
+<html lang="zh-CN">
+<head>
+<meta charset="utf-8" />
+<meta name="viewport" content="width=device-width,initial-scale=1" />
+<title>飞书 / 钉钉接入 · WeChaser</title>
+<meta name="description" content="把时光脉络知识中枢直接接到企业每天用的协作工具——飞书、钉钉、企业微信、Slack。原生 Bot SDK + Hermes Gateway，员工不换工具，AI 进现有流程。" />
+<link rel="icon" type="image/svg+xml" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 64 64'%3E%3Crect width='64' height='64' fill='%23060608'/%3E%3Crect x='14' y='14' width='36' height='36' fill='%23C8FA3C'/%3E%3Crect x='14' y='14' width='36' height='1' fill='%23060608'/%3E%3C/svg%3E" />
+<link rel="preconnect" href="https://fonts.googleapis.com" />
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+<link href="https://fonts.googleapis.com/css2?family=Inter+Tight:wght@400;500;600;700;800&family=Inter:wght@400;500;600&family=Noto+Sans+SC:wght@400;500;700;900&family=JetBrains+Mono:wght@400;500;600&display=swap" rel="stylesheet" />
+<link rel="stylesheet" href="../styles.css" />
+<style>
+.svc-tag{display:inline-flex;align-items:center;gap:8px;padding:5px 14px;background:var(--bg-1);color:var(--lime);border:1px solid var(--line-lime);font-family:var(--mono);font-size:11px;font-weight:600;letter-spacing:0.14em;text-transform:uppercase;border-radius:999px;margin-bottom:24px}
+
+.platform-grid{display:grid;grid-template-columns:repeat(4,1fr);gap:1px;background:var(--line);border:1px solid var(--line)}
+.platform{background:var(--bg);padding:32px 24px;display:flex;flex-direction:column;gap:14px;min-height:220px}
+.platform .name{font-family:var(--sans);font-weight:800;font-size:1.375rem;letter-spacing:-0.018em;line-height:1.1}
+.platform .name .zh{font-family:var(--sans-zh);font-weight:900}
+.platform .status{font-family:var(--mono);font-size:11px;letter-spacing:0.14em;color:var(--lime);text-transform:uppercase;font-weight:600}
+.platform .status.coming{color:var(--amber)}
+.platform p{color:var(--ink-2);font-size:0.9rem;line-height:1.65}
+
+.cap-list{display:flex;flex-direction:column;gap:0;border:1px solid var(--line)}
+.cap-list .row{
+  display:grid;grid-template-columns:200px 1fr 100px;gap:32px;
+  padding:22px 28px;border-bottom:1px solid var(--line);align-items:center;
+}
+.cap-list .row:last-child{border-bottom:none}
+.cap-list .row .name{font-family:var(--mono);font-size:12px;letter-spacing:0.1em;color:var(--lime);text-transform:uppercase;font-weight:600}
+.cap-list .row .desc{color:var(--ink-2);font-size:0.95rem;line-height:1.65}
+.cap-list .row .desc strong{color:var(--ink);font-weight:600}
+.cap-list .row .stat{font-family:var(--mono);font-size:11px;letter-spacing:0.1em;color:var(--ink-3);text-transform:uppercase;text-align:right}
+.cap-list .row .stat.shipped{color:var(--lime)}
+
+.flow{
+  background:var(--bg-1);border:1px solid var(--line);
+  padding:48px 32px;display:flex;flex-direction:column;align-items:center;gap:0;
+  font-family:var(--mono);position:relative;overflow:hidden;
+}
+.flow::before{content:"";position:absolute;inset:0;background-image:linear-gradient(to right,rgba(255,255,255,0.03) 1px,transparent 1px),linear-gradient(to bottom,rgba(255,255,255,0.03) 1px,transparent 1px);background-size:32px 32px;pointer-events:none}
+.flow > *{position:relative;z-index:1}
+.flow-row{display:flex;gap:14px;flex-wrap:wrap;justify-content:center;width:100%}
+.flow-node{
+  border:1px solid var(--line);background:var(--bg);
+  padding:14px 22px;font-size:12px;font-weight:500;color:var(--ink-2);letter-spacing:0.04em;
+  display:flex;flex-direction:column;align-items:center;gap:4px;
+  min-width:170px;text-align:center;
+}
+.flow-node small{font-size:10px;color:var(--ink-4);letter-spacing:0.1em;text-transform:uppercase}
+.flow-node.center{border-color:var(--lime);background:rgba(200,250,60,0.06);color:var(--ink);box-shadow:0 0 28px -10px var(--lime-glow)}
+.flow-node.center small{color:var(--lime)}
+.flow-arrow{font-family:var(--mono);font-size:11px;color:var(--ink-3);letter-spacing:0.14em;text-transform:uppercase;margin:14px 0;display:flex;align-items:center;gap:8px}
+.flow-arrow::before,.flow-arrow::after{content:"";display:inline-block;width:36px;height:1px;background:var(--lime)}
+
+@media(max-width:880px){
+  .platform-grid{grid-template-columns:1fr 1fr}
+  .cap-list .row{grid-template-columns:1fr;gap:8px}
+}
+</style>
+</head>
+<body>
+
+<nav class="nav" id="nav">
+  <div class="wrap">
+    <a href="/" class="brand"><span class="brand-mark"></span><span>WeChaser</span></a>
+    <div class="nav-links">
+      <a href="/products/shiguangmailuo.html" data-zh>产品</a><a href="/products/shiguangmailuo.html" data-en>Product</a>
+      <a href="/cases/" data-zh>案例</a><a href="/cases/" data-en>Cases</a>
+      <a href="/tech.html" data-zh>技术</a><a href="/tech.html" data-en>Tech</a>
+      <a href="/about.html" data-zh>关于</a><a href="/about.html" data-en>About</a>
+    </div>
+    <div class="nav-tools">
+      <button class="lang-toggle" id="langToggle"><span class="zh on">中</span><span class="en">EN</span></button>
+      <a href="/#cta" class="btn"><span data-zh>预约演示</span><span data-en>Book a call</span><span class="arr">→</span></a>
+    </div>
+  </div>
+</nav>
+
+<header class="page-header">
+  <div class="wrap">
+    <div class="crumb">
+      <a href="/">WECHASER</a><span class="sep">/</span>
+      <span data-zh>服务</span><span data-en>SERVICES</span><span class="sep">/</span>
+      <span data-zh>集成接入</span><span data-en>INTEGRATION</span>
+    </div>
+    <div class="svc-tag">SERVICE 02.B / INTEGRATION</div>
+    <h1>
+      <span data-zh class="zh">飞书 / 钉钉接入。<br/>员工不换工具。</span>
+      <span data-en>Lark / DingTalk integration.<br/>Don't make people switch.</span>
+    </h1>
+    <p class="sub">
+      <span data-zh>把时光脉络知识中枢直接接到企业每天用的协作工具里——员工在飞书 / 钉钉里 @ Bot 就能查公司知识库，回答带原文链接，不用打开第二个 App。</span>
+      <span data-en>Plug the Shiguangmailuo knowledge hub directly into the tools your team already uses. Employees @-mention the bot in Lark / DingTalk to query the corporate KB. Answers carry source links — no second app to open.</span>
+    </p>
+  </div>
+</header>
+
+<section class="section">
+  <div class="wrap">
+    <div class="sect-head">
+      <div>
+        <div class="eyebrow"><span class="dot"></span>01 / <span data-zh>支持平台</span><span data-en>Platforms</span></div>
+        <h2 class="h-h2" style="margin-top:18px">
+          <span data-zh class="zh">优先飞书 / 钉钉，<br/>其他持续接入。</span>
+          <span data-en>Lark / DingTalk first,<br/>others rolling out.</span>
+        </h2>
+      </div>
+    </div>
+    <div class="platform-grid" style="margin-top:48px">
+      <div class="platform">
+        <div class="status">SHIPPED</div>
+        <div class="name"><span data-zh class="zh">飞书 / Lark</span><span data-en>Lark / Feishu</span></div>
+        <p data-zh>原生 Bot SDK。@ Bot 提问 / 私聊查询 / 群组共享 / 文档评论触发。已在客户环境验证。</p>
+        <p data-en>Native Bot SDK. @-mention, DM, group share, doc-comment triggers. Validated in production.</p>
+      </div>
+      <div class="platform">
+        <div class="status">SHIPPED</div>
+        <div class="name"><span data-zh class="zh">钉钉</span><span data-en>DingTalk</span></div>
+        <p data-zh>企业内部应用 + 群机器人双通道。支持工作通知、待办创建、知识库 deeplink。</p>
+        <p data-en>Internal app + group robot, dual-channel. Supports notifications, todo creation, KB deeplinks.</p>
+      </div>
+      <div class="platform">
+        <div class="status coming">Q3 2026</div>
+        <div class="name"><span data-zh class="zh">企业微信</span><span data-en>WeCom</span></div>
+        <p data-zh>第三方应用形态。客户对接需求出现后启动适配。</p>
+        <p data-en>Third-party app. Adapter starts when client demand surfaces.</p>
+      </div>
+      <div class="platform">
+        <div class="status coming">Q4 2026</div>
+        <div class="name"><span data-zh class="zh">Slack / Teams</span><span data-en>Slack / Teams</span></div>
+        <p data-zh>面向跨境业务客户。已有协议梳理，等第一个海外客户上来跑通。</p>
+        <p data-en>For cross-border clients. Protocols mapped; awaiting first overseas client to drive it through.</p>
+      </div>
+    </div>
+  </div>
+</section>
+
+<section class="section" style="background:var(--bg-1);border-top:1px solid var(--line);border-bottom:1px solid var(--line)">
+  <div class="wrap">
+    <div class="sect-head">
+      <div>
+        <div class="eyebrow"><span class="dot"></span>02 / <span data-zh>已实现的能力</span><span data-en>Shipped capabilities</span></div>
+        <h2 class="h-h2" style="margin-top:18px">
+          <span data-zh class="zh">十种员工常用动作，<br/>都能在飞书里完成。</span>
+          <span data-en>Ten common employee actions,<br/>all done inside Lark.</span>
+        </h2>
+      </div>
+    </div>
+
+    <div class="cap-list" style="margin-top:48px">
+      <div class="row">
+        <div class="name">@ ASK</div>
+        <div class="desc"><strong data-zh>提问</strong><strong data-en>Ask</strong> · <span data-zh>@ Bot + 自然语言问题。返回带原文段落锚点的答案。</span><span data-en>@-mention with natural language. Returns an answer with paragraph-level source anchors.</span></div>
+        <div class="stat shipped">SHIPPED</div>
+      </div>
+      <div class="row">
+        <div class="name">DM PRIVATE</div>
+        <div class="desc"><strong data-zh>私聊查询</strong><strong data-en>DM query</strong> · <span data-zh>不在群里暴露查询内容。私聊 Bot 走同一权限。</span><span data-en>Don't expose queries to a group. DM the bot, same permissions apply.</span></div>
+        <div class="stat shipped">SHIPPED</div>
+      </div>
+      <div class="row">
+        <div class="name">DOC COMMENT</div>
+        <div class="desc"><strong data-zh>文档评论触发</strong><strong data-en>Doc-comment trigger</strong> · <span data-zh>飞书文档里 @ Bot，针对当前段落直接召回相关内部资料。</span><span data-en>@-mention the bot inside a Lark doc — context-aware recall against the current paragraph.</span></div>
+        <div class="stat shipped">SHIPPED</div>
+      </div>
+      <div class="row">
+        <div class="name">FILE INGEST</div>
+        <div class="desc"><strong data-zh>文件入库</strong><strong data-en>File ingestion</strong> · <span data-zh>把 PDF / Word / 扫描件直接发给 Bot，自动 OCR + 解析 + 入库 + 通知归类完成。</span><span data-en>Drop PDF/Word/scan to the bot — auto OCR + parse + ingest + notify on completion.</span></div>
+        <div class="stat shipped">SHIPPED</div>
+      </div>
+      <div class="row">
+        <div class="name">SHARE GROUP</div>
+        <div class="desc"><strong data-zh>群组共享答案</strong><strong data-en>Group sharing</strong> · <span data-zh>查到的答案一键分享到群，附原文链接，团队同步看见。</span><span data-en>One-click share an answer (with source link) to a group; the team sees it in context.</span></div>
+        <div class="stat shipped">SHIPPED</div>
+      </div>
+      <div class="row">
+        <div class="name">TODO CREATE</div>
+        <div class="desc"><strong data-zh>待办创建</strong><strong data-en>Todo creation</strong> · <span data-zh>"@Bot 帮我把这个加到 X 项目待办" → 钉钉 / 飞书原生待办接入。</span><span data-en>"@bot add this to project X todo" → integrates with native Lark / DingTalk todos.</span></div>
+        <div class="stat shipped">SHIPPED</div>
+      </div>
+      <div class="row">
+        <div class="name">FEEDBACK</div>
+        <div class="desc"><strong data-zh>答案反馈</strong><strong data-en>Answer feedback</strong> · <span data-zh>👍 / 👎 / 留评论 → 反馈进入 Hermes 自学习闭环。</span><span data-en>👍 / 👎 / leave a comment → feedback enters the Hermes self-learning loop.</span></div>
+        <div class="stat shipped">SHIPPED</div>
+      </div>
+      <div class="row">
+        <div class="name">PERMISSION</div>
+        <div class="desc"><strong data-zh>权限映射</strong><strong data-en>Permission mapping</strong> · <span data-zh>飞书部门 / 角色 → KB 段落级访问控制。合伙人能看的，助理 Bot 召回时严格隔离。</span><span data-en>Lark department / role → paragraph-level KB access. What partners see, associate-tier bots can't recall.</span></div>
+        <div class="stat shipped">SHIPPED</div>
+      </div>
+      <div class="row">
+        <div class="name">DAILY DIGEST</div>
+        <div class="desc"><strong data-zh>每日摘要</strong><strong data-en>Daily digest</strong> · <span data-zh>每天 9:00 推送"昨日新增文档 / 最高频被查问题 / 答案缺口"——管理者用来调整重点。</span><span data-en>9:00 daily push: "new docs / most-asked questions / answer gaps" — for managers to adjust priorities.</span></div>
+        <div class="stat shipped">SHIPPED</div>
+      </div>
+      <div class="row">
+        <div class="name">SCHEDULED</div>
+        <div class="desc"><strong data-zh>定时任务</strong><strong data-en>Cron tasks</strong> · <span data-zh>"每周一 10 点把上周客户新邮件按主题归档发给我" — Hermes 调度执行。</span><span data-en>"Every Mon 10am, archive last week's customer emails by topic and DM me" — Hermes scheduler executes.</span></div>
+        <div class="stat shipped">SHIPPED</div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<section class="section">
+  <div class="wrap">
+    <div class="sect-head">
+      <div>
+        <div class="eyebrow"><span class="dot"></span>03 / <span data-zh>部署架构</span><span data-en>Deployment topology</span></div>
+        <h2 class="h-h2" style="margin-top:18px">
+          <span data-zh class="zh">飞书在公网，<br/>知识库在你机房。</span>
+          <span data-en>Lark sits on the internet,<br/>your KB stays on-prem.</span>
+        </h2>
+      </div>
+      <div class="note">
+        <span data-zh>Hermes Gateway 做边界——只把"问题"转出去，把"答案 + 引用"发回来，原始文档永不离开客户网络。</span>
+        <span data-en>The Hermes Gateway is the perimeter — it forwards questions only and returns answers + citations. Source files never leave the customer network.</span>
+      </div>
+    </div>
+
+    <div class="flow" style="margin-top:48px">
+      <div class="flow-row">
+        <div class="flow-node"><span data-zh class="zh">飞书 / 钉钉</span><span data-en>Lark / DingTalk</span><small>SaaS · CLOUD</small></div>
+      </div>
+      <div class="flow-arrow">webhook</div>
+      <div class="flow-row">
+        <div class="flow-node center"><span data-zh class="zh">Hermes Gateway</span><span data-en>Hermes Gateway</span><small>EDGE NODE</small></div>
+      </div>
+      <div class="flow-arrow"><span data-zh>问题进 / 答案出</span><span data-en>Q in / A out</span></div>
+      <div class="flow-row">
+        <div class="flow-node"><span data-zh class="zh">时光脉络</span><span data-en>Shiguangmailuo</span><small>ON-PREM</small></div>
+        <div class="flow-node"><span data-zh class="zh">本地文件</span><span data-en>Local files</span><small>NEVER LEAVES</small></div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<section class="section" style="background:var(--bg-1);border-top:1px solid var(--line)">
+  <div class="wrap">
+    <div class="sect-head">
+      <div>
+        <div class="eyebrow"><span class="dot"></span>04 / <span data-zh>实施周期 + 报价</span><span data-en>Timeline + pricing</span></div>
+        <h2 class="h-h2" style="margin-top:18px">
+          <span data-zh class="zh">从 0 到飞书 Bot 上线，<br/>典型 3-4 周。</span>
+          <span data-en>Zero to live Lark bot,<br/>typically 3-4 weeks.</span>
+        </h2>
+      </div>
+    </div>
+
+    <div style="margin-top:48px;display:grid;grid-template-columns:1fr 1fr;gap:1px;background:var(--line);border:1px solid var(--line)">
+      <div style="background:var(--bg);padding:32px 36px">
+        <div style="font-family:var(--mono);font-size:11px;letter-spacing:0.14em;color:var(--lime);text-transform:uppercase;font-weight:600">WK 1-2 · SETUP</div>
+        <h3 style="font-family:var(--sans);font-weight:700;font-size:1.25rem;margin-top:10px;letter-spacing:-0.012em"><span data-zh class="zh">环境 + 权限映射</span><span data-en>Environment + permission mapping</span></h3>
+        <p style="margin-top:10px;color:var(--ink-2);font-size:0.95rem;line-height:1.7" data-zh>客户机房部署 Hermes Gateway。飞书企业管理员配置 Bot 应用。完成飞书部门 / 角色 → KB 段落级权限的映射表。</p>
+        <p style="margin-top:10px;color:var(--ink-2);font-size:0.95rem;line-height:1.7" data-en>Deploy Hermes Gateway in customer DC. Lark admin configures the bot app. Department/role → KB paragraph-level permission map.</p>
+      </div>
+      <div style="background:var(--bg);padding:32px 36px">
+        <div style="font-family:var(--mono);font-size:11px;letter-spacing:0.14em;color:var(--lime);text-transform:uppercase;font-weight:600">WK 3 · UAT</div>
+        <h3 style="font-family:var(--sans);font-weight:700;font-size:1.25rem;margin-top:10px;letter-spacing:-0.012em"><span data-zh class="zh">小范围灰度</span><span data-en>Small-scope rollout</span></h3>
+        <p style="margin-top:10px;color:var(--ink-2);font-size:0.95rem;line-height:1.7" data-zh>选 1-2 个部门先用，每天反馈，调 prompt + 调权限。每天结束有"答得不准的问题"列表。</p>
+        <p style="margin-top:10px;color:var(--ink-2);font-size:0.95rem;line-height:1.7" data-en>1-2 departments go first. Daily feedback, prompt + permission tuning. End-of-day list of unanswerable questions.</p>
+      </div>
+      <div style="background:var(--bg);padding:32px 36px">
+        <div style="font-family:var(--mono);font-size:11px;letter-spacing:0.14em;color:var(--lime);text-transform:uppercase;font-weight:600">WK 4 · GA</div>
+        <h3 style="font-family:var(--sans);font-weight:700;font-size:1.25rem;margin-top:10px;letter-spacing:-0.012em"><span data-zh class="zh">全员上线 + 培训</span><span data-en>GA + training</span></h3>
+        <p style="margin-top:10px;color:var(--ink-2);font-size:0.95rem;line-height:1.7" data-zh>全员开通，配 1 次 30 分钟员工使用培训。我们留 1 名工程师 30 天驻场答疑。</p>
+        <p style="margin-top:10px;color:var(--ink-2);font-size:0.95rem;line-height:1.7" data-en>All-hands rollout + a 30-min usage training. One engineer stays on-site for 30 days to triage.</p>
+      </div>
+      <div style="background:var(--bg);padding:32px 36px">
+        <div style="font-family:var(--mono);font-size:11px;letter-spacing:0.14em;color:var(--lime);text-transform:uppercase;font-weight:600">PRICING</div>
+        <h3 style="font-family:var(--sans);font-weight:700;font-size:1.25rem;margin-top:10px;letter-spacing:-0.012em"><span data-zh class="zh">¥120K - ¥350K</span><span data-en>¥120K - ¥350K</span></h3>
+        <p style="margin-top:10px;color:var(--ink-2);font-size:0.95rem;line-height:1.7" data-zh>含 Hermes Gateway 部署 + 飞书 / 钉钉双平台 + 培训 + 30 天驻场。规模 / 数据量 / 自定义需求决定最终报价。</p>
+        <p style="margin-top:10px;color:var(--ink-2);font-size:0.95rem;line-height:1.7" data-en>Includes Hermes Gateway deploy + Lark/DingTalk dual-platform + training + 30-day on-site. Final price scales with size / data / customization.</p>
+      </div>
+    </div>
+  </div>
+</section>
+
+<section class="section" style="border-top:1px solid var(--line)">
+  <div class="wrap-narrow" style="text-align:center;display:flex;flex-direction:column;align-items:center;gap:24px">
+    <div class="eyebrow"><span class="dot"></span><span data-zh>下一步</span><span data-en>Next</span></div>
+    <h2 class="h-h2" style="max-width:780px">
+      <span data-zh class="zh">想看一个飞书 Bot 在你的<br/>SaaS 数据上跑起来？</span>
+      <span data-en>Want to see a Lark bot<br/>running against your data?</span>
+    </h2>
+    <div style="display:flex;gap:20px;flex-wrap:wrap;justify-content:center;margin-top:8px">
+      <a href="/#cta" class="btn"><span data-zh>预约 30 分钟</span><span data-en>Book 30-min</span><span class="arr">→</span></a>
+      <a href="/services/document-ops.html" class="btn-ghost"><span data-zh>看文档运营</span><span data-en>Document ops</span><span class="arr">→</span></a>
+    </div>
+  </div>
+</section>
+
+<footer>
+  <div class="wrap">
+    <div class="footer-grid">
+      <div class="footer-brand">
+        <div style="display:flex;align-items:center;gap:12px"><span class="brand-mark" style="width:32px;height:32px"></span><div style="font-family:var(--sans);font-weight:700;font-size:18px;letter-spacing:-0.02em">WeChaser</div></div>
+        <p><span data-zh>企业 AI 中间件<br/>Remote-first · 中文 / 英文支持</span><span data-en>Enterprise AI middleware<br/>Remote-first · CN / EN supported</span></p>
+      </div>
+      <div class="footer-cols">
+        <div class="footer-col">
+          <div class="col-head" data-zh>服务</div><div class="col-head" data-en>Services</div>
+          <a href="/services/consulting.html"><span data-zh>咨询</span><span data-en>Consulting</span></a>
+          <a href="/services/integration.html"><span data-zh>集成接入</span><span data-en>Integration</span></a>
+          <a href="/services/document-ops.html"><span data-zh>文档运营</span><span data-en>Document ops</span></a>
+          <a href="/pricing.html"><span data-zh>报价</span><span data-en>Pricing</span></a>
+        </div>
+        <div class="footer-col">
+          <div class="col-head" data-zh>资源</div><div class="col-head" data-en>Resources</div>
+          <a href="/cases/"><span data-zh>案例</span><span data-en>Cases</span></a>
+          <a href="/tech.html"><span data-zh>技术架构</span><span data-en>Architecture</span></a>
+          <a href="/about.html"><span data-zh>关于我们</span><span data-en>About</span></a>
+        </div>
+        <div class="footer-col">
+          <div class="col-head" data-zh>联系</div><div class="col-head" data-en>Contact</div>
+          <a href="mailto:hello@wechaser.ai">hello@wechaser.ai</a>
+          <a href="/#cta"><span data-zh>预约演示</span><span data-en>Book a call</span></a>
+        </div>
+      </div>
+    </div>
+    <div class="footer-bottom"><div>© 2026 WeChaser LLC</div><div>EST. 2025 · CRAFTED WITH CARE</div></div>
+  </div>
+</footer>
+
+<script src="/js/site.js"></script>
+</body>
+</html>

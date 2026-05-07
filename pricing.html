@@ -1,0 +1,313 @@
+<!doctype html>
+<html lang="zh-CN">
+<head>
+<meta charset="utf-8" />
+<meta name="viewport" content="width=device-width,initial-scale=1" />
+<title>报价 · WeChaser</title>
+<meta name="description" content="WeChaser 的报价模型——三阶段、按里程碑付款、第一阶段调研免费。咨询 / 集成 / 文档运营三类服务的典型区间。" />
+<meta property="og:type" content="website" />
+<meta property="og:url" content="https://wechaser.ai/pricing.html" />
+<meta property="og:title" content="报价 · WeChaser" />
+<meta property="og:description" content="三阶段报价模型 · 第一阶段免费 · 按里程碑付款 · 不订阅 SaaS。" />
+<meta property="og:image" content="https://wechaser.ai/og-image.png" />
+<meta property="og:image:width" content="1200" />
+<meta property="og:image:height" content="630" />
+<meta name="twitter:card" content="summary_large_image" />
+<meta name="twitter:image" content="https://wechaser.ai/og-image.png" />
+<link rel="canonical" href="https://wechaser.ai/pricing.html" />
+<link rel="icon" type="image/svg+xml" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 64 64'%3E%3Crect width='64' height='64' fill='%23060608'/%3E%3Crect x='14' y='14' width='36' height='36' fill='%23C8FA3C'/%3E%3Crect x='14' y='14' width='36' height='1' fill='%23060608'/%3E%3C/svg%3E" />
+<link rel="preconnect" href="https://fonts.googleapis.com" />
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+<link href="https://fonts.googleapis.com/css2?family=Inter+Tight:wght@400;500;600;700;800&family=Inter:wght@400;500;600&family=Noto+Sans+SC:wght@400;500;700;900&family=JetBrains+Mono:wght@400;500;600&display=swap" rel="stylesheet" />
+<link rel="stylesheet" href="styles.css" />
+<style>
+.pri-tag{display:inline-flex;align-items:center;gap:8px;padding:5px 14px;background:var(--bg-1);color:var(--lime);border:1px solid var(--line-lime);font-family:var(--mono);font-size:11px;font-weight:600;letter-spacing:0.14em;text-transform:uppercase;border-radius:999px;margin-bottom:24px}
+
+.phase-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:1px;background:var(--line);border:1px solid var(--line)}
+.phase{background:var(--bg);padding:36px 32px;display:flex;flex-direction:column;gap:18px;min-height:380px}
+.phase.featured{background:linear-gradient(135deg,var(--bg) 0%,rgba(200,250,60,0.05) 100%);border:1px solid var(--line-lime)}
+.phase .step{font-family:var(--mono);font-size:11px;letter-spacing:0.16em;color:var(--lime);text-transform:uppercase;font-weight:600}
+.phase h3{font-family:var(--sans);font-weight:700;font-size:1.625rem;letter-spacing:-0.018em;line-height:1.2}
+.phase h3 .zh{font-family:var(--sans-zh);font-weight:900}
+.phase .amt{font-family:var(--sans);font-weight:700;font-size:36px;letter-spacing:-0.025em;color:var(--ink);margin-top:4px}
+.phase .amt small{font-family:var(--mono);font-size:13px;color:var(--ink-3);font-weight:500;margin-left:4px}
+.phase .amt .free{color:var(--lime)}
+.phase .desc{color:var(--ink-2);font-size:0.95rem;line-height:1.7}
+.phase .desc strong{color:var(--ink);font-weight:600}
+.phase .terms{margin-top:auto;padding-top:18px;border-top:1px solid var(--line);display:flex;flex-direction:column;gap:6px}
+.phase .terms span{padding-left:16px;position:relative;color:var(--ink-2);font-size:0.85rem;line-height:1.5}
+.phase .terms span::before{content:"–";position:absolute;left:0;color:var(--lime);font-weight:700}
+
+.svc-pricing{display:grid;grid-template-columns:1fr 1fr 1fr;gap:1px;background:var(--line);border:1px solid var(--line);margin-top:48px}
+.svc-pri{background:var(--bg);padding:32px 28px;display:flex;flex-direction:column;gap:14px;text-decoration:none;color:inherit;transition:background .25s}
+.svc-pri:hover{background:var(--bg-1)}
+.svc-pri .code{font-family:var(--mono);font-size:11px;letter-spacing:0.16em;color:var(--lime);text-transform:uppercase;font-weight:600}
+.svc-pri h3{font-family:var(--sans);font-weight:700;font-size:1.375rem;letter-spacing:-0.018em;line-height:1.2}
+.svc-pri h3 .zh{font-family:var(--sans-zh);font-weight:900}
+.svc-pri .range{font-family:var(--sans);font-weight:700;font-size:24px;letter-spacing:-0.02em;color:var(--ink)}
+.svc-pri .range small{font-family:var(--mono);font-size:12px;color:var(--ink-3);font-weight:500;letter-spacing:0;margin-left:4px}
+.svc-pri p{color:var(--ink-2);font-size:0.92rem;line-height:1.65}
+.svc-pri .arr{margin-top:auto;padding-top:14px;border-top:1px solid var(--line);font-family:var(--mono);font-size:11px;letter-spacing:0.1em;color:var(--ink-3);text-transform:uppercase;font-weight:500}
+.svc-pri:hover .arr{color:var(--lime)}
+
+.princ-grid{display:grid;grid-template-columns:1fr 1fr;gap:1px;background:var(--line);border:1px solid var(--line)}
+.princ{background:var(--bg);padding:28px 32px;display:flex;flex-direction:column;gap:12px}
+.princ .num{font-family:var(--mono);font-size:11px;letter-spacing:0.16em;color:var(--lime);text-transform:uppercase;font-weight:600}
+.princ.no .num{color:var(--rose)}
+.princ h3{font-family:var(--sans);font-weight:700;font-size:1.125rem;letter-spacing:-0.01em;line-height:1.3}
+.princ h3 .zh{font-family:var(--sans-zh);font-weight:900}
+.princ p{color:var(--ink-2);font-size:0.95rem;line-height:1.7}
+
+@media(max-width:880px){.phase-grid{grid-template-columns:1fr}.svc-pricing{grid-template-columns:1fr}.princ-grid{grid-template-columns:1fr}}
+</style>
+</head>
+<body>
+
+<nav class="nav" id="nav">
+  <div class="wrap">
+    <a href="/" class="brand"><span class="brand-mark"></span><span>WeChaser</span></a>
+    <div class="nav-links">
+      <a href="/products/shiguangmailuo.html" data-zh>产品</a><a href="/products/shiguangmailuo.html" data-en>Product</a>
+      <a href="/cases/" data-zh>案例</a><a href="/cases/" data-en>Cases</a>
+      <a href="/tech.html" data-zh>技术</a><a href="/tech.html" data-en>Tech</a>
+      <a href="/about.html" data-zh>关于</a><a href="/about.html" data-en>About</a>
+    </div>
+    <div class="nav-tools">
+      <button class="lang-toggle" id="langToggle"><span class="zh on">中</span><span class="en">EN</span></button>
+      <a href="/#cta" class="btn"><span data-zh>预约演示</span><span data-en>Book a call</span><span class="arr">→</span></a>
+    </div>
+  </div>
+</nav>
+
+<header class="page-header">
+  <div class="wrap">
+    <div class="crumb">
+      <a href="/">WECHASER</a><span class="sep">/</span>
+      <span data-zh>报价</span><span data-en>PRICING</span>
+    </div>
+    <div class="pri-tag">PRICING / TRANSPARENT</div>
+    <h1>
+      <span data-zh class="zh">怎么收费，<br/>不藏着说。</span>
+      <span data-en>How we charge,<br/>nothing hidden.</span>
+    </h1>
+    <p class="sub">
+      <span data-zh>三阶段报价模型 · 第一阶段调研免费 · 按里程碑分期付款 · 任意阶段可终止。我们不卖订阅 SaaS，不收"AI 月费"，不锁数据。</span>
+      <span data-en>Three-phase pricing · phase one (discovery) is free · milestone-based payment · cancellable at every phase. No SaaS subscription, no "AI monthly fee", no data lock-in.</span>
+    </p>
+  </div>
+</header>
+
+<section class="section">
+  <div class="wrap">
+    <div class="sect-head">
+      <div>
+        <div class="eyebrow"><span class="dot"></span>01 / <span data-zh>三阶段</span><span data-en>Three phases</span></div>
+        <h2 class="h-h2" style="margin-top:18px">
+          <span data-zh class="zh">先免费聊，<br/>对路了再付钱。</span>
+          <span data-en>Free conversation first.<br/>Money only after fit is confirmed.</span>
+        </h2>
+      </div>
+      <div class="note">
+        <span data-zh>每个阶段都有清晰的退出点。觉得不对就停，不会被沉没成本拖着走。</span>
+        <span data-en>Every phase has a clean exit. If it doesn't fit, you stop — no sunk-cost trap.</span>
+      </div>
+    </div>
+
+    <div class="phase-grid" style="margin-top:48px">
+      <div class="phase">
+        <div class="step">PHASE 01 / DISCOVERY</div>
+        <h3><span data-zh class="zh">调研访谈</span><span data-en>Discovery</span></h3>
+        <div class="amt"><span class="free">¥0</span><small data-zh> · 免费</small><small data-en> · free</small></div>
+        <p class="desc" data-zh>1-2 次深度访谈 + 现状盘点 + <strong>可行性评估表</strong>。结束后双方决定是否进入下一阶段。</p>
+        <p class="desc" data-en>1-2 deep interviews + current-state audit + <strong>feasibility checklist</strong>. Both sides decide whether to proceed.</p>
+        <div class="terms">
+          <span data-zh>2-3 周</span><span data-en>2-3 weeks</span>
+          <span data-zh>不签 SOW · 无任何承诺</span><span data-en>No SOW · no commitment</span>
+        </div>
+      </div>
+
+      <div class="phase featured">
+        <div class="step">PHASE 02 / DELIVERY</div>
+        <h3><span data-zh class="zh">咨询交付 + 服务</span><span data-en>Consulting + service</span></h3>
+        <div class="amt">¥80K - ¥350K<small> · 4-6 wk</small></div>
+        <p class="desc" data-zh>具体交付物 + 时光脉络部署。<strong>分 3 期付款</strong>，每期可终止——不达成预设交付物按比例退款。</p>
+        <p class="desc" data-en>Concrete deliverables + Shiguangmailuo deployment. <strong>3 milestone instalments</strong>, each cancellable — pro-rata refund if deliverables aren't met.</p>
+        <div class="terms">
+          <span data-zh>含时光脉络 1 年使用授权</span><span data-en>Includes 1-year Shiguangmailuo license</span>
+          <span data-zh>每周复盘对齐</span><span data-en>Weekly retros</span>
+        </div>
+      </div>
+
+      <div class="phase">
+        <div class="step">PHASE 03 / EXECUTION</div>
+        <h3><span data-zh class="zh">试点实施</span><span data-en>Pilot execution</span></h3>
+        <div class="amt"><span data-zh>按 SOW</span><span data-en>Per SOW</span></div>
+        <p class="desc" data-zh>可选阶段。如果你想让我们继续做实施工作，按试点 SOW 单独计价。也可以由内部团队接管，<strong>我们做干净交接</strong>。</p>
+        <p class="desc" data-en>Optional. If you want us to execute, priced per pilot SOW. Or your team can take over — <strong>clean handoff</strong>.</p>
+        <div class="terms">
+          <span data-zh>8-12 周</span><span data-en>8-12 weeks</span>
+          <span data-zh>每周复盘 · 任意时点终止</span><span data-en>Weekly retros · cancel anytime</span>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<section class="section" style="background:var(--bg-1);border-top:1px solid var(--line);border-bottom:1px solid var(--line)">
+  <div class="wrap">
+    <div class="sect-head">
+      <div>
+        <div class="eyebrow"><span class="dot"></span>02 / <span data-zh>三类服务报价</span><span data-en>Service pricing</span></div>
+        <h2 class="h-h2" style="margin-top:18px">
+          <span data-zh class="zh">按服务类型<br/>看典型区间。</span>
+          <span data-en>Typical ranges<br/>by service type.</span>
+        </h2>
+      </div>
+      <div class="note">
+        <span data-zh>下面是典型区间。最终报价由数据规模 / 集成复杂度 / 自定义需求决定。</span>
+        <span data-en>Typical ranges below. Final quote depends on data volume, integration complexity, customization.</span>
+      </div>
+    </div>
+
+    <div class="svc-pricing">
+      <a class="svc-pri" href="/services/consulting.html">
+        <div class="code">02.A · CONSULTING</div>
+        <h3><span data-zh class="zh">咨询服务</span><span data-en>Consulting</span></h3>
+        <div class="range">¥80K - ¥250K<small> · 4-6 wk</small></div>
+        <p data-zh>业务流程诊断 + AI 转型路线图 + 6 份可执行交付物。含时光脉络 1 年授权。</p>
+        <p data-en>Workflow diagnosis + AI transformation roadmap + 6 concrete deliverables. Includes 1-year license.</p>
+        <div class="arr"><span data-zh>了解详情</span><span data-en>Detail</span> →</div>
+      </a>
+      <a class="svc-pri" href="/services/integration.html">
+        <div class="code">02.B · INTEGRATION</div>
+        <h3><span data-zh class="zh">飞书 / 钉钉接入</span><span data-en>Lark / DingTalk</span></h3>
+        <div class="range">¥120K - ¥350K<small> · 3-4 wk</small></div>
+        <p data-zh>Hermes Gateway 部署 + 双平台 Bot + 培训 + 30 天驻场答疑。10 项已实现的员工常用能力。</p>
+        <p data-en>Hermes Gateway deploy + dual-platform bots + training + 30-day on-site triage. 10 shipped employee actions.</p>
+        <div class="arr"><span data-zh>了解详情</span><span data-en>Detail</span> →</div>
+      </a>
+      <a class="svc-pri" href="/services/document-ops.html">
+        <div class="code">02.C · DOCUMENT OPS</div>
+        <h3><span data-zh class="zh">文档整理伴生</span><span data-en>Document ops</span></h3>
+        <div class="range">¥30K - ¥250K<small> · 2-6 wk</small></div>
+        <p data-zh>按文件量计价。8 种格式 OCR + 解析 + 质检 + 入库。常作为咨询附赠或独立采购。</p>
+        <p data-en>Priced by volume. 8-format OCR + parse + QA + ingest. Can be bundled with consulting or stand-alone.</p>
+        <div class="arr"><span data-zh>了解详情</span><span data-en>Detail</span> →</div>
+      </a>
+    </div>
+
+    <p style="margin-top:32px;color:var(--ink-3);font-size:0.875rem;line-height:1.7;font-family:var(--mono);letter-spacing:0.04em;text-align:center">
+      <span data-zh>※ 上述报价为软件 + 服务费用。基础设施成本（GPU / 存储 / 客户机房）按客户实际采购，不进我们的报价。</span>
+      <span data-en>※ Pricing covers software + services. Infrastructure (GPU / storage / customer DC) is procured by client and excluded.</span>
+    </p>
+  </div>
+</section>
+
+<section class="section">
+  <div class="wrap">
+    <div class="sect-head">
+      <div>
+        <div class="eyebrow"><span class="dot"></span>03 / <span data-zh>报价原则</span><span data-en>Pricing principles</span></div>
+        <h2 class="h-h2" style="margin-top:18px">
+          <span data-zh class="zh">六条不让步。</span>
+          <span data-en>Six non-negotiables.</span>
+        </h2>
+      </div>
+    </div>
+
+    <div class="princ-grid" style="margin-top:48px">
+      <div class="princ">
+        <div class="num">01 / 我们做</div>
+        <h3><span data-zh class="zh">里程碑付款</span><span data-en>Milestone-based</span></h3>
+        <p data-zh>每个交付物一个里程碑，达成才付。退出点清晰。</p>
+        <p data-en>Each deliverable maps to a milestone. Pay on completion. Exit points are sharp.</p>
+      </div>
+      <div class="princ no">
+        <div class="num">不做</div>
+        <h3><span data-zh class="zh">月度订阅</span><span data-en>Monthly SaaS</span></h3>
+        <p data-zh>不卖"AI 月费"。客户买一次拿到使用权 + 完整代码 + 自部署能力。</p>
+        <p data-en>No "AI monthly fee". One purchase = perpetual usage rights + full source + ability to self-deploy.</p>
+      </div>
+
+      <div class="princ">
+        <div class="num">02 / 我们做</div>
+        <h3><span data-zh class="zh">客户拥有数据</span><span data-en>Client owns data</span></h3>
+        <p data-zh>所有客户原始文件 + 知识库索引存在客户机房。我们没有备份权限。</p>
+        <p data-en>Source files + KB indices live in the customer's DC. We don't have backup access.</p>
+      </div>
+      <div class="princ no">
+        <div class="num">不做</div>
+        <h3><span data-zh class="zh">数据上云锁库</span><span data-en>Cloud data lock-in</span></h3>
+        <p data-zh>不要求客户把数据传到我们 / 第三方云。不强制更新订阅。</p>
+        <p data-en>We don't require data uploaded to us / 3rd-party cloud. No forced subscription renewals.</p>
+      </div>
+
+      <div class="princ">
+        <div class="num">03 / 我们做</div>
+        <h3><span data-zh class="zh">公开报价区间</span><span data-en>Public ranges</span></h3>
+        <p data-zh>典型项目报价区间公开在网站上。客户不用先签 NDA 才能问价。</p>
+        <p data-en>Typical ranges published on the site. No NDA required to ask "how much".</p>
+      </div>
+      <div class="princ no">
+        <div class="num">不做</div>
+        <h3><span data-zh class="zh">"看公司情况报价"</span><span data-en>"Quote depends on you"</span></h3>
+        <p data-zh>同一服务对不同客户报价偏差不超过 30%。不"按公司大小定价"。</p>
+        <p data-en>Same service, same client class — price deviation under ±30%. We don't "size-match" the quote.</p>
+      </div>
+    </div>
+  </div>
+</section>
+
+<section class="section" style="background:var(--bg-1);border-top:1px solid var(--line)">
+  <div class="wrap-narrow" style="text-align:center;display:flex;flex-direction:column;align-items:center;gap:24px">
+    <div class="eyebrow"><span class="dot"></span><span data-zh>下一步</span><span data-en>Next</span></div>
+    <h2 class="h-h2" style="max-width:780px">
+      <span data-zh class="zh">想要一个具体到你公司的报价？</span>
+      <span data-en>Want a quote tailored to your company?</span>
+    </h2>
+    <p class="lead" style="max-width:600px">
+      <span data-zh>30 分钟通话，告诉我们规模 / 数据量 / 想切的业务流程。我们能给一个粗略报价区间，决定要不要进入正式 Phase 01 调研。</span>
+      <span data-en>A 30-minute call. Tell us your size / data volume / target workflow. We'll come back with a ballpark range, then decide if Phase 01 makes sense.</span>
+    </p>
+    <div style="display:flex;gap:20px;flex-wrap:wrap;justify-content:center;margin-top:8px">
+      <a href="/#cta" class="btn"><span data-zh>预约 30 分钟</span><span data-en>Book 30-min</span><span class="arr">→</span></a>
+      <a href="/services/consulting.html" class="btn-ghost"><span data-zh>看咨询服务</span><span data-en>Consulting service</span><span class="arr">→</span></a>
+    </div>
+  </div>
+</section>
+
+<footer>
+  <div class="wrap">
+    <div class="footer-grid">
+      <div class="footer-brand">
+        <div style="display:flex;align-items:center;gap:12px"><span class="brand-mark" style="width:32px;height:32px"></span><div style="font-family:var(--sans);font-weight:700;font-size:18px;letter-spacing:-0.02em">WeChaser</div></div>
+        <p><span data-zh>企业 AI 中间件<br/>Remote-first · 中文 / 英文支持</span><span data-en>Enterprise AI middleware<br/>Remote-first · CN / EN supported</span></p>
+      </div>
+      <div class="footer-cols">
+        <div class="footer-col">
+          <div class="col-head" data-zh>服务</div><div class="col-head" data-en>Services</div>
+          <a href="/services/consulting.html"><span data-zh>咨询</span><span data-en>Consulting</span></a>
+          <a href="/services/integration.html"><span data-zh>集成接入</span><span data-en>Integration</span></a>
+          <a href="/services/document-ops.html"><span data-zh>文档运营</span><span data-en>Document ops</span></a>
+          <a href="/pricing.html"><span data-zh>报价</span><span data-en>Pricing</span></a>
+        </div>
+        <div class="footer-col">
+          <div class="col-head" data-zh>资源</div><div class="col-head" data-en>Resources</div>
+          <a href="/cases/"><span data-zh>案例</span><span data-en>Cases</span></a>
+          <a href="/tech.html"><span data-zh>技术架构</span><span data-en>Architecture</span></a>
+          <a href="/about.html"><span data-zh>关于我们</span><span data-en>About</span></a>
+        </div>
+        <div class="footer-col">
+          <div class="col-head" data-zh>联系</div><div class="col-head" data-en>Contact</div>
+          <a href="mailto:hello@wechaser.ai">hello@wechaser.ai</a>
+          <a href="/#cta"><span data-zh>预约演示</span><span data-en>Book a call</span></a>
+        </div>
+      </div>
+    </div>
+    <div class="footer-bottom"><div>© 2026 WeChaser LLC</div><div>EST. 2025 · CRAFTED WITH CARE</div></div>
+  </div>
+</footer>
+
+<script src="js/site.js"></script>
+</body>
+</html>
