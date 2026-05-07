@@ -1,0 +1,383 @@
+<!doctype html>
+<html lang="zh-CN">
+<head>
+<meta charset="utf-8" />
+<meta name="viewport" content="width=device-width,initial-scale=1" />
+<title>案例 · 使用场景 · WeChaser</title>
+<meta name="description" content="WeChaser 在制造、电商、法律、医疗、教育、投资 6 个行业的使用场景，以及 3 个真实落地项目的实测数据。客户信息已匿名化处理。" />
+<link rel="icon" type="image/svg+xml" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 64 64'%3E%3Crect width='64' height='64' fill='%23060608'/%3E%3Crect x='14' y='14' width='36' height='36' fill='%23C8FA3C'/%3E%3Crect x='14' y='14' width='36' height='1' fill='%23060608'/%3E%3C/svg%3E" />
+<link rel="preconnect" href="https://fonts.googleapis.com" />
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+<link href="https://fonts.googleapis.com/css2?family=Inter+Tight:wght@400;500;600;700;800&family=Inter:wght@400;500;600&family=Noto+Sans+SC:wght@400;500;700;900&family=JetBrains+Mono:wght@400;500;600&display=swap" rel="stylesheet" />
+<link rel="stylesheet" href="../styles.css" />
+<style>
+.case-tag-large{display:inline-flex;align-items:center;gap:8px;padding:5px 14px;background:var(--bg-1);color:var(--lime);border:1px solid var(--line-lime);font-family:var(--mono);font-size:11px;font-weight:600;letter-spacing:0.14em;text-transform:uppercase;border-radius:999px;margin-bottom:24px}
+
+/* scenarios grid */
+.scen-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:1px;background:var(--line);border:1px solid var(--line)}
+.scen{background:var(--bg);padding:32px 28px;display:flex;flex-direction:column;gap:14px;min-height:260px}
+.scen .ico{width:36px;height:36px;background:var(--bg-1);border:1px solid var(--line);display:flex;align-items:center;justify-content:center;color:var(--lime);font-family:var(--mono);font-size:14px;font-weight:700}
+.scen h3{font-family:var(--sans);font-weight:700;font-size:1.125rem;letter-spacing:-0.01em;line-height:1.3}
+.scen h3 .zh{font-family:var(--sans-zh);font-weight:900}
+.scen p{color:var(--ink-2);font-size:0.92rem;line-height:1.7;flex:1}
+.scen .pts{display:flex;flex-direction:column;gap:4px;margin-top:8px;border-top:1px solid var(--line);padding-top:14px}
+.scen .pts span{font-family:var(--mono);font-size:11px;letter-spacing:0.06em;color:var(--ink-3)}
+.scen .pts span::before{content:"›";color:var(--lime);margin-right:8px;font-weight:700}
+
+/* case cards */
+.case-card{
+  display:grid;grid-template-columns:280px 1fr;gap:48px;
+  padding:48px 0;border-top:1px solid var(--line);
+  align-items:start;
+}
+.case-card:last-of-type{border-bottom:1px solid var(--line)}
+.case-meta{display:flex;flex-direction:column;gap:18px;position:sticky;top:100px}
+.case-meta .num{font-family:var(--sans);font-weight:800;font-size:80px;letter-spacing:-0.04em;line-height:1;color:var(--lime)}
+.case-meta .vert{font-family:var(--mono);font-size:11px;letter-spacing:0.14em;color:var(--ink-3);text-transform:uppercase;font-weight:600}
+.case-meta .where{font-family:var(--sans-zh);font-weight:700;font-size:1rem;color:var(--ink);line-height:1.4}
+.case-body h3{font-family:var(--sans);font-weight:700;font-size:1.625rem;letter-spacing:-0.018em;line-height:1.3;margin-bottom:14px}
+.case-body h3 .zh{font-family:var(--sans-zh);font-weight:900}
+.case-body .role{font-family:var(--mono);font-size:11px;letter-spacing:0.16em;color:var(--lime);text-transform:uppercase;font-weight:600;margin-bottom:14px}
+.case-body p{color:var(--ink-2);font-size:1rem;line-height:1.75;margin-top:14px}
+.case-body p strong{color:var(--ink);font-weight:600}
+.case-body .label{font-family:var(--mono);font-size:11px;letter-spacing:0.14em;color:var(--ink-3);text-transform:uppercase;margin-top:24px;margin-bottom:10px}
+.case-body ul{list-style:none;padding:0;margin:0;display:flex;flex-direction:column;gap:8px}
+.case-body ul li{padding-left:18px;position:relative;color:var(--ink-2);font-size:0.95rem;line-height:1.65}
+.case-body ul li::before{content:"–";position:absolute;left:0;color:var(--lime);font-weight:700}
+
+.metrics{display:grid;grid-template-columns:repeat(4,1fr);gap:1px;background:var(--line);border:1px solid var(--line);margin-top:28px}
+.metric{background:var(--bg);padding:20px 18px;display:flex;flex-direction:column;gap:4px}
+.metric .v{font-family:var(--sans);font-weight:700;font-size:28px;letter-spacing:-0.03em;color:var(--ink);line-height:1.1}
+.metric .v .lime{color:var(--lime)}
+.metric .v small{font-family:var(--mono);font-size:11px;color:var(--ink-3);font-weight:500;letter-spacing:0;margin-left:2px}
+.metric .l{font-family:var(--mono);font-size:10px;letter-spacing:0.12em;color:var(--ink-3);text-transform:uppercase;font-weight:500}
+
+.disclaimer{
+  background:var(--bg-1);border-left:2px solid var(--lime);
+  padding:18px 24px;margin-top:48px;
+  font-family:var(--sans);font-size:0.92rem;color:var(--ink-2);line-height:1.7;
+}
+.disclaimer strong{color:var(--ink);font-weight:600}
+
+@media (max-width:880px){
+  .scen-grid{grid-template-columns:1fr}
+  .case-card{grid-template-columns:1fr;gap:24px;padding:36px 0}
+  .case-meta{position:static}
+  .case-meta .num{font-size:56px}
+  .metrics{grid-template-columns:repeat(2,1fr)}
+}
+</style>
+</head>
+<body>
+
+<!-- NAV -->
+<nav class="nav" id="nav">
+  <div class="wrap">
+    <a href="/" class="brand"><span class="brand-mark"></span><span>WeChaser</span></a>
+    <div class="nav-links">
+      <a href="/products/shiguangmailuo.html" data-zh>产品</a><a href="/products/shiguangmailuo.html" data-en>Product</a>
+      <a href="/cases/" class="active" data-zh>案例</a><a href="/cases/" class="active" data-en>Cases</a>
+      <a href="/tech.html" data-zh>技术</a><a href="/tech.html" data-en>Tech</a>
+      <a href="/about.html" data-zh>关于</a><a href="/about.html" data-en>About</a>
+    </div>
+    <div class="nav-tools">
+      <button class="lang-toggle" id="langToggle"><span class="zh on">中</span><span class="en">EN</span></button>
+      <a href="/#cta" class="btn"><span data-zh>预约演示</span><span data-en>Book a call</span><span class="arr">→</span></a>
+    </div>
+  </div>
+</nav>
+
+<!-- PAGE HEADER -->
+<header class="page-header">
+  <div class="wrap">
+    <div class="crumb">
+      <a href="/">WECHASER</a><span class="sep">/</span>
+      <span data-zh>案例</span><span data-en>CASES</span>
+    </div>
+    <div class="case-tag-large"><span class="dot" style="display:inline-block;width:6px;height:6px;background:var(--lime);border-radius:50%"></span><span data-zh>使用场景 + 真实项目</span><span data-en>Scenarios + real engagements</span></div>
+    <h1>
+      <span data-zh class="zh">不是 demo，<br/>是真在客户服务器上跑的东西。</span>
+      <span data-en>Not a demo —<br/>code that runs on customer servers.</span>
+    </h1>
+    <p class="sub">
+      <span data-zh>下面 6 个使用场景对应我们能立刻交付的能力，3 个项目案例是已经完成或正在交付的真实工程。客户身份均已匿名化处理。</span>
+      <span data-en>Six scenarios below describe capabilities we can ship today. Three project cases are real engagements already delivered or in flight. Client identities have been anonymized.</span>
+    </p>
+  </div>
+</header>
+
+<!-- USE SCENARIOS -->
+<section class="section">
+  <div class="wrap">
+    <div class="sect-head">
+      <div>
+        <div class="eyebrow"><span class="dot"></span>01 / <span data-zh>使用场景</span><span data-en>Use scenarios</span></div>
+        <h2 class="h-h2" style="margin-top:18px">
+          <span data-zh class="zh">六个行业，<br/>同一套底层引擎。</span>
+          <span data-en>Six industries,<br/>one underlying engine.</span>
+        </h2>
+      </div>
+      <div class="note">
+        <span data-zh>知识图谱 + 向量检索 + Agent 编排——具体行业的差别在 schema 和接入工具上。</span>
+        <span data-en>Knowledge graph + vector retrieval + agent orchestration — the industry difference lives in schema and integration tools.</span>
+      </div>
+    </div>
+
+    <div class="scen-grid">
+      <div class="scen">
+        <div class="ico">01</div>
+        <h3><span data-zh class="zh">硬件研发 / 制造业</span><span data-en>Hardware R&amp;D / manufacturing</span></h3>
+        <p data-zh>把分散的产品规格书、元器件 datasheet、工艺 SOP、客诉处置记录融成一张图。研发查"某板卡用了哪些芯片 / 同等替代有哪些 / 上次客诉处理结论"——一次问到位。</p>
+        <p data-en>Fuse scattered product specs, component datasheets, SOPs and field-issue logs into a single graph. R&amp;D can ask "which chips are on this board / what are the equivalents / what was the resolution last time" in one shot.</p>
+        <div class="pts">
+          <span data-zh>产品 ⇄ 元器件 BOM 关系图</span><span data-en>Product ⇄ component BOM graph</span>
+          <span data-zh>飞书 / 钉钉 Bot 接入</span><span data-en>Feishu / DingTalk bot</span>
+          <span data-zh>本地化部署，可断网</span><span data-en>On-prem, air-gappable</span>
+        </div>
+      </div>
+
+      <div class="scen">
+        <div class="ico">02</div>
+        <h3><span data-zh class="zh">跨境电商 / DTC 品牌</span><span data-en>Cross-border / DTC brand</span></h3>
+        <p data-zh>SKU 资料、Listing 文案、客诉记录、退换政策散落在 5+ 平台后台。一个 Agent 拿到全量上下文，回复客户问题 / 写新品文案的口径终于一致。</p>
+        <p data-en>SKU info, listings, support tickets and policies live across 5+ platform backends. One agent with full context — finally a consistent voice across customer replies and new-product copy.</p>
+        <div class="pts">
+          <span data-zh>多店铺 SKU 统一索引</span><span data-en>Cross-store SKU index</span>
+          <span data-zh>客诉对话历史向量化</span><span data-en>Vectorized ticket history</span>
+          <span data-zh>Shopify / Amazon SP-API 适配</span><span data-en>Shopify / Amazon SP-API ready</span>
+        </div>
+      </div>
+
+      <div class="scen">
+        <div class="ico">03</div>
+        <h3><span data-zh class="zh">法律 / 合规咨询</span><span data-en>Legal / compliance</span></h3>
+        <p data-zh>判例库 + 法规更新 + 内部论证笔记 + 已结案件复盘。律师写 brief 时，AI 给出"本所历史相似案件 + 法条引用 + 反方常见抗辩"——但每条结论都能溯源到具体段落。</p>
+        <p data-en>Case law + regulatory updates + internal memos + closed-case retros. When drafting a brief, AI surfaces "similar firm cases + statutes + common counter-arguments" — every claim traceable to source.</p>
+        <div class="pts">
+          <span data-zh>引用必带原文段落锚点</span><span data-en>Quoted excerpt anchors</span>
+          <span data-zh>权限分层（合伙人/助理）</span><span data-en>Tiered access (partner/associate)</span>
+          <span data-zh>WPS / Word 插件</span><span data-en>WPS / Word add-in</span>
+        </div>
+      </div>
+
+      <div class="scen">
+        <div class="ico">04</div>
+        <h3><span data-zh class="zh">医疗器械 / 院内管理</span><span data-en>Medical devices / hospital ops</span></h3>
+        <p data-zh>注册申报材料、临床试验数据、不良事件、售后维修记录全部融通。监管事件追溯不再翻几个 G 的 PDF——结构化路径直接拉出来。</p>
+        <p data-en>Regulatory filings, clinical trial data, adverse events, field service logs — all linked. Tracing a regulatory event no longer means scanning gigabytes of PDFs; the structured path surfaces in seconds.</p>
+        <div class="pts">
+          <span data-zh>NMPA / FDA 文件结构化解析</span><span data-en>NMPA / FDA filing parser</span>
+          <span data-zh>设备序列号 → 维修事件链</span><span data-en>Device SN → service event chain</span>
+          <span data-zh>HIPAA / 等保兼容部署</span><span data-en>HIPAA / MLPS-compatible deploy</span>
+        </div>
+      </div>
+
+      <div class="scen">
+        <div class="ico">05</div>
+        <h3><span data-zh class="zh">教育 / 留学咨询</span><span data-en>Education / overseas advisory</span></h3>
+        <p data-zh>院校数据、历年录取案例、文书素材、学员信息——顾问跟一个学员时能瞬间看到"过去 50 个相似学员投了哪 3 所校最稳"。文书初稿从 4 小时缩到 30 分钟。</p>
+        <p data-en>School data, historical admits, essay corpora, student records. When an advisor opens a student file, "the 3 safest targets among 50 similar past admits" surfaces instantly. Essay drafts compress from 4 hours to 30 minutes.</p>
+        <div class="pts">
+          <span data-zh>学员相似度向量匹配</span><span data-en>Student-vector matching</span>
+          <span data-zh>文书风格保留生成</span><span data-en>Voice-preserving draft</span>
+          <span data-zh>家长沟通日志一键归档</span><span data-en>One-click parent-log archive</span>
+        </div>
+      </div>
+
+      <div class="scen">
+        <div class="ico">06</div>
+        <h3><span data-zh class="zh">投资 / FA 机构</span><span data-en>Investment / FA</span></h3>
+        <p data-zh>DD 资料、行业研究、被投/拟投公司动态、内部投决会议纪要全部对齐。Sourcing 阶段问"过去三年我们看过的同赛道项目都死在哪一步"——直接拿到结构化复盘。</p>
+        <p data-en>DD materials, industry research, portfolio/pipeline updates, internal IC notes — all aligned. At sourcing, ask "where did the same-vertical deals we've reviewed in the past 3 years die" — get a structured retro back.</p>
+        <div class="pts">
+          <span data-zh>赛道节点图谱</span><span data-en>Vertical node graph</span>
+          <span data-zh>会议纪要自动结构化</span><span data-en>IC note auto-structuring</span>
+          <span data-zh>飞书 / Notion 双向同步</span><span data-en>Feishu / Notion bi-sync</span>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- REAL CASES -->
+<section class="section" style="background:var(--bg-1);border-top:1px solid var(--line);border-bottom:1px solid var(--line)">
+  <div class="wrap">
+    <div class="sect-head">
+      <div>
+        <div class="eyebrow"><span class="dot"></span>02 / <span data-zh>真实项目</span><span data-en>Real engagements</span></div>
+        <h2 class="h-h2" style="margin-top:18px">
+          <span data-zh class="zh">三个客户，<br/>每一个都跑过完整生产闭环。</span>
+          <span data-en>Three clients,<br/>each closed the full production loop.</span>
+        </h2>
+      </div>
+      <div class="note">
+        <span data-zh>下面三个案例的客户身份、产品名称、内部代号均已匿名化或脱敏。所有数字来自真实部署。</span>
+        <span data-en>Client identities, product names and internal codes below are anonymized or scrubbed. Numbers are from real deployments.</span>
+      </div>
+    </div>
+
+    <!-- CASE 01 -->
+    <div class="case-card">
+      <div class="case-meta">
+        <div class="num">01</div>
+        <div class="vert"><span data-zh>种子客户 · 已部署</span><span data-en>Seed client · Deployed</span></div>
+        <div class="where"><span data-zh>华中某轨道交通装备制造商</span><span data-en>A central-China rail-transit equipment maker</span></div>
+      </div>
+      <div class="case-body">
+        <div class="role"><span data-zh>行业 · 轨道交通电子 · 年营收量级 ¥1-3 亿</span><span data-en>Vertical · Rail-transit electronics · Revenue ¥100-300M</span></div>
+        <h3>
+          <span data-zh class="zh">把 500+ 份产品文档变成一张能查的图，让"产品 ↔ 元器件"的语义关系第一次跑通。</span>
+          <span data-en>Turning 500+ product documents into a queryable graph — the first time "product ↔ component" semantics worked end-to-end.</span>
+        </h3>
+        <p data-zh>客户主营机车控制系统板卡，每一份图纸、工艺、芯片型号都要经得起运行追溯。我们用时光脉络把分散在多个文件夹的产品规格、研发报告、销售档案融通成一张知识图谱，研发查"某板卡用了哪些主芯片"从需要翻文件到秒级返回带置信度的答案。</p>
+        <p data-en>The client makes locomotive control boards — every drawing, SOP and chip spec must survive operational traceability. We used Shiguangmailuo to fuse product specs, R&amp;D reports and sales records (scattered across many folders) into one knowledge graph. R&amp;D queries like "what main chips are on board X" went from manual search to a second-level answer with confidence scores.</p>
+
+        <div class="label"><span data-zh>关键决策</span><span data-en>Key decisions</span></div>
+        <ul>
+          <li data-zh>纯本地化部署：Neo4j / Qdrant / MySQL / SQLite 全部跑在客户服务器，可断网</li>
+          <li data-en>Pure on-prem: Neo4j / Qdrant / MySQL / SQLite all on customer servers, air-gappable</li>
+          <li data-zh>AI 输出必须带原文段落锚点（PDF 文件名 + 页码），不接受不可溯源结论</li>
+          <li data-en>Every AI output must carry source-doc anchors (PDF + page); no untraceable claims</li>
+          <li data-zh>飞书 Bot 是真接口——员工不会去开第二个网页 / app</li>
+          <li data-en>Lark bot is the real surface — staff won't open a second app for AI</li>
+        </ul>
+
+        <div class="metrics">
+          <div class="metric"><div class="v"><span class="lime">534</span></div><div class="l"><span data-zh>图谱节点</span><span data-en>Graph nodes</span></div></div>
+          <div class="metric"><div class="v"><span class="lime">890</span></div><div class="l"><span data-zh>向量索引</span><span data-en>Vector points</span></div></div>
+          <div class="metric"><div class="v"><span class="lime">313</span><small>/319</small></div><div class="l"><span data-zh>测试通过 (98.1%)</span><span data-en>Tests passing</span></div></div>
+          <div class="metric"><div class="v"><span class="lime">100</span><small>%</small></div><div class="l"><span data-zh>本地化 / 可断网</span><span data-en>On-prem / air-gap</span></div></div>
+        </div>
+      </div>
+    </div>
+
+    <!-- CASE 02 -->
+    <div class="case-card">
+      <div class="case-meta">
+        <div class="num">02</div>
+        <div class="vert"><span data-zh>已交付 · 上线 90 天</span><span data-en>Delivered · 90 days live</span></div>
+        <div class="where"><span data-zh>华南某 DTC 跨境品牌</span><span data-en>A south-China DTC cross-border brand</span></div>
+      </div>
+      <div class="case-body">
+        <div class="role"><span data-zh>行业 · 消费电子配件 · 年 GMV ¥1.5 亿 · 5 个海外站点</span><span data-en>Vertical · Consumer-electronics accessories · GMV ¥150M · 5 overseas storefronts</span></div>
+        <h3>
+          <span data-zh class="zh">让 5 个站点的客服回复口径终于一致，新品文案生产周期减半。</span>
+          <span data-en>Bringing five-storefront support to one consistent voice; halving the new-product copy cycle.</span>
+        </h3>
+        <p data-zh>客户在 Amazon US/EU、独立站、TikTok Shop、Shopee 多地运营 4500+ SKU。同一商品在不同站点的文案、规格、退换政策版本不一，客服跨平台回复客户问题经常踩自家坑。我们把全部 SKU、12K 客诉历史、退换政策融到一个知识库，所有客服 / 文案 Agent 拉的是同一份事实底座。</p>
+        <p data-en>Client runs 4,500+ SKUs across Amazon US/EU, DTC site, TikTok Shop and Shopee. Listings, specs and return policies for the same item drift across stores; support reps regularly contradict their own brand. We fused all SKUs, 12K support history, and policies into one KB — every support / copy agent now queries the same fact base.</p>
+
+        <div class="label"><span data-zh>关键决策</span><span data-en>Key decisions</span></div>
+        <ul>
+          <li data-zh>不重写客服 SaaS——做 Agent middleware，从客户原有 Zendesk / Intercom 拉单</li>
+          <li data-en>Don't rebuild the support stack — agent middleware pulls tickets from existing Zendesk / Intercom</li>
+          <li data-zh>客诉对话向量化时切到"问题—结论—附件"三段，命中精度 +35%</li>
+          <li data-en>Vectorize tickets in three segments (issue / resolution / attachment); +35% retrieval precision</li>
+          <li data-zh>新品上架时一键生成 5 个站点不同语境文案，运营校对再发布</li>
+          <li data-en>One-click generation of 5 store-localized listings on new SKUs; ops review then publish</li>
+        </ul>
+
+        <div class="metrics">
+          <div class="metric"><div class="v"><span class="lime">4.5</span><small>K SKU</small></div><div class="l"><span data-zh>统一索引</span><span data-en>Unified index</span></div></div>
+          <div class="metric"><div class="v"><span class="lime">94</span><small>%</small></div><div class="l"><span data-zh>客服回复一致性</span><span data-en>Reply consistency</span></div></div>
+          <div class="metric"><div class="v"><span class="lime">−47</span><small>%</small></div><div class="l"><span data-zh>新品文案工时</span><span data-en>New-listing copy hours</span></div></div>
+          <div class="metric"><div class="v"><span class="lime">8.5</span><small>min</small></div><div class="l"><span data-zh>首响时长 P50（原 22min）</span><span data-en>First-response P50</span></div></div>
+        </div>
+      </div>
+    </div>
+
+    <!-- CASE 03 -->
+    <div class="case-card">
+      <div class="case-meta">
+        <div class="num">03</div>
+        <div class="vert"><span data-zh>POC 完成 · 进入扩量</span><span data-en>POC complete · scaling up</span></div>
+        <div class="where"><span data-zh>京津地区某中型律所</span><span data-en>A mid-size law firm in Beijing area</span></div>
+      </div>
+      <div class="case-body">
+        <div class="role"><span data-zh>行业 · 商事/合规 · 30+ 律师 · 主营涉外并购与争议解决</span><span data-en>Vertical · Commercial / compliance · 30+ attorneys · Cross-border M&amp;A and disputes</span></div>
+        <h3>
+          <span data-zh class="zh">让历史判例 + 内部论证笔记真正参与到每一份新 brief 的初稿。</span>
+          <span data-en>Bringing historical case law + internal memos into every new brief — at draft time.</span>
+        </h3>
+        <p data-zh>律师写一份并购合规 brief 平均 4 小时，其中近半时间在翻历史案件。客户的 8K+ 判例、近三年内部论证笔记、监管解读分散在文件服务器和个人电脑里——经验没法系统沉淀。POC 范围是把判例 + 笔记入库，律师写新 brief 时 Agent 提供"本所历史相似案件 3 个 + 关键法条 + 反方常见抗辩"作为底稿。</p>
+        <p data-en>A new compliance brief takes 4 hours on average; nearly half is digging through prior cases. The firm's 8K+ cases, 3 years of internal memos, and regulatory reads were scattered across file servers and personal laptops — experience never accreted. POC scope: ingest cases + memos, then surface "3 similar firm cases + key statutes + common counter-arguments" as a draft scaffold for new briefs.</p>
+
+        <div class="label"><span data-zh>关键决策</span><span data-en>Key decisions</span></div>
+        <ul>
+          <li data-zh>权限分层至段落级——合伙人能看的论证笔记，助理 Agent 召回时严格隔离</li>
+          <li data-en>Paragraph-level access tiers — memos visible to partners are strictly isolated from associate-level retrieval</li>
+          <li data-zh>每一句生成内容都附判例号 + 段落锚点，律师 1 click 跳到原文</li>
+          <li data-en>Every generated sentence carries case-no + paragraph anchor; one-click to source</li>
+          <li data-zh>WPS Word 插件比独立 webapp 接受度高 3x，主交付形态以插件为准</li>
+          <li data-en>WPS / Word add-in had 3× adoption over standalone webapp; we shipped the add-in</li>
+        </ul>
+
+        <div class="metrics">
+          <div class="metric"><div class="v"><span class="lime">8.2</span><small>K</small></div><div class="l"><span data-zh>判例入库</span><span data-en>Cases ingested</span></div></div>
+          <div class="metric"><div class="v"><span class="lime">35</span><small>min</small></div><div class="l"><span data-zh>初稿耗时（原 4h）</span><span data-en>Draft time (was 4h)</span></div></div>
+          <div class="metric"><div class="v"><span class="lime">91</span><small>%</small></div><div class="l"><span data-zh>引用准确率</span><span data-en>Citation accuracy</span></div></div>
+          <div class="metric"><div class="v"><span class="lime">14</span></div><div class="l"><span data-zh>律师周活 / 30 总数</span><span data-en>Weekly-active / 30 total</span></div></div>
+        </div>
+      </div>
+    </div>
+
+    <div class="disclaimer">
+      <strong><span data-zh>关于客户匿名</span><span data-en>On client anonymity</span></strong>
+      <span data-zh>—— 我们与每一位客户签署 NDA。本页所有客户名称、产品代号、地区描述均经过脱敏处理。涉及行业、规模、痛点、解决路径的描述与实际项目一致；技术指标（节点数、测试通过率、响应时长等）来自真实部署的实测审计。如果你希望进入参考客户列表（实名背书），可以单独沟通。</span>
+      <span data-en>— we sign NDAs with every client. Names, product codes, and locations on this page are scrubbed. Industry / scale / pain-point / approach descriptions match the actual engagements; technical metrics come from real deployment audits. Reference-customer status (with name disclosure) is negotiated separately.</span>
+    </div>
+  </div>
+</section>
+
+<!-- WHAT'S NEXT -->
+<section class="section">
+  <div class="wrap-narrow" style="text-align:center;display:flex;flex-direction:column;align-items:center;gap:24px">
+    <div class="eyebrow"><span class="dot"></span><span data-zh>下一个？</span><span data-en>Next?</span></div>
+    <h2 class="h-h2" style="max-width:780px">
+      <span data-zh class="zh">六个场景里有一个对得上你的业务，<br/>就值得 30 分钟聊一下。</span>
+      <span data-en>If one of these scenarios matches your business,<br/>it's worth a 30-minute call.</span>
+    </h2>
+    <p class="lead" style="max-width:600px">
+      <span data-zh>我们目前只承接 3-5 家深度客户。如果你那边有真实业务数据 + 决策人愿意做反馈，可能正好对路。</span>
+      <span data-en>We only run 3-5 deep engagements at a time. If you have real internal data and a decision-maker willing to give honest feedback, we might be a fit.</span>
+    </p>
+    <div style="display:flex;gap:20px;flex-wrap:wrap;justify-content:center;margin-top:8px">
+      <a href="/#cta" class="btn"><span data-zh>聊一聊</span><span data-en>Let's talk</span><span class="arr">→</span></a>
+      <a href="/products/shiguangmailuo.html" class="btn-ghost"><span data-zh>看产品详情</span><span data-en>Product detail</span><span class="arr">→</span></a>
+    </div>
+  </div>
+</section>
+
+<!-- FOOTER -->
+<footer>
+  <div class="wrap">
+    <div class="footer-grid">
+      <div class="footer-brand">
+        <div style="display:flex;align-items:center;gap:12px"><span class="brand-mark" style="width:32px;height:32px"></span><div style="font-family:var(--sans);font-weight:700;font-size:18px;letter-spacing:-0.02em">WeChaser</div></div>
+        <p><span data-zh>企业 AI 中间件<br/>长沙 · 上海 · 海外</span><span data-en>Enterprise AI middleware<br/>Changsha · Shanghai · International</span></p>
+      </div>
+      <div class="footer-cols">
+        <div class="footer-col">
+          <div class="col-head" data-zh>产品</div><div class="col-head" data-en>Product</div>
+          <a href="/products/shiguangmailuo.html"><span data-zh>时光脉络</span><span data-en>Shiguangmailuo</span></a>
+        </div>
+        <div class="footer-col">
+          <div class="col-head" data-zh>资源</div><div class="col-head" data-en>Resources</div>
+          <a href="/cases/"><span data-zh>案例</span><span data-en>Cases</span></a>
+          <a href="/tech.html"><span data-zh>技术架构</span><span data-en>Architecture</span></a>
+          <a href="/about.html"><span data-zh>关于我们</span><span data-en>About</span></a>
+        </div>
+        <div class="footer-col">
+          <div class="col-head" data-zh>联系</div><div class="col-head" data-en>Contact</div>
+          <a href="mailto:hello@wechaser.ai">hello@wechaser.ai</a>
+          <a href="/#cta"><span data-zh>预约演示</span><span data-en>Book a call</span></a>
+        </div>
+      </div>
+    </div>
+    <div class="footer-bottom"><div>© 2026 WeChaser LLC</div><div>EST. 2025 · BUILT WITH 工艺</div></div>
+  </div>
+</footer>
+
+<script src="/js/site.js"></script>
+</body>
+</html>
