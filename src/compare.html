@@ -1,0 +1,168 @@
+<!doctype html>
+<html lang="zh-CN">
+<head>
+<meta charset="utf-8" />
+<meta name="viewport" content="width=device-width,initial-scale=1" />
+<title>方案对比：时光脉络 vs 飞书知识问答 / Dify / FastGPT / 自研 · WeChaser</title>
+<meta name="description" content="企业 AI 知识库怎么选？对比平台自带知识问答（飞书/钉钉）、开源 RAG 平台（Dify / FastGPT）、内部自研与 WeChaser 时光脉络在数据覆盖、私有化、溯源、权限、上线周期与成本上的差异。" />
+<meta property="og:type" content="website" />
+<meta property="og:url" content="https://wechaser.ai/pricing.html" />
+<meta property="og:title" content="报价 · WeChaser" />
+<meta property="og:description" content="三阶段报价模型 · 第一阶段免费 · 按里程碑付款 · 不订阅 SaaS。" />
+<meta property="og:image" content="https://wechaser.ai/og-image.png" />
+<meta property="og:image:width" content="1200" />
+<meta property="og:image:height" content="630" />
+<meta name="twitter:card" content="summary_large_image" />
+<meta name="twitter:image" content="https://wechaser.ai/og-image.png" />
+<link rel="canonical" href="https://wechaser.ai/pricing.html" />
+<link rel="icon" type="image/svg+xml" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 64 64'%3E%3Crect width='64' height='64' fill='%23060608'/%3E%3Crect x='14' y='14' width='36' height='36' fill='%23C8FA3C'/%3E%3Crect x='14' y='14' width='36' height='1' fill='%23060608'/%3E%3C/svg%3E" />
+<link rel="preconnect" href="https://fonts.googleapis.com" />
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+<link href="https://fonts.googleapis.com/css2?family=Inter+Tight:wght@400;500;600;700;800&family=Inter:wght@400;500;600&family=Noto+Sans+SC:wght@400;500;700;900&family=JetBrains+Mono:wght@400;500;600&display=swap" rel="stylesheet" />
+<link rel="stylesheet" href="styles.css" />
+<style>
+.cmp-wrap{overflow-x:auto;border:1px solid var(--line)}
+.cmp{width:100%;min-width:860px;border-collapse:collapse;font-size:0.95rem}
+.cmp th,.cmp td{padding:18px 20px;border-bottom:1px solid var(--line);border-right:1px solid var(--line);text-align:left;vertical-align:top;line-height:1.6}
+.cmp thead th{font-family:var(--sans);font-weight:700;font-size:1rem;background:var(--bg-1)}
+.cmp thead th small{font-family:var(--mono);font-size:11px;color:var(--ink-3);font-weight:500}
+.cmp tbody th{font-family:var(--mono);font-size:12px;letter-spacing:0.06em;color:var(--ink-3);font-weight:600;width:150px}
+.cmp td{color:var(--ink-2)}
+.cmp .hl{background:rgba(200,250,60,0.06);color:var(--ink)}
+.cmp thead .hl{color:var(--lime)}
+.cmp-note{margin-top:20px;font-size:0.9rem;color:var(--ink-3);line-height:1.7;max-width:860px}
+.pick-grid{display:grid;grid-template-columns:repeat(2,1fr);gap:1px;background:var(--line);border:1px solid var(--line)}
+.pick{background:var(--bg);padding:32px;display:flex;flex-direction:column;gap:12px}
+.pick h3{font-family:var(--sans);font-weight:700;font-size:1.25rem}
+.pick p{color:var(--ink-2);line-height:1.75;font-size:0.975rem}
+@media(max-width:880px){.pick-grid{grid-template-columns:1fr}}
+</style>
+</head>
+<body>
+
+<nav class="nav" id="nav">
+  <div class="wrap">
+    <a href="/" class="brand"><span class="brand-mark"></span><span>WeChaser</span></a>
+    <div class="nav-links">
+      <a href="/products/shiguangmailuo.html" data-zh>产品</a><a href="/products/shiguangmailuo.html" data-en>Product</a>
+      <a href="/cases/" data-zh>案例</a><a href="/cases/" data-en>Cases</a>
+      <a href="/tech.html" data-zh>技术</a><a href="/tech.html" data-en>Tech</a>
+      <a href="/about.html" data-zh>关于</a><a href="/about.html" data-en>About</a>
+    </div>
+    <div class="nav-tools">
+      <button class="lang-toggle" id="langToggle"><span class="zh on">中</span><span class="en">EN</span></button>
+      <a href="/#cta" class="btn"><span data-zh>预约演示</span><span data-en>Book a call</span><span class="arr">→</span></a>
+    </div>
+  </div>
+</nav>
+
+<header class="page-header">
+  <div class="wrap">
+    <div class="crumb">
+      <a href="/">WECHASER</a><span class="sep">/</span>
+      <span data-zh>方案对比</span><span data-en>COMPARE</span>
+    </div>
+    <h1>
+      <span data-zh class="zh">企业 AI 知识库，<br/>四种路线怎么选。</span>
+      <span data-en>Enterprise AI knowledge base:<br/>four routes compared.</span>
+    </h1>
+    <p class="sub">
+      <span data-zh>平台自带的知识问答、开源 RAG 平台、内部自研，以及 WeChaser 时光脉络。没有绝对更好的方案，只有更适合你现状的方案——下面是我们给客户做选型时实际用的对比维度。</span>
+      <span data-en>Built-in platform Q&amp;A, open-source RAG platforms, building in-house, and WeChaser Shiguangmailuo. No route is best for everyone — these are the dimensions we actually use when helping clients choose.</span>
+    </p>
+  </div>
+</header>
+
+<section class="section">
+  <div class="wrap">
+    <div class="sect-head">
+      <div>
+        <div class="eyebrow"><span class="dot"></span>01 / <span data-zh>对比表</span><span data-en>Side by side</span></div>
+        <h2 class="h-h2" style="margin-top:18px">
+          <span data-zh class="zh">八个维度，一张表。</span>
+          <span data-en>Eight dimensions, one table.</span>
+        </h2>
+      </div>
+    </div>
+    <div class="cmp-wrap">
+      <table class="cmp">
+        <thead><tr><th></th><th><span data-zh>平台自带知识问答<br/><small>飞书 / 钉钉</small></span><span data-en>Built-in Q&amp;A<br/><small>Lark / DingTalk</small></span></th><th><span data-zh>开源 RAG 平台<br/><small>Dify / FastGPT 等</small></span><span data-en>Open-source RAG platforms<br/><small>Dify / FastGPT etc.</small></span></th><th><span data-zh>内部自研</span><span data-en>Build in-house</span></th><th class="hl">WeChaser<br/><small><span data-zh>时光脉络</span><span data-en>Shiguangmailuo</span></small></th></tr></thead>
+        <tbody>
+<tr><th scope="row"><span data-zh>覆盖的数据</span><span data-en>Data covered</span></th><td><span data-zh>主要是平台内文档</span><span data-en>Mostly docs inside the platform</span></td><td><span data-zh>取决于自己接入多少数据源</span><span data-en>Whatever sources you wire up yourself</span></td><td><span data-zh>取决于团队投入</span><span data-en>Depends on team investment</span></td><td class="hl"><span data-zh>文件、图纸、扫描件、邮件、业务系统，多源统一入库</span><span data-en>Files, drawings, scans, email and business systems, unified</span></td></tr>
+<tr><th scope="row"><span data-zh>私有化 / 数据不出网</span><span data-en>On-prem / data stays inside</span></th><td><span data-zh>通常为 SaaS</span><span data-en>Usually SaaS</span></td><td><span data-zh>可自托管</span><span data-en>Self-hostable</span></td><td><span data-zh>可以</span><span data-en>Yes</span></td><td class="hl"><span data-zh>默认部署在客户服务器，可完全断网</span><span data-en>On your servers by default, fully air-gappable</span></td></tr>
+<tr><th scope="row"><span data-zh>回答溯源</span><span data-en>Citations</span></th><td><span data-zh>视产品而定</span><span data-en>Varies by product</span></td><td><span data-zh>需自行配置与调优</span><span data-en>You configure and tune it</span></td><td><span data-zh>需自行实现</span><span data-en>You build it</span></td><td class="hl"><span data-zh>段落级出处，证据不足即拒答</span><span data-en>Paragraph-level citations; refuses when evidence is thin</span></td></tr>
+<tr><th scope="row"><span data-zh>能被哪些 AI 调用</span><span data-en>Callable from</span></th><td><span data-zh>主要在本平台内使用</span><span data-en>Mostly within that platform</span></td><td><span data-zh>通过其 API</span><span data-en>Via its API</span></td><td><span data-zh>自行开发</span><span data-en>Custom</span></td><td class="hl"><span data-zh>MCP / CLI / REST，飞书、钉钉、Claude、自研 Agent 都能调</span><span data-en>MCP / CLI / REST — Lark, DingTalk, Claude, in-house agents</span></td></tr>
+<tr><th scope="row"><span data-zh>权限</span><span data-en>Permissions</span></th><td><span data-zh>沿用平台权限</span><span data-en>Platform permissions</span></td><td><span data-zh>需自行映射</span><span data-en>You map them</span></td><td><span data-zh>自行实现</span><span data-en>You build it</span></td><td class="hl"><span data-zh>映射企业现有权限，看不到的就查不到</span><span data-en>Mapped to existing permissions — no access, no answer</span></td></tr>
+<tr><th scope="row"><span data-zh>谁来落地</span><span data-en>Who makes it work</span></th><td><span data-zh>企业自己</span><span data-en>You</span></td><td><span data-zh>企业自己（需要懂 RAG 的工程师）</span><span data-en>You (needs RAG engineers)</span></td><td><span data-zh>内部团队</span><span data-en>Internal team</span></td><td class="hl"><span data-zh>WeChaser 陪跑：调研 → 接入 → 试点 → 推广</span><span data-en>WeChaser runs it with you: discovery → integration → pilot → rollout</span></td></tr>
+<tr><th scope="row"><span data-zh>上线周期</span><span data-en>Time to value</span></th><td><span data-zh>快，但覆盖有限</span><span data-en>Fast but limited scope</span></td><td><span data-zh>数周到数月，取决于团队</span><span data-en>Weeks to months, team-dependent</span></td><td><span data-zh>通常数月以上</span><span data-en>Usually months+</span></td><td class="hl"><span data-zh>典型 12 周，第一阶段 2 周免费</span><span data-en>Typically 12 weeks; first 2 weeks free</span></td></tr>
+<tr><th scope="row"><span data-zh>适合谁</span><span data-en>Best for</span></th><td><span data-zh>资料基本都在飞书 / 钉钉里的团队</span><span data-en>Teams whose content lives in Lark / DingTalk</span></td><td><span data-zh>有 AI 工程团队、愿意自己搭的企业</span><span data-en>Companies with an AI eng team that want to build</span></td><td><span data-zh>有长期投入预算和团队的大企业</span><span data-en>Large firms with long-term budget and team</span></td><td class="hl"><span data-zh>资料分散、对准确性和数据安全要求高的制造企业</span><span data-en>Manufacturers with scattered data and high accuracy / security bar</span></td></tr>
+        </tbody>
+      </table>
+    </div>
+    <p class="cmp-note">
+      <span data-zh>※ 第三方产品能力会持续更新，表中为路线层面的概括，具体以各产品官方文档为准。Dify、FastGPT 本身也是很好的工具——如果你有工程团队，我们也可以在它们之上交付。</span>
+      <span data-en>※ Third-party products evolve quickly; this table summarises each route, not every feature. Check each vendor's docs for specifics. Dify and FastGPT are good tools — if you have an engineering team, we can deliver on top of them too.</span>
+    </p>
+  </div>
+</section>
+
+<section class="section" style="background:var(--bg-1);border-top:1px solid var(--line);border-bottom:1px solid var(--line)">
+  <div class="wrap">
+    <div class="sect-head">
+      <div>
+        <div class="eyebrow"><span class="dot"></span>02 / <span data-zh>怎么选</span><span data-en>How to choose</span></div>
+        <h2 class="h-h2" style="margin-top:18px">
+          <span data-zh class="zh">四个问题，<br/>基本就能定方向。</span>
+          <span data-en>Four questions<br/>usually settle it.</span>
+        </h2>
+      </div>
+    </div>
+    <div class="pick-grid">
+      <div class="pick"><h3><span data-zh>资料都在飞书 / 钉钉里吗？</span><span data-en>Is everything already in Lark / DingTalk?</span></h3><p data-zh>如果是，先把平台自带的知识问答用起来，成本最低。资料散落在共享盘、图纸系统、邮箱、ERP 里，才需要中间件。</p><p data-en>If yes, start with the built-in Q&amp;A — it's the cheapest. You need middleware when data is spread across file shares, drawing systems, email and ERP.</p></div>
+      <div class="pick"><h3><span data-zh>答错的代价有多大？</span><span data-en>How costly is a wrong answer?</span></h3><p data-zh>工艺、质量、报价场景答错代价高，必须有段落级出处和拒答机制；内部闲聊式问答要求可以低一些。</p><p data-en>In process, quality and quoting, wrong answers are expensive — you need paragraph-level citations and refusal. Casual internal Q&amp;A can tolerate less.</p></div>
+      <div class="pick"><h3><span data-zh>数据能不能上云？</span><span data-en>Can the data go to the cloud?</span></h3><p data-zh>图纸、配方、客户档案不能出网，就只能选可私有化、可断网的路线。</p><p data-en>If drawings, formulas or customer records can't leave your network, only on-prem, air-gappable routes qualify.</p></div>
+      <div class="pick"><h3><span data-zh>有没有人长期维护？</span><span data-en>Who maintains it long-term?</span></h3><p data-zh>有 AI 工程团队可以考虑开源平台或自研；没有的话，需要一个能陪跑到上线、再把运维交接给 IT 的伙伴。</p><p data-en>With an AI engineering team, open-source or in-house works. Without one, you need a partner who runs it to go-live and then hands operations to IT.</p></div>
+    </div>
+    <div style="margin-top:48px;display:flex;gap:16px;flex-wrap:wrap">
+      <a href="/#cta" class="btn"><span data-zh>带着你的情况来聊 30 分钟</span><span data-en>Talk it through in 30 minutes</span><span class="arr">→</span></a>
+      <a href="/pricing.html" class="btn-ghost"><span data-zh>看报价模型</span><span data-en>See pricing</span><span class="arr">→</span></a>
+    </div>
+  </div>
+</section>
+
+<footer>
+  <div class="wrap">
+    <div class="footer-grid">
+      <div class="footer-brand">
+        <div style="display:flex;align-items:center;gap:12px"><span class="brand-mark" style="width:32px;height:32px"></span><div style="font-family:var(--sans);font-weight:700;font-size:18px;letter-spacing:-0.02em">WeChaser</div></div>
+        <p><span data-zh>企业 AI 中间件<br/>Remote-first · 中文 / 英文支持</span><span data-en>Enterprise AI middleware<br/>Remote-first · CN / EN supported</span></p>
+      </div>
+      <div class="footer-cols">
+        <div class="footer-col">
+          <div class="col-head" data-zh>服务</div><div class="col-head" data-en>Services</div>
+          <a href="/services/consulting.html"><span data-zh>咨询</span><span data-en>Consulting</span></a>
+          <a href="/services/integration.html"><span data-zh>集成接入</span><span data-en>Integration</span></a>
+          <a href="/services/document-ops.html"><span data-zh>文档运营</span><span data-en>Document ops</span></a>
+          <a href="/pricing.html"><span data-zh>报价</span><span data-en>Pricing</span></a>
+        </div>
+        <div class="footer-col">
+          <div class="col-head" data-zh>资源</div><div class="col-head" data-en>Resources</div>
+          <a href="/cases/"><span data-zh>案例</span><span data-en>Cases</span></a>
+          <a href="/compare.html"><span data-zh>方案对比</span><span data-en>Compare</span></a>
+          <a href="/tech.html"><span data-zh>技术架构</span><span data-en>Architecture</span></a>
+          <a href="/about.html"><span data-zh>关于我们</span><span data-en>About</span></a>
+        </div>
+        <div class="footer-col">
+          <div class="col-head" data-zh>联系</div><div class="col-head" data-en>Contact</div>
+          <a href="mailto:hello@wechaser.ai">hello@wechaser.ai</a>
+          <a href="/#cta"><span data-zh>预约演示</span><span data-en>Book a call</span></a>
+        </div>
+      </div>
+    </div>
+    <div class="footer-bottom"><div>© 2026 WeChaser LLC</div><div>EST. 2025 · CRAFTED WITH CARE</div></div>
+  </div>
+</footer>
+
+<script src="js/site.js"></script>
+</body>
+</html>

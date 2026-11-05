@@ -1,0 +1,28 @@
+# WeChaser
+
+> WeChaser（WeChaser LLC）为制造企业部署 AI 知识中间件。旗舰产品「时光脉络」（Shiguangmailuo）把图纸、工艺文件、SOP、客户档案、邮件等企业资料整理成带出处的知识层，让飞书 AI、钉钉 AI、ChatGPT、Claude 和企业自研 Agent 通过 MCP / CLI / REST 调用。回答附段落级出处，证据不足时拒答；知识库与文件原件部署在客户服务器，可完全断网运行。
+>
+> WeChaser deploys AI knowledge middleware for manufacturers. Its flagship product Shiguangmailuo turns drawings, process docs, SOPs, customer records and email into a cited knowledge layer that Lark AI, DingTalk AI, ChatGPT, Claude and in-house agents call via MCP / CLI / REST. Answers carry paragraph-level citations and the system refuses when evidence is insufficient; the knowledge base and originals run on the client's servers, fully air-gappable.
+
+## 关键事实 / Key facts
+
+- 定位：企业 AI 中间件，不做聊天界面，不做生成，只向调用方 AI 提供可追溯的“原料”。Positioning: middleware, not a chatbot — supplies traceable raw material to the calling AI.
+- 主要客户：中国制造企业（总经理 / IT 负责人 / 数字化负责人）；也服务电商、法律等行业。Primary customers: Chinese manufacturers.
+- 落地：3 个真实落地项目，其中包括一家轨道交通装备制造企业（已匿名）。3 live engagements, including a rail-transit equipment maker (anonymised).
+- 检索：向量库（Qdrant）+ 知识图谱（Neo4j）+ 全文三路混合检索，RRF 融合，BGE Reranker 精排。Hybrid vector + graph + full-text retrieval.
+- 接入：飞书、钉钉、企业微信、Slack；MCP（stdio）、CLI、REST API。Integrations: Lark, DingTalk, WeCom, Slack; MCP, CLI, REST.
+- 部署：docker-compose 部署在客户机房；生成模型可选国内合规 API 或本地开源模型（可断网）。Deployment: on-prem via docker-compose; generation via approved API or local open-weight models.
+- 交付：典型 12 周——2 周免费调研、4 周接入、6 周试点，之后推广；驻场直到客户内部接管。Delivery: typically 12 weeks; first 2 weeks free.
+- 报价：第一阶段免费，按里程碑付款、任意阶段可终止；典型区间 ¥30K–¥350K，基础设施另计，不收 SaaS 订阅费。Pricing: free discovery, milestone billing, ¥30K–¥350K typical.
+- 联系 / Contact: hello@wechaser.ai
+
+## 页面 / Pages
+
+- [首页 Home](https://wechaser.ai/): 定位、实际效果、交付路径、常见问题 / positioning, demo, process, FAQ ([EN](https://wechaser.ai/en/))
+- [时光脉络 Shiguangmailuo](https://wechaser.ai/products/shiguangmailuo): 产品能力与调用方式 / product capabilities and access methods ([EN](https://wechaser.ai/en/products/shiguangmailuo))
+- [方案对比 Compare](https://wechaser.ai/compare): 与飞书知识问答、Dify / FastGPT、自研的对比 / vs Lark Q&A, Dify / FastGPT, in-house ([EN](https://wechaser.ai/en/compare))
+- [案例 Cases](https://wechaser.ai/cases/): 6 个行业场景与 3 个落地项目 / industry scenarios and engagements ([EN](https://wechaser.ai/en/cases/))
+- [技术架构 Architecture](https://wechaser.ai/tech): 技术栈与 grounded RAG 设计原则 / stack and design principles ([EN](https://wechaser.ai/en/tech))
+- [咨询服务 Consulting](https://wechaser.ai/services/consulting) · [飞书 / 钉钉接入 Integration](https://wechaser.ai/services/integration) · [文档整理 Document ops](https://wechaser.ai/services/document-ops)
+- [报价 Pricing](https://wechaser.ai/pricing) ([EN](https://wechaser.ai/en/pricing))
+- [关于 About](https://wechaser.ai/about): 公司、交付保障、团队 / company, delivery guarantees, team ([EN](https://wechaser.ai/en/about))

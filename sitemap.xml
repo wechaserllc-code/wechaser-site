@@ -1,12 +1,163 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">
-  <url><loc>https://wechaser.ai/</loc><changefreq>weekly</changefreq><priority>1.0</priority></url>
-  <url><loc>https://wechaser.ai/products/shiguangmailuo.html</loc><changefreq>weekly</changefreq><priority>0.9</priority></url>
-  <url><loc>https://wechaser.ai/cases/</loc><changefreq>weekly</changefreq><priority>0.9</priority></url>
-  <url><loc>https://wechaser.ai/tech.html</loc><changefreq>monthly</changefreq><priority>0.8</priority></url>
-  <url><loc>https://wechaser.ai/about.html</loc><changefreq>monthly</changefreq><priority>0.7</priority></url>
-  <url><loc>https://wechaser.ai/services/consulting.html</loc><changefreq>monthly</changefreq><priority>0.8</priority></url>
-  <url><loc>https://wechaser.ai/services/integration.html</loc><changefreq>monthly</changefreq><priority>0.8</priority></url>
-  <url><loc>https://wechaser.ai/services/document-ops.html</loc><changefreq>monthly</changefreq><priority>0.8</priority></url>
-  <url><loc>https://wechaser.ai/pricing.html</loc><changefreq>monthly</changefreq><priority>0.7</priority></url>
+<urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9" xmlns:xhtml="http://www.w3.org/1999/xhtml">
+  <url>
+    <loc>https://wechaser.ai/</loc>
+    <lastmod>2026-11-05</lastmod>
+    <xhtml:link rel="alternate" hreflang="zh-CN" href="https://wechaser.ai/" />
+    <xhtml:link rel="alternate" hreflang="en" href="https://wechaser.ai/en/" />
+    <xhtml:link rel="alternate" hreflang="x-default" href="https://wechaser.ai/" />
+    <priority>1.0</priority>
+  </url>
+  <url>
+    <loc>https://wechaser.ai/en/</loc>
+    <lastmod>2026-11-05</lastmod>
+    <xhtml:link rel="alternate" hreflang="zh-CN" href="https://wechaser.ai/" />
+    <xhtml:link rel="alternate" hreflang="en" href="https://wechaser.ai/en/" />
+    <xhtml:link rel="alternate" hreflang="x-default" href="https://wechaser.ai/" />
+    <priority>0.9</priority>
+  </url>
+  <url>
+    <loc>https://wechaser.ai/products/shiguangmailuo</loc>
+    <lastmod>2026-11-05</lastmod>
+    <xhtml:link rel="alternate" hreflang="zh-CN" href="https://wechaser.ai/products/shiguangmailuo" />
+    <xhtml:link rel="alternate" hreflang="en" href="https://wechaser.ai/en/products/shiguangmailuo" />
+    <xhtml:link rel="alternate" hreflang="x-default" href="https://wechaser.ai/products/shiguangmailuo" />
+    <priority>0.9</priority>
+  </url>
+  <url>
+    <loc>https://wechaser.ai/en/products/shiguangmailuo</loc>
+    <lastmod>2026-11-05</lastmod>
+    <xhtml:link rel="alternate" hreflang="zh-CN" href="https://wechaser.ai/products/shiguangmailuo" />
+    <xhtml:link rel="alternate" hreflang="en" href="https://wechaser.ai/en/products/shiguangmailuo" />
+    <xhtml:link rel="alternate" hreflang="x-default" href="https://wechaser.ai/products/shiguangmailuo" />
+    <priority>0.8</priority>
+  </url>
+  <url>
+    <loc>https://wechaser.ai/cases/</loc>
+    <lastmod>2026-11-05</lastmod>
+    <xhtml:link rel="alternate" hreflang="zh-CN" href="https://wechaser.ai/cases/" />
+    <xhtml:link rel="alternate" hreflang="en" href="https://wechaser.ai/en/cases/" />
+    <xhtml:link rel="alternate" hreflang="x-default" href="https://wechaser.ai/cases/" />
+    <priority>0.9</priority>
+  </url>
+  <url>
+    <loc>https://wechaser.ai/en/cases/</loc>
+    <lastmod>2026-11-05</lastmod>
+    <xhtml:link rel="alternate" hreflang="zh-CN" href="https://wechaser.ai/cases/" />
+    <xhtml:link rel="alternate" hreflang="en" href="https://wechaser.ai/en/cases/" />
+    <xhtml:link rel="alternate" hreflang="x-default" href="https://wechaser.ai/cases/" />
+    <priority>0.8</priority>
+  </url>
+  <url>
+    <loc>https://wechaser.ai/compare</loc>
+    <lastmod>2026-11-05</lastmod>
+    <xhtml:link rel="alternate" hreflang="zh-CN" href="https://wechaser.ai/compare" />
+    <xhtml:link rel="alternate" hreflang="en" href="https://wechaser.ai/en/compare" />
+    <xhtml:link rel="alternate" hreflang="x-default" href="https://wechaser.ai/compare" />
+    <priority>0.8</priority>
+  </url>
+  <url>
+    <loc>https://wechaser.ai/en/compare</loc>
+    <lastmod>2026-11-05</lastmod>
+    <xhtml:link rel="alternate" hreflang="zh-CN" href="https://wechaser.ai/compare" />
+    <xhtml:link rel="alternate" hreflang="en" href="https://wechaser.ai/en/compare" />
+    <xhtml:link rel="alternate" hreflang="x-default" href="https://wechaser.ai/compare" />
+    <priority>0.7</priority>
+  </url>
+  <url>
+    <loc>https://wechaser.ai/tech</loc>
+    <lastmod>2026-11-05</lastmod>
+    <xhtml:link rel="alternate" hreflang="zh-CN" href="https://wechaser.ai/tech" />
+    <xhtml:link rel="alternate" hreflang="en" href="https://wechaser.ai/en/tech" />
+    <xhtml:link rel="alternate" hreflang="x-default" href="https://wechaser.ai/tech" />
+    <priority>0.8</priority>
+  </url>
+  <url>
+    <loc>https://wechaser.ai/en/tech</loc>
+    <lastmod>2026-11-05</lastmod>
+    <xhtml:link rel="alternate" hreflang="zh-CN" href="https://wechaser.ai/tech" />
+    <xhtml:link rel="alternate" hreflang="en" href="https://wechaser.ai/en/tech" />
+    <xhtml:link rel="alternate" hreflang="x-default" href="https://wechaser.ai/tech" />
+    <priority>0.7</priority>
+  </url>
+  <url>
+    <loc>https://wechaser.ai/services/consulting</loc>
+    <lastmod>2026-11-05</lastmod>
+    <xhtml:link rel="alternate" hreflang="zh-CN" href="https://wechaser.ai/services/consulting" />
+    <xhtml:link rel="alternate" hreflang="en" href="https://wechaser.ai/en/services/consulting" />
+    <xhtml:link rel="alternate" hreflang="x-default" href="https://wechaser.ai/services/consulting" />
+    <priority>0.8</priority>
+  </url>
+  <url>
+    <loc>https://wechaser.ai/en/services/consulting</loc>
+    <lastmod>2026-11-05</lastmod>
+    <xhtml:link rel="alternate" hreflang="zh-CN" href="https://wechaser.ai/services/consulting" />
+    <xhtml:link rel="alternate" hreflang="en" href="https://wechaser.ai/en/services/consulting" />
+    <xhtml:link rel="alternate" hreflang="x-default" href="https://wechaser.ai/services/consulting" />
+    <priority>0.7</priority>
+  </url>
+  <url>
+    <loc>https://wechaser.ai/services/integration</loc>
+    <lastmod>2026-11-05</lastmod>
+    <xhtml:link rel="alternate" hreflang="zh-CN" href="https://wechaser.ai/services/integration" />
+    <xhtml:link rel="alternate" hreflang="en" href="https://wechaser.ai/en/services/integration" />
+    <xhtml:link rel="alternate" hreflang="x-default" href="https://wechaser.ai/services/integration" />
+    <priority>0.8</priority>
+  </url>
+  <url>
+    <loc>https://wechaser.ai/en/services/integration</loc>
+    <lastmod>2026-11-05</lastmod>
+    <xhtml:link rel="alternate" hreflang="zh-CN" href="https://wechaser.ai/services/integration" />
+    <xhtml:link rel="alternate" hreflang="en" href="https://wechaser.ai/en/services/integration" />
+    <xhtml:link rel="alternate" hreflang="x-default" href="https://wechaser.ai/services/integration" />
+    <priority>0.7</priority>
+  </url>
+  <url>
+    <loc>https://wechaser.ai/services/document-ops</loc>
+    <lastmod>2026-11-05</lastmod>
+    <xhtml:link rel="alternate" hreflang="zh-CN" href="https://wechaser.ai/services/document-ops" />
+    <xhtml:link rel="alternate" hreflang="en" href="https://wechaser.ai/en/services/document-ops" />
+    <xhtml:link rel="alternate" hreflang="x-default" href="https://wechaser.ai/services/document-ops" />
+    <priority>0.8</priority>
+  </url>
+  <url>
+    <loc>https://wechaser.ai/en/services/document-ops</loc>
+    <lastmod>2026-11-05</lastmod>
+    <xhtml:link rel="alternate" hreflang="zh-CN" href="https://wechaser.ai/services/document-ops" />
+    <xhtml:link rel="alternate" hreflang="en" href="https://wechaser.ai/en/services/document-ops" />
+    <xhtml:link rel="alternate" hreflang="x-default" href="https://wechaser.ai/services/document-ops" />
+    <priority>0.7</priority>
+  </url>
+  <url>
+    <loc>https://wechaser.ai/pricing</loc>
+    <lastmod>2026-11-05</lastmod>
+    <xhtml:link rel="alternate" hreflang="zh-CN" href="https://wechaser.ai/pricing" />
+    <xhtml:link rel="alternate" hreflang="en" href="https://wechaser.ai/en/pricing" />
+    <xhtml:link rel="alternate" hreflang="x-default" href="https://wechaser.ai/pricing" />
+    <priority>0.7</priority>
+  </url>
+  <url>
+    <loc>https://wechaser.ai/en/pricing</loc>
+    <lastmod>2026-11-05</lastmod>
+    <xhtml:link rel="alternate" hreflang="zh-CN" href="https://wechaser.ai/pricing" />
+    <xhtml:link rel="alternate" hreflang="en" href="https://wechaser.ai/en/pricing" />
+    <xhtml:link rel="alternate" hreflang="x-default" href="https://wechaser.ai/pricing" />
+    <priority>0.6</priority>
+  </url>
+  <url>
+    <loc>https://wechaser.ai/about</loc>
+    <lastmod>2026-11-05</lastmod>
+    <xhtml:link rel="alternate" hreflang="zh-CN" href="https://wechaser.ai/about" />
+    <xhtml:link rel="alternate" hreflang="en" href="https://wechaser.ai/en/about" />
+    <xhtml:link rel="alternate" hreflang="x-default" href="https://wechaser.ai/about" />
+    <priority>0.7</priority>
+  </url>
+  <url>
+    <loc>https://wechaser.ai/en/about</loc>
+    <lastmod>2026-11-05</lastmod>
+    <xhtml:link rel="alternate" hreflang="zh-CN" href="https://wechaser.ai/about" />
+    <xhtml:link rel="alternate" hreflang="en" href="https://wechaser.ai/en/about" />
+    <xhtml:link rel="alternate" hreflang="x-default" href="https://wechaser.ai/about" />
+    <priority>0.6</priority>
+  </url>
 </urlset>
