@@ -1,10 +1,16 @@
-# Cloudflare Pages redirects file
-# Format: source destination [status]
+# Cloudflare Pages redirects. Format: source destination [status]
+# Pages already serves /about for about.html (and 308-redirects /about.html → /about).
 
-# Old single-client case URL → new anonymized cases index
+# Old single-client case URL → anonymized cases index
 /cases/chaoxian.html  /cases/  301
 /cases/chaoxian       /cases/  301
 
 # Convenience aliases
-/services             /services/consulting.html  302
-/pricing              /pricing.html              302
+/services             /services/consulting      301
+/en/services          /en/services/consulting   301
+/product              /products/shiguangmailuo  301
+/en/product           /en/products/shiguangmailuo 301
+
+# Removed design drafts
+/v1-eastern-minimalism.html  /  301
+/v2-vibrant-minimal.html     /  301

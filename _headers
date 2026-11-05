@@ -1,0 +1,27 @@
+# Cloudflare Pages headers
+
+/*
+  X-Content-Type-Options: nosniff
+  Referrer-Policy: strict-origin-when-cross-origin
+  Permissions-Policy: camera=(), microphone=(), geolocation=()
+
+# Bilingual sources and build tooling are not pages
+/src/*
+  X-Robots-Tag: noindex
+/scripts/*
+  X-Robots-Tag: noindex
+/README.md
+  X-Robots-Tag: noindex
+/DEPLOY.md
+  X-Robots-Tag: noindex
+/brand-spec.md
+  X-Robots-Tag: noindex
+/visual-system.md
+  X-Robots-Tag: noindex
+
+/fonts/*
+  Cache-Control: public, max-age=31536000, immutable
+  Access-Control-Allow-Origin: *
+
+/llms.txt
+  Content-Type: text/plain; charset=utf-8

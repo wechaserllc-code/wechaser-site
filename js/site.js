@@ -5,18 +5,33 @@
 (function(){
   const body = document.body;
 
-  // language toggle
-  const toggle = document.getElementById('langToggle');
-  if(toggle){
-    const zhSpan = toggle.querySelector('.zh');
-    const enSpan = toggle.querySelector('.en');
-    function setLang(lang){
-      if(lang==='en'){ body.classList.add('lang-en'); document.documentElement.setAttribute('lang','en'); zhSpan.classList.remove('on'); enSpan.classList.add('on'); }
-      else { body.classList.remove('lang-en'); document.documentElement.setAttribute('lang','zh-CN'); enSpan.classList.remove('on'); zhSpan.classList.add('on'); }
-      try { localStorage.setItem('wc_lang', lang); } catch(e){}
-    }
-    toggle.addEventListener('click', ()=>{ setLang(body.classList.contains('lang-en') ? 'zh' : 'en'); });
-    try { const saved = localStorage.getItem('wc_lang'); if(saved) setLang(saved); } catch(e){}
+  // language: each language has its own URL (/ and /en/); the toggle is a plain link.
+  const isEn = document.documentElement.lang === 'en';
+
+  // contact form → /api/contact (Cloudflare Pages Function), mailto fallback
+  const form = document.getElementById('ctaForm');
+  if(form){
+    const status = document.getElementById('ctaStatus');
+    const btn = form.querySelector('button[type=submit]');
+    const T = isEn
+      ? {sending:'Sending…', ok:'Thanks — we\'ll reply within one business day.', fail:'Couldn\'t send. Opening your email client instead…'}
+      : {sending:'提交中…', ok:'已收到，我们会在 1 个工作日内回复。', fail:'提交失败，正在为你打开邮件客户端…'};
+    form.addEventListener('submit', async (e)=>{
+      e.preventDefault();
+      const data = Object.fromEntries(new FormData(form).entries());
+      data.lang = isEn ? 'en' : 'zh'; data.page = location.pathname;
+      btn.disabled = true; status.className = 'form-status'; status.textContent = T.sending;
+      try{
+        const r = await fetch('/api/contact', {method:'POST', headers:{'Content-Type':'application/json'}, body:JSON.stringify(data)});
+        if(!r.ok) throw new Error(r.status);
+        status.textContent = T.ok; form.reset();
+      }catch(err){
+        status.className = 'form-status err'; status.textContent = T.fail;
+        const subject = encodeURIComponent('[WeChaser] 30-min call request — ' + (data.email||''));
+        const body = encodeURIComponent('Email: '+(data.email||'')+'\nCompany / role: '+(data.company||'')+'\nWhat I want to solve: '+(data.need||'')+'\n');
+        setTimeout(()=>{ location.href = 'mailto:hello@wechaser.ai?subject='+subject+'&body='+body; }, 600);
+      }finally{ btn.disabled = false; }
+    });
   }
 
   // nav scrolled state
@@ -37,34 +52,27 @@
     setTimeout(()=>{ reveals.forEach(el=>el.classList.add('in')); }, 1600);
   }
 
-  // count-up tickers
+  // count-up tickers — real values are in the HTML (for crawlers / no-JS); we only animate visually
   const ticks = document.querySelectorAll('[data-count]');
+  const reduce = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
   function fmt(n, decimals){ if(decimals===0) return Math.round(n).toLocaleString(); return n.toFixed(decimals); }
   function animateCount(el){
     const raw = el.getAttribute('data-count');
     const target = parseFloat(raw);
     const decimals = (raw.split('.')[1]||'').length;
-    const dur = 1400;
-    const start = performance.now();
+    const dur = 1400, start = performance.now();
     function tick(t){
       const p = Math.min(1, (t-start)/dur);
-      const eased = 1 - Math.pow(1-p, 3);
-      el.textContent = fmt(target * eased, decimals);
+      el.textContent = fmt(target * (1 - Math.pow(1-p, 3)), decimals);
       if(p<1) requestAnimationFrame(tick);
     }
     requestAnimationFrame(tick);
   }
-  if(ticks.length){
+  if(ticks.length && !reduce && 'IntersectionObserver' in window){
     const tio = new IntersectionObserver((entries)=>{
       entries.forEach(e=>{ if(e.isIntersecting){ animateCount(e.target); tio.unobserve(e.target); } });
     }, {threshold:0.3});
     ticks.forEach(el=>tio.observe(el));
-    setTimeout(()=>{
-      ticks.forEach(el=>{
-        const v = el.textContent.trim();
-        if(v === '0' || v === '0.0' || v === '0.00') animateCount(el);
-      });
-    }, 1800);
   }
 
   // hero rotator (only if present)
